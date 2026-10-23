@@ -1,0 +1,11 @@
+BetterBatter original React UI exhibit
+Source: https://lab.ssafy.com/s15-bigdata-recom-sub1/S15P21B203
+Source revision: 4d525923fc0f2a84e52541896468bbd179f33892
+The original live and prediction components render this screen.
+Static exhibit adaptations: relative assets, MemoryRouter, a 26-second fixture loop,
+original pitch/hit/score animations, no WebSocket connections, hidden unrelated navigation.
+The loop is a sample sequence, not live MLB data. It pauses while a vote dialog is
+open or the exhibit is offscreen. Vote submission only displays local feedback;
+points, vote totals, history and the game sequence remain unchanged.
+No live submission or settlement is performed.
+Build using build-ui.py in the parent BetterBatter work folder.

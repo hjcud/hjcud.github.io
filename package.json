@@ -1,0 +1,14 @@
+{
+  "name": "hyunjun-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static portfolio for GitHub Pages",
+  "scripts": {
+    "dev": "node serve.mjs",
+    "check": "node --check app.js && node --check traffic-core.js && node --check traffic-view.js && node --check traffic-data.js && node --check traffic-comparisons.js && node --check serve.mjs && node --check propro.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "type": "module"
+}

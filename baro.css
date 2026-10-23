@@ -1,0 +1,96 @@
+/* Shared portfolio hierarchy; phone and app evidence retain their own visuals. */
+#baro-sales .project-body{display:grid;align-items:start}
+#baro-sales .project-copy{max-width:none}
+.baro-intro{padding:0}
+.baro-status{font-size:10px;color:#8794a1;margin-top:16px;line-height:1.8;word-break:keep-all}
+.baro-visual{display:flex;justify-content:center}
+.baro-call-demo{margin:0;width:100%;max-width:350px}
+.baro-slide-stage{display:grid;grid-template-columns:32px minmax(0,238px) 32px;gap:8px;justify-content:center;align-items:center}
+.baro-slide-window{--baro-phone-scale:.85;aspect-ratio:280/610;min-width:0}
+.baro-slide[hidden],.baro-call-replay[hidden]{display:none}
+.baro-slide-arrow{display:grid;place-items:center;width:32px;height:40px;border:0;border-radius:5px;background:transparent;color:#68839c;cursor:pointer;transition:background .15s,color .15s}
+.baro-slide-arrow svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.baro-slide-arrow:hover{color:#2565a1;background:#eaf1f8}
+.baro-app-slide{display:block;width:100%;height:100%;padding:calc(5px * var(--baro-phone-scale));border:0;border-radius:calc(38px * var(--baro-phone-scale));background:#31424f;box-shadow:0 14px 25px #193b5324,0 2px 3px #132a3955,inset 0 0 0 1px #a5b2bd66;overflow:hidden;cursor:zoom-in}
+.baro-app-slide img{display:block;width:100%;height:100%;object-fit:contain;margin:0;border-radius:calc(33px * var(--baro-phone-scale))}
+.baro-slide-source{min-height:16px;margin:3px 0 0;font-size:9px;color:#95a0aa;text-align:center;line-height:1.8}
+.baro-phone-frame{width:100%;height:100%;margin:0 auto;transform-origin:center}
+.baro-phone-frame>.baro-phone{transform:scale(var(--baro-phone-scale));transform-origin:top left}
+.baro-demo-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:12px;color:#8794a1}
+.baro-demo-caption figcaption{display:flex;gap:10px;font-size:10px;line-height:1.8;color:#657c8e}
+#baro-slide-count{color:#99a5af;font-variant-numeric:tabular-nums}
+.baro-call-replay{font-size:10px;white-space:nowrap;border:0;background:transparent;color:#647e91;padding:5px 0;cursor:pointer}
+#baro-sales button:focus-visible{outline:2px solid #3476b5;outline-offset:4px}
+.baro-experience{grid-column:1/-1;min-width:0;border-top:1px solid var(--line);padding-top:28px}
+.baro-experience>.role-list{display:grid;grid-template-columns:1fr 1fr;gap:14px 36px;border:0;padding:0;margin:0}
+.baro-experience>.role-list h3{grid-column:1/-1;font-size:13px;margin:0}
+.baro-experience>.role-list>div{margin:0}
+.baro-experience>.role-list p span{font-size:12px}
+.baro-implementation{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:22px 36px;align-items:center;padding:20px 24px;margin-top:32px;border:1px solid #e0e5eb;border-radius:8px;background:#fff}
+.baro-implementation>.comparison-heading{grid-column:1/-1;margin:0}
+.baro-implementation-copy h3{font-size:16px;line-height:1.65;font-weight:600;letter-spacing:-.3px;color:#37576e;margin:0 0 10px;word-break:keep-all}
+.baro-implementation-copy>p{font-size:12px;line-height:1.9;color:#81909c;word-break:keep-all}
+.baro-type-evidence{width:100%;max-width:360px;justify-self:center}
+.baro-type-compare{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.baro-type-compare figure{margin:0;min-width:0}
+.baro-type-compare figcaption{display:flex;justify-content:space-between;font-size:10px;color:#657c8e;margin-bottom:10px}
+.baro-type-compare figcaption span{color:#96a5b0}
+.baro-static-screen{display:block;width:100%;height:188px;border:0;border-radius:0;background:#f6f7f9;overflow:hidden;padding:0;cursor:zoom-in;mask-image:linear-gradient(#000 84%,transparent)}
+.baro-static-screen img{display:block;width:100%;height:auto;margin-top:-65px}
+.baro-evidence-note{font-size:9px;color:#99a5af;margin-top:8px;text-align:center;line-height:1.8}
+#baro-image-dialog{width:min(95vw,650px);max-height:94vh;padding:18px;border:1px solid #d2dee8;border-radius:10px;background:white;overflow:auto}
+#baro-image-dialog::backdrop{background:#10283ae0}
+.baro-dialog-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:16px;position:sticky;top:0;background:white;padding:8px 0}
+.baro-dialog-heading h3{font-size:13px;color:#47697f}
+.baro-dialog-heading button{font-size:12px;white-space:nowrap;padding:8px;color:#345c7c}
+#baro-image-dialog>img{display:block;max-height:76vh;width:auto;max-width:100%;margin:auto}
+.baro-phone{position:relative;isolation:isolate;width:280px;height:610px;border:5px solid #31424f;border-radius:38px;background:radial-gradient(ellipse at 15% 0%,#6d8999 0%,#365263 45%,#142c3b 100%);box-shadow:0 17px 30px #193b5324,0 2px 3px #132a3955,inset 0 0 0 1px #a5b2bd66;color:#fff;overflow:hidden}
+.baro-phone-status{display:flex;align-items:center;justify-content:space-between;height:34px;padding:0 19px;font-size:9px;font-weight:600;opacity:.85}
+.baro-camera{position:absolute;left:calc(50% - 4px);top:10px;width:8px;height:8px;border-radius:50%;background:#12202b;box-shadow:inset 0 0 0 2px #243d4d}
+.baro-caller{text-align:center;padding-top:8px}
+.baro-caller p{font-size:10px;letter-spacing:.6px;opacity:.8;margin:0 0 8px}
+.baro-caller strong{font-size:24px;letter-spacing:-.5px;font-weight:600}
+.baro-caller>span{display:block;font-size:9px;opacity:.6;margin-top:6px}
+.baro-card-slot{position:relative;margin:21px 10px 0;min-height:300px}
+.baro-caller-card{padding:10px 15px 5px;border-radius:20px;background:#fff;color:#243442;box-shadow:0 6px 20px #09213529;transition:opacity .35s,transform .35s;opacity:1;transform:translateY(0)}
+.baro-phone.is-arriving .baro-caller-card{opacity:0;transform:translateY(-16px);pointer-events:none}
+.baro-card-brand{display:flex;align-items:center;justify-content:space-between;font-size:9px;color:#6d8191;height:23px;margin-bottom:6px}
+.baro-card-brand>span{display:flex;align-items:center;gap:5px}
+.baro-card-brand i{display:inline-block;width:7px;height:7px;border-radius:3px;background:#4e8db8}
+.baro-call-identity{display:flex;align-items:center;justify-content:space-between;padding:5px 0 14px;gap:8px}
+.baro-call-identity>strong{font-size:23px;line-height:1.4;font-weight:700;letter-spacing:-1px;white-space:nowrap}
+.baro-call-identity>strong>span{font-size:12px;font-weight:400;margin-left:3px;color:#7f8c95}
+.baro-stage-pill{font-size:9px;padding:4px 6px;border-radius:4px;color:#3a77a5;background:#edf5fc;white-space:nowrap}
+.baro-call-info{margin:0}
+.baro-call-info>div{display:grid;grid-template-columns:43px 1fr;gap:6px;padding:10px 0;border-top:1px solid #ecf0f3}
+.baro-call-info dt{font-size:9px;color:#87939c;padding-top:2px;white-space:nowrap}
+.baro-call-info dd{font-size:11px;line-height:1.75;margin:0;letter-spacing:-.2px}
+.baro-call-info dd b{font-weight:650}
+.baro-call-info small{display:block;color:#8b98a3;font-size:9px;line-height:1.5;margin-top:4px}
+.baro-interest{font-size:10px;color:#477ca1;background:#edf5fb;padding:3px 6px;border-radius:4px}
+.baro-call-info em{font-style:normal;font-size:9px;color:#b77939;background:#fcf4e8;padding:3px 5px;border-radius:4px;margin-left:4px;white-space:nowrap}
+.baro-call-actions{position:absolute;bottom:27px;left:31px;right:31px;display:flex;align-items:center;justify-content:space-between}
+.baro-call-symbol{background:transparent;border:0;color:#fff;padding:0;min-width:48px}
+.baro-call-actions small{font-size:9px;display:block;margin-top:7px}
+.baro-call-circle{display:grid;place-items:center;width:48px;height:48px;border-radius:50%}
+.baro-call-circle svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linejoin:round}
+.baro-answer{background:#35b77e;box-shadow:0 0 0 5px #4cc28a16}
+.baro-decline{background:#d76172}.baro-decline svg{transform:rotate(135deg)}
+.baro-home-bar{position:absolute;bottom:8px;width:83px;height:3px;border-radius:3px;background:#ffffff90;left:calc(50% - 41.5px)}
+.baro-call-symbol{text-align:center}
+
+@keyframes baro-ring{0%,100%{rotate:0deg}25%{rotate:-.5deg}75%{rotate:.5deg}}
+.baro-phone-frame:has(>.baro-phone.is-arriving){animation:baro-ring .22s 3}
+@media(max-width:760px){
+ #baro-sales .project-body{display:block}
+ .baro-visual{margin-top:24px}
+ .baro-experience{margin-top:28px;padding-top:24px}
+ .baro-experience>.role-list{grid-template-columns:1fr;gap:18px}
+ .baro-implementation{grid-template-columns:1fr;gap:20px;margin-top:28px;padding:18px 16px}
+ .baro-type-evidence{max-width:360px}
+ .baro-type-compare{gap:14px}
+ .baro-static-screen{height:185px}
+}
+@media(max-width:360px){.baro-slide-stage{gap:4px}.baro-static-screen{height:160px}}
+@media(prefers-reduced-motion:reduce){.baro-phone-frame:has(>.baro-phone.is-arriving){animation:none}.baro-caller-card{transition:none}}
+@media print{#baro-sales .project-body{display:block}.baro-call-replay,#baro-image-dialog{display:none}.baro-call-demo{margin:20px auto}.baro-implementation{break-inside:avoid}}

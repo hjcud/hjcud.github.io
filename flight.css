@@ -1,0 +1,232 @@
+#shimanami{row-gap:34px;align-items:start}
+#shimanami .project-body>.project-visual{align-self:start}
+#shimanami .flight-meta{display:grid;grid-template-columns:.65fr 1.35fr;gap:18px;margin:24px 0 12px}
+#shimanami .flight-meta>div{display:block;margin:0}
+#shimanami .flight-meta dt{font-size:10px;margin-bottom:2px}
+#shimanami .flight-meta dd{font-size:12px;color:#526479}
+.flight-source-link{display:inline-block;font-size:11px;color:#4b77a2;margin-top:4px}
+.flight-source-link:hover{text-decoration:underline;text-underline-offset:4px}
+.flight-experience{grid-column:1/-1;min-width:0;border-top:1px solid #dce1e8;padding-top:28px}
+.flight-experience>.role-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 30px;margin:0;padding:0;border:0}
+.flight-experience>.role-list h3{grid-column:1/-1;margin:0;font-size:13px}
+.flight-experience>.role-list>div{margin:0}
+.flight-experience>.role-list p span{font-size:12px}
+.flight-exhibit{margin-top:24px;border:1px solid #d9e3eb;background:#fff;border-radius:8px;overflow:hidden}
+.flight-scene{position:relative;background:#f5f8fa;overflow:hidden}
+.flight-scene h3{position:absolute;left:22px;top:18px;z-index:1;font-size:12px;font-weight:500;color:#45657d;margin:0;pointer-events:none}
+.flight-phase{position:absolute;right:20px;top:18px;font-size:10px;color:#6c8b9e;background:#ffffffdb;padding:5px 9px;border-radius:3px}
+#flight-canvas{display:block;width:100%;height:440px}
+#flight-pause{position:absolute;right:16px;bottom:12px;border:0;border-radius:4px;background:#ffffffd9;color:#738b9b;width:26px;height:26px;font-size:12px;padding:0}
+.flight-readouts{display:grid;grid-template-columns:repeat(3,1fr);padding:18px 24px;gap:24px;border-top:1px solid #e2e9ef}
+.flight-readouts>div{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-width:0}
+.flight-readouts>div+div{border-left:1px solid #e6ecf1;padding-left:24px}
+.flight-readouts span{font-size:11px;color:#718596}.flight-readouts small{font-size:9px;color:#9caab6;margin-left:4px}
+.flight-readouts strong{font-size:22px;font-weight:500;color:#3c678b;font-variant-numeric:tabular-nums;white-space:nowrap}
+.flight-coordinates{display:flex;gap:28px;justify-content:space-between;padding:12px 24px;border-top:1px solid #eef2f5;color:#879aa8;font-size:10px}
+.flight-coordinates b{font-weight:500;color:#5e7b92;margin-left:12px;font-variant-numeric:tabular-nums}
+#flight-demo-note{font-size:9px;color:#99a8b3;line-height:1.8;padding:0 24px 14px;margin:0}
+.flight-notes{margin-top:32px;padding:20px 24px;border:1px solid #e0e5eb;border-radius:8px;background:#fff}
+.flight-notes>h4{font-size:13px;font-weight:600;color:#3e5264;margin:0}
+.flight-result{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding:18px 0 20px;align-items:center}
+.flight-result>div>span{font-size:11px;color:#8294a4}
+.flight-result h5{font-size:21px;font-weight:500;line-height:1.5;letter-spacing:-.5px;color:#50677d;margin:6px 0 0}
+.flight-result h5 strong{font-size:28px;color:#2769b8;font-weight:650}
+.flight-result>p{border-left:1px solid #e6ecf1;padding-left:28px;font-size:11px;line-height:1.8;color:#8b9cab;margin:0}
+.flight-result>p b{font-size:13px;color:#536f87;font-weight:500}.flight-result small{display:block;font-size:10px;margin-top:5px}
+.flight-method{display:grid;grid-template-columns:minmax(160px,.8fr) minmax(0,1.8fr);gap:32px;align-items:center;padding:28px 0;border-top:1px solid #eef1f4}
+.flight-method:first-child{border-top:0}
+.flight-step{font-size:10px;color:#7494b1;display:block;margin-bottom:8px}
+.flight-method h5{font-size:15px;line-height:1.65;font-weight:600;color:#425e77;margin:0 0 8px;word-break:keep-all}
+.flight-method p{font-size:11px;color:#8799a8;line-height:1.85;margin:0;word-break:keep-all}
+.origin-comparison{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.origin-comparison>div,.tile-breakdown,.remote-example{padding:18px;border:1px solid #e2eaf0;border-radius:5px;background:#f8fbfd;min-width:0}
+.origin-comparison>div>span,.tile-breakdown>span,.remote-example>div>span{display:block;color:#8ba1b1;font-size:10px}
+.origin-comparison b{display:block;font-size:12px;color:#55728b;font-weight:500;margin-top:6px}
+.origin-comparison small{font-size:9px;color:#8ca0ae;display:block;line-height:1.7}
+.origin-track{height:65px;position:relative;display:flex;align-items:center;border-bottom:1px solid #c7d7e2;margin-bottom:10px}
+.origin-track i{width:5px;height:5px;background:#7198b7;border-radius:50%;position:absolute;left:10px;bottom:-3px}
+.origin-track span{color:#5d84a4;font-size:12px;position:absolute;left:65%;bottom:16px}
+.origin-track.origin-fixed span{left:0}.origin-track em{font-size:11px;font-style:normal;color:#7d9c9b;position:absolute;right:0;bottom:16px}
+.tile-equation{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0}
+.tile-equation small{display:block;color:#8aa0af;font-size:10px;margin-bottom:6px}
+.tile-equation strong{font-size:24px;font-weight:500;color:#477ba5;font-variant-numeric:tabular-nums}
+.tile-equation>span{font-size:20px;color:#a2b4c1}
+.tile-boundary{display:flex;justify-content:space-between;gap:12px;margin-top:12px;padding:13px 0;border-top:1px solid #e0eaf1}
+.tile-boundary>span{font-size:10px;color:#7d98ac}.tile-boundary b{display:block;color:#4e799a;font-size:15px;font-weight:500;margin-top:3px}
+.tile-boundary i{font-size:10px;font-style:normal;color:#849ba9;align-self:center}
+.tile-breakdown>p{font-size:9px;color:#8ca2b2}
+.remote-example{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center}
+.remote-example b{display:block;font-size:25px;font-weight:500;color:#597b95;margin:7px 0}
+.remote-example small{font-size:10px;color:#8b9fae}.remote-example small strong{color:#397cad;margin-left:4px}
+.remote-arrow{color:#8ba8bc}.remote-example p{grid-column:1/-1;padding-top:12px;border-top:1px solid #dce7ef;font-size:10px}.remote-example p strong{font-size:20px;color:#397cad;margin-left:10px;font-weight:500}
+.flight-method-note{margin:0;padding-top:16px;border-top:1px solid #edf0f2;font-size:10px;color:#8b98a4;line-height:1.8}
+@media(max-width:760px){
+ #shimanami .project-body>.project-visual{margin-top:26px}.flight-experience{margin-top:28px;padding-top:24px}.flight-experience>.role-list{grid-template-columns:1fr;gap:16px}
+ #flight-canvas{height:350px}.flight-scene h3{left:14px;top:16px;font-size:11px;max-width:55%;line-height:1.7}.flight-phase{right:12px;top:15px;font-size:9px}
+ .flight-readouts{padding:14px;gap:12px}.flight-readouts>div{display:block}.flight-readouts>div+div{padding-left:12px}.flight-readouts span{font-size:10px;display:block}.flight-readouts small{display:none}.flight-readouts strong{font-size:20px;display:block;margin-top:6px}
+ .flight-coordinates{padding:12px 14px;display:grid;gap:6px;font-size:9px}.flight-coordinates b{margin-left:8px}#flight-demo-note{padding:0 14px 12px;font-size:9px}
+ .flight-notes{padding:18px 16px;margin-top:24px}.flight-result{grid-template-columns:1fr;gap:14px;padding:16px 0}.flight-result h5{font-size:18px}.flight-result h5 strong{font-size:25px}.flight-result>p{border-left:0;padding-left:0}.flight-result>p br{display:none}.flight-result>p b{margin-left:5px}.flight-result small{margin-top:2px}
+ .flight-method{grid-template-columns:1fr;gap:18px;padding:24px 0}.flight-method h5 br{display:none}.flight-method h5{font-size:14px}.flight-method p{font-size:11px}.origin-comparison>div,.tile-breakdown,.remote-example{padding:12px}.origin-comparison{gap:8px}.origin-comparison b{font-size:11px}.tile-equation strong{font-size:20px}.tile-equation small{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){#shimanami .carousel-image{transition:none}}
+
+.flight-tile-progress{display:flex;gap:24px;align-items:center;padding:0 24px 8px}
+.flight-tile-progress>div{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.flight-tile-progress span{font-size:9px;color:#8197a7}
+.flight-tile-progress i{height:3px;background:#e5edf3;display:block;position:relative;flex:1;--position:50%}
+.flight-tile-progress i:after{content:"";position:absolute;left:clamp(0px,var(--position),100%);top:-3px;width:4px;height:9px;background:#4f89b4;transform:translateX(-50%);border-radius:1px}
+.flight-tile-progress small{font-size:9px;color:#8c9fac;white-space:nowrap}
+#flight-boundary{margin:0;padding:0 24px 10px;font-size:10px;color:#8298aa;min-height:25px}
+#flight-boundary.is-crossing{color:#246eb5}
+@media(max-width:760px){.flight-tile-progress{padding:0 14px 8px;gap:12px}.flight-tile-progress small{font-size:8px}#flight-boundary{padding:0 14px 8px;font-size:9px;min-height:30px}}
+
+/* Compact instruments inside the map's lower-left corner. */
+.flight-exhibit{display:block;position:relative}
+.flight-scene{min-width:0}
+#flight-canvas{height:520px;min-height:0}
+.flight-instruments{position:absolute;z-index:2;left:12px;bottom:12px;width:184px;padding:8px 10px;background:#ffffffc9;border:1px solid #d5e1e9;border-radius:5px;box-shadow:none}
+.flight-instruments .flight-readouts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0;border:0}
+.flight-instruments .flight-readouts>div{display:block;padding:0;border:0;min-width:0}
+.flight-instruments .flight-readouts>div+div{border:0;padding:0}
+.flight-instruments .flight-readouts span{font-size:7px;display:block;white-space:nowrap}
+.flight-instruments .flight-readouts small{display:none}
+.flight-instruments .flight-readouts strong{font-size:12px;margin:3px 0 0;display:block;font-family:inherit;font-weight:600;letter-spacing:-.5px}
+@media(max-width:760px){
+ #flight-canvas{height:560px;min-height:0}
+ .flight-instruments{left:10px;bottom:10px;width:174px;padding:7px 9px}
+ .flight-instruments .flight-readouts{gap:8px;padding:0}.flight-instruments .flight-readouts strong{font-size:11px}
+ .flight-scene h3{left:14px;right:14px;top:16px;max-width:none;font-size:11px}
+ #flight-pause{right:10px;top:48px;bottom:auto}
+}
+
+.flight-exhibition{display:grid;grid-template-columns:minmax(140px,180px) minmax(0,1fr);gap:16px;align-items:center;margin:0;padding-left:24px;border-left:1px solid #e6ecf1}
+.flight-exhibition .image-button{border:1px solid #dce5eb;border-radius:5px;overflow:hidden}
+.flight-exhibition .image-button img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.flight-exhibition figcaption{font-size:12px;line-height:1.7;color:#536f87;word-break:keep-all}
+.flight-exhibition b{font-weight:500}.flight-exhibition small{display:block;font-size:10px;color:#8b9cab;margin-top:5px}
+@media(max-width:760px){.flight-exhibition{grid-template-columns:minmax(100px,128px) minmax(0,1fr);gap:12px;border:0;padding:0}.flight-exhibition figcaption{font-size:11px}.flight-exhibition small{font-size:9px}}
+
+.exhibition-location{display:inline-block;vertical-align:middle;margin:0 0 6px;padding:1px 5px;border:1px solid #d7e2eb;border-radius:3px;font-size:9px;line-height:1.6;font-weight:400;color:#648099;background:#f4f8fb;white-space:nowrap}
+
+.flight-exhibition figcaption>b{display:block}
+
+/* Explain the coordinate strategy through the scene, before the terminology. */
+.flight-explain-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding-top:24px}
+.flight-explain-card{min-width:0;padding:0 0 6px}
+.flight-explain-card+ .flight-explain-card{border-left:1px solid #e2e9ef;padding-left:26px}
+.flight-explain-card h5{margin:0 0 12px;font-size:17px;line-height:1.5;font-weight:600;letter-spacing:-.4px;color:#334f67;word-break:keep-all}
+.flight-explain-scene{display:block;width:100%;height:auto;margin:0 0 14px}
+.flight-explain-scene text{font-family:inherit}.flight-explain-scene .scene-label{font-size:14px;font-weight:500;fill:#3f6480}.flight-explain-scene .scene-value{font-size:15px;font-weight:600;fill:#326c9b}.flight-explain-scene .scene-small{font-size:12px;fill:#55788e}.flight-explain-scene .scene-muted{font-size:12px;fill:#8295a3}
+.flight-explain-card p{margin:0;font-size:13px;line-height:1.85;color:#607588;word-break:keep-all}
+.flight-coordinate-cause{grid-column:1/-1;margin:0;padding:0 0 18px;border-bottom:1px solid #e2e9ef;font-size:14px;line-height:1.8;color:#4e677c;word-break:keep-all}
+.flight-map-context{grid-column:1/-1;display:flex;gap:18px;align-items:center;border-top:1px solid #e2e9ef;padding-top:18px}
+.flight-map-context svg{width:84px;height:60px;flex-shrink:0}
+.flight-map-context h6{margin:0 0 5px;font-size:11px;font-weight:500;color:#7b8e9e}
+.flight-map-context p{margin:0;font-size:12px;line-height:1.7;color:#687e90;word-break:keep-all}
+.flight-map-context strong{font-weight:600;color:#4d6e89}
+@media(max-width:760px){.flight-explain-grid{grid-template-columns:1fr;gap:24px;padding-top:22px}.flight-explain-card+ .flight-explain-card{border-left:0;border-top:1px solid #e2e9ef;padding:24px 0 6px}.flight-explain-card h5{font-size:16px}.flight-explain-card p{font-size:12px}}
+
+/* Exhibition evidence sits beside the introductory project screenshots. */
+#shimanami .project-copy>.flight-exhibition{grid-template-columns:minmax(100px,.8fr) minmax(0,1fr);gap:14px;margin-top:22px;padding:20px 0 0;border-left:0;border-top:1px solid #dce1e8}
+#shimanami .project-copy>.flight-exhibition .image-button img{aspect-ratio:4/3}
+.flight-result{grid-template-columns:minmax(0,1fr)}
+
+/* One heading leads directly into the two coordinate diagrams. */
+.flight-notes{padding:28px 24px 22px}
+.flight-notes>h4{font-size:22px;line-height:1.45;font-weight:700;letter-spacing:-.6px;color:#294e70}
+.flight-notes>.flight-coordinate-cause{margin:9px 0 0;padding:0;border:0;font-size:13px;line-height:1.8;color:#6b7f90}
+#flight-methods{margin:0;padding:0;border:0}
+#flight-methods .flight-explain-grid{padding-top:28px;gap:24px 40px}
+#flight-methods .flight-explain-card{padding:0;border:0}
+#flight-methods .flight-explain-card h5{font-size:15px;margin-bottom:6px}
+#flight-methods .flight-explain-scene{margin-bottom:10px}
+#flight-methods .flight-explain-card p{font-size:12px;line-height:1.8}
+#flight-methods .flight-map-context{border:0;padding:12px 14px;background:#f6f8fa;border-radius:5px;gap:14px}
+#flight-methods .flight-map-context svg{width:56px;height:40px}
+#flight-methods .flight-map-context>div{display:flex;align-items:baseline;gap:6px 12px;flex-wrap:wrap}
+#flight-methods .flight-map-context h6{margin:0}
+#flight-methods .flight-map-context p{font-size:11px}
+@media(max-width:760px){.flight-notes{padding:22px 16px 16px}.flight-notes>h4{font-size:20px}.flight-notes>.flight-coordinate-cause{font-size:12px}#flight-methods .flight-explain-grid{padding-top:24px;gap:28px}#flight-methods .flight-explain-card+.flight-explain-card{border-top:1px solid #edf1f4;padding-top:22px}}
+
+/* Shared technical section frame, with project-specific explanatory content. */
+.technical-notes{padding:24px;border:1px solid #e0e5eb;border-radius:8px;background:#fff}
+.technical-notes>.comparison-heading{margin:0}
+.technical-notes>.comparison-heading h4{font-size:13px;font-weight:600;line-height:1.6;color:#3e5264;margin:0}
+.flight-notes.technical-notes>h4{margin-top:20px}
+@media(max-width:760px){.technical-notes{padding:18px 16px}}
+
+/* The boundary comparison is the focal point; context stays in single lines. */
+.flight-method-compact{padding-top:20px}
+.flight-origin-note,.flight-map-line{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 16px;margin:0;font-size:12px;line-height:1.8;color:#6b8091}
+.flight-origin-note strong,.flight-map-line strong{font-weight:600;color:#3f5e78;flex-shrink:0}
+.flight-origin-note{padding:0 0 22px}
+.flight-boundary-row{display:grid;grid-template-columns:minmax(170px,.75fr) minmax(0,2fr);gap:32px;align-items:center;padding:24px 0;border-top:1px solid #e7edf2;border-bottom:1px solid #e7edf2}
+.flight-boundary-copy h5{font-size:15px;color:#334f67;line-height:1.6;margin:0 0 10px;font-weight:600}
+.flight-boundary-copy p{font-size:12px;line-height:1.85;color:#6b8091;margin:0}
+.flight-boundary-copy .tile-distance{margin-top:16px;color:#456d90;font-variant-numeric:tabular-nums}
+.tile-transition{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr);gap:12px;align-items:center;min-width:0}
+.tile-transition-panel{margin:0;border:1px solid #dce6ee;border-radius:5px;overflow:hidden;background:#f6f9fc;min-width:0}
+.tile-transition-panel figcaption{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:10px 12px;font-size:12px;color:#526d84}
+.tile-transition-panel figcaption strong{font-size:16px;font-weight:650;color:#326c9b;font-variant-numeric:tabular-nums}
+.tile-transition-scene{display:block;width:100%;height:auto;max-height:180px}
+.tile-transition-scene text{font-family:inherit;font-size:10px;fill:#55788e}
+.tile-transition-arrow{font-size:28px;text-align:center;color:#93aabd;font-weight:400}
+.tile-transition-caption{grid-column:1/-1;margin:0;font-size:11px;line-height:1.8;color:#7a8c9c;text-align:center}
+.flight-map-line{padding-top:16px;font-size:11px}
+.flight-map-line b{font-weight:600;color:#4d6e89}
+@media(max-width:760px){.flight-boundary-row{grid-template-columns:1fr;gap:18px;padding:20px 0}.flight-boundary-copy .tile-distance{margin-top:8px}.flight-boundary-copy .tile-distance br{display:none}.flight-origin-note{padding-bottom:18px}.tile-transition{gap:8px;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr)}.tile-transition-panel figcaption{flex-direction:column;align-items:flex-start;font-size:11px;padding:8px}.tile-transition-panel figcaption strong{font-size:15px}.tile-transition-arrow{font-size:22px}.flight-map-line{gap:4px 10px}}
+
+/* Two visual summaries share one row above the detailed tile transition. */
+.flight-context-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;padding-bottom:22px}
+.flight-context-figure{min-width:0;margin:0}
+.flight-context-figure figcaption{font-size:13px;font-weight:600;line-height:1.6;color:#3f5e78;margin-bottom:12px}
+.flight-context-figure svg{display:block;width:100%;height:auto;max-height:165px}
+.flight-context-figure svg text{font-family:inherit;fill:#55788e}
+.flight-context-figure .context-small{font-size:11px}
+.flight-context-figure .context-value{font-size:13px;font-weight:600;fill:#326c9b}
+.flight-context-figure .context-count{font-size:23px;font-weight:650;fill:#326c9b}
+.flight-boundary-row{border-bottom:0;padding-bottom:0}
+@media(max-width:760px){.flight-context-row{gap:18px}.flight-context-figure figcaption{font-size:12px}.flight-context-figure svg{max-height:none}}
+@media(max-width:480px){.flight-context-row{grid-template-columns:1fr;gap:20px}.flight-context-figure svg{max-height:145px}}
+
+/* Shared scenery makes crossing the same boundary easy to follow. */
+.tile-transition{grid-template-columns:minmax(0,1fr) 70px minmax(0,1fr);gap:14px}
+.tile-transition-panel figcaption{padding:10px 12px;flex-wrap:wrap;gap:4px 10px}
+.tile-transition-panel figcaption>span{display:flex;flex-wrap:wrap;gap:3px 8px;align-items:baseline}
+.tile-transition-panel figcaption b{font-weight:650;color:#294e70}
+.tile-transition-panel figcaption small{font-size:11px;font-weight:400;color:#6b8096}
+.tile-transition-panel figcaption strong{font-size:15px;white-space:nowrap}
+.tile-transition-panel figcaption em{font-style:normal;font-size:12px;font-weight:400;margin-right:3px}
+.tile-transition-scene{max-height:none}
+.tile-transition-scene .tile-map-label{font-size:12px;font-weight:600;fill:#fff}
+.tile-transition-arrow{display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.1}
+.tile-transition-arrow small{font-size:10px;line-height:1.6;white-space:nowrap;color:#4c6880}
+.tile-transition-arrow>span{font-size:40px;font-weight:300;color:#a1b1bf}
+@media(max-width:1100px){.flight-boundary-row{grid-template-columns:minmax(150px,.65fr) minmax(0,2fr);gap:22px}.tile-transition{gap:8px;grid-template-columns:minmax(0,1fr) 58px minmax(0,1fr)}}
+@media(max-width:760px){.flight-boundary-row{grid-template-columns:1fr}.tile-transition-panel figcaption{flex-direction:row;align-items:baseline}.tile-transition-panel figcaption small{font-size:10px}.tile-transition-panel figcaption strong{font-size:14px}}
+@media(max-width:480px){.tile-transition{grid-template-columns:1fr;gap:10px}.tile-transition-panel figcaption{justify-content:space-between}.tile-transition-arrow{flex-direction:row;justify-content:center;gap:10px}.tile-transition-arrow>span{transform:rotate(90deg);font-size:28px}.tile-transition-caption{font-size:10px}}
+
+/* Keep each explanation attached to its diagram, without surrounding captions. */
+.flight-boundary-row{display:block}
+#flight-boundary-title{margin:0 0 14px;font-size:13px;font-weight:600;line-height:1.6;color:#3f5e78}
+
+/* Align the overview diagrams and keep each coordinate beside its state. */
+.flight-context-figure svg{width:100%;height:auto;aspect-ratio:360/156;max-height:none}
+.flight-origin-scene{border-radius:5px;overflow:hidden}
+.flight-context-figure .flight-origin-scene text{fill:#fff}
+.flight-context-figure .flight-origin-scene .context-value{font-size:14px;font-weight:650}
+.tile-transition-panel figcaption{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:5px;padding:12px 14px}
+.tile-transition-panel figcaption strong{font-size:22px;line-height:1.2}
+.tile-transition-panel figcaption em{font-size:14px}
+@media(max-width:760px){.tile-transition-panel figcaption{padding:10px;gap:5px}.tile-transition-panel figcaption strong{font-size:20px}}
+/* Coordinates belong to the aircraft, inside each scene. */
+.tile-coordinate rect{fill:#f7fbff;fill-opacity:.94}
+.tile-transition-scene .tile-coordinate text{font-size:14px;font-weight:700;fill:#2e628a;font-variant-numeric:tabular-nums}
+/* Share the same two diagram columns and central arrow gutter. */
+.flight-context-row,.tile-transition{grid-template-columns:minmax(0,1fr) 70px minmax(0,1fr);column-gap:14px}
+.flight-context-figure:nth-child(2){grid-column:3}
+@media(max-width:1100px){.flight-context-row,.tile-transition{grid-template-columns:minmax(0,1fr) 58px minmax(0,1fr);column-gap:8px}}
+@media(max-width:480px){.flight-context-row,.tile-transition{grid-template-columns:1fr}.flight-context-figure:nth-child(2){grid-column:auto}}
+.flight-origin-scene .origin-axis{font-size:9px;font-weight:500}
+.flight-context-figure .flight-map-scene .context-count{font-size:22px}
+.flight-context-figure .flight-map-scene .context-small{font-size:9px}

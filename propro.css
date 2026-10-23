@@ -1,0 +1,53 @@
+/* ProPro-only styles: safe to integrate alongside the other project sections. */
+#propro .project-subtitle{color:#355d80;font-size:23px;font-weight:650;line-height:1.5;margin-bottom:18px}
+#propro .project-meta>div{display:block;margin-top:12px}
+#propro .project-meta dt{font-size:10px;color:#7c8997}
+#propro .project-meta dd{font-size:12px}
+#propro-carousel .screenshot-stage{aspect-ratio:5/3;background:#f7f9fb}
+#propro-carousel .carousel-image{object-fit:contain}
+#propro-carousel figcaption{padding:8px 14px;min-height:48px;font-size:11px}
+.propro-slide-controls{display:flex;gap:5px;align-items:center;font-variant-numeric:tabular-nums}
+.propro-slide-controls button{width:32px;height:32px;color:#4d6d8b;border-radius:4px;font-size:15px}
+.propro-slide-controls button:hover{background:#edf3f8}
+.propro-slide-controls button:focus-visible{outline:2px solid #397bcc;outline-offset:1px}
+#propro-count{min-width:36px;text-align:center;font-size:10px}
+.propro-experience{grid-column:1/-1;min-width:0;border-top:1px solid var(--line);padding-top:26px}
+.propro-experience>.role-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 30px;margin:0;padding:0;border:0}
+.propro-experience>.role-list h3{grid-column:1/-1;margin:0;font-size:13px}
+.propro-experience>.role-list>div{margin:0;gap:14px}
+.propro-experience>.role-list p span{font-size:12px}
+.propro-experience .role-icon svg{stroke:#547b9e}
+.propro-making{border-top:1px solid var(--line);margin-top:30px;padding-top:28px}
+.propro-making-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px}
+.propro-making-heading h3{font-size:20px;font-weight:650;letter-spacing:-.6px;color:#355d80}
+.propro-evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.propro-evidence-grid figure{min-width:0;margin:0}
+.propro-model-stage{height:320px;position:relative;background:#f7f9fb;border:1px solid #e1e8ee;border-radius:6px;overflow:hidden}
+.propro-model-stage img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.propro-model-canvas{position:relative;width:320px;height:100%;max-width:100%;margin:auto}
+.propro-model-label{position:absolute;right:13%;font-size:11px;color:#4d657c;line-height:1;border-bottom:1px solid #a6b8c6;padding-bottom:5px;min-width:56px;text-align:right}
+.propro-nose{top:44%;right:0}.propro-tongue{top:66%;right:0;min-width:72px}.propro-teeth{top:57%;right:0}
+.propro-evidence-grid figcaption{padding:18px 0 0}
+.propro-evidence-grid h4{font-size:15px;font-weight:650;line-height:1.6;color:#3b5368;margin-bottom:7px;letter-spacing:-.3px}
+@media(max-width:1100px){.propro-model-stage{height:280px}.propro-model-canvas{width:280px}}
+@media(max-width:760px){
+ #propro .project-subtitle{font-size:21px}#propro .project-visual{margin-top:24px}
+ .propro-experience{margin-top:28px}.propro-experience>.role-list{grid-template-columns:1fr;gap:18px}.propro-experience>.role-list h3{margin-bottom:0}
+ .propro-making-heading{display:block}.propro-making-heading h3{font-size:19px}
+ .propro-evidence-grid{grid-template-columns:1fr;gap:26px}.propro-model-stage{height:auto;aspect-ratio:5/4}
+ .propro-model-stage img{position:absolute;inset:0}
+ .propro-model-canvas{width:80%;height:100%;aspect-ratio:1;position:absolute;left:10%}
+}
+@media print{.propro-slide-controls{display:none}.propro-evidence-grid{break-inside:avoid}}
+
+.propro-evidence-grid{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:start;gap:36px}
+.propro-animation-methods{min-width:0;display:grid;gap:24px}
+.propro-method h4{margin:0 0 8px;font-size:15px;font-weight:650;color:#355d80}
+.propro-method p{margin:0;color:#60758a;font-size:12px;line-height:1.9;word-break:keep-all}
+.propro-blend-diagram{margin-top:18px;padding:16px;background:#f6f8fb;border-radius:6px}
+.propro-clip-track{height:26px;position:relative}
+.propro-clip-track span{position:absolute;left:0;display:flex;align-items:center;justify-content:center;width:46%;height:22px;border-radius:3px;background:#dce9f5;color:#315f89;font-size:11px;font-weight:600}
+.propro-clip-track:nth-child(2) span{left:27%;background:#b9d2e9}
+.propro-clip-track:nth-child(3) span{left:54%;background:#8eb6d8;color:#173e61}
+.propro-blend-axis{display:flex;justify-content:space-between;gap:8px;border-top:1px solid #d6e0e9;margin-top:6px;padding-top:9px;color:#6d8295;font-size:10px}
+@media(max-width:760px){.propro-evidence-grid{grid-template-columns:1fr;gap:24px}.propro-animation-methods{gap:22px}}

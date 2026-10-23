@@ -1,0 +1,16 @@
+Technology badge icons
+
+Profile badge logos reused from https://github.com/hjcud/hjcud; shape and lettering retained.
+unity: https://github.com/hjcud/hjcud/blob/main/assets/project-tech-unity-light.svg (revision dca10730992aa719c88ed0e74dc0925d385841fd)
+csharp: https://github.com/hjcud/hjcud/blob/main/assets/project-tech-csharp-light.svg (revision ce2e3f93c939711d66a41f9e3da9428b979b65db)
+udonsharp: https://github.com/hjcud/hjcud/blob/main/assets/project-tech-udonsharp-light-ace13c33b0.svg (revision b61f5266aaa134e75241ab8ee5c1a831c79877de)
+java: https://github.com/hjcud/hjcud/blob/main/assets/project-tech-java-light.svg (revision 29b3c6d32bbbea917d49abcf6cbd764511aa766d)
+spring: https://github.com/hjcud/hjcud/blob/main/assets/project-tech-spring-light.svg (revision 43e4beaf6944f6408b6691a5552b1a9b96028e5d)
+react: https://github.com/hjcud/hjcud/blob/main/assets/project-tech-react-light.svg (revision 49072c377a896c32674aacb4977baf1b7cf8913c)
+typescript: https://github.com/simple-icons/simple-icons/blob/develop/icons/typescript.svg (revision e8beb74031a01496105f342895f9ee8c39c38b49)
+kotlin: https://github.com/simple-icons/simple-icons/blob/develop/icons/kotlin.svg (revision adf2975b96165d512acf6f47bf24ab9887c39908)
+compose: https://github.com/simple-icons/simple-icons/blob/develop/icons/jetpackcompose.svg (revision 53db7b4373cacb5ec4a576ff5dceddd275d755a5)
+git: https://github.com/simple-icons/simple-icons/blob/develop/icons/git.svg (revision 06fb4e0d9884ae6891e506395fbed2f1bbd07c9c)
+
+TypeScript, Kotlin, Jetpack Compose and Git: Simple Icons (CC0-1.0).
+AI skills and harness: custom document and connected-node symbols, not product logos.

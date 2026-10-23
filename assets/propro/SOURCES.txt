@@ -1,0 +1,19 @@
+ProPro portfolio assets | prepared 2026-10-22
+
+Source directory: D:/대학/4학년 1학기/캡스톤
+
+ipa.webp: 보고서/5조_H4_최종보고서0613.pdf, page 18, embedded images 0, 1, 2.
+words.webp: same report, page 19, embedded images 0, 1, 2.
+compare.webp: same report, page 20, embedded images 0, 2, 3.
+These are unaltered original screenshots, resized and arranged on a neutral canvas for the carousel. They are not reconstructed or generated UI.
+
+model.webp: 3D 모델 사진/3dmodel_pic/발음기호.png, WebP conversion.
+Video SHA-256: 0657d2930485cae4a50bd73330736675dd4af059b30f3468f310eb01ee575ecf
+
+Roles: final report page 15. Son Hyunjun jointly collected articulation-organ research, jointly made the 3D model, and jointly made the animations. Application, GUI, and quiz development belong to other teammates.
+Example animation names: FaceModel_Animation.unitypackage pathname entries for Assets/Animation/Consonant/{p,t,k}.anim and Assets/Animation/Vowel/i.anim.
+This package inventory establishes the existence of the named assets, not individual authorship of each file.
+
+Date: 2024 first semester, per the user's confirmed activity dates. Exact start and end days are not claimed.
+No claim of speech recognition, automatic pronunciation scoring, measured learning benefit, or independent authorship of the full app is made.
+Animation workflow copy: final report pages 4-5, 10, 15 and 23. Animation clip preparation is described as contributor work; Unity blending is described as application behavior.
