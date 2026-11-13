@@ -3,7 +3,6 @@
  if(!rows.length)return;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const control=document.getElementById('traffic-pause');
- const projectDisclosure=document.getElementById('traffic-methods').closest('.project-disclosure');
  let initialized=false;
  let active=null,frame=0,last=0,scrollFrame=0;
  const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),calculation:svg.querySelector('.route-calculation'),nodes:[...svg.querySelectorAll('.route-node')],scan:svg.querySelector('.frame-scan'),blocks:[...svg.querySelectorAll('.work-block')],dots:[...svg.querySelectorAll('.packet-dot')],ghost:svg.querySelector('.sample-ghost'),sweep:svg.querySelector('.physics-sweep'),hits:[...svg.querySelectorAll('.physics-hit')]}))}));
@@ -40,7 +39,7 @@
    }
   });
  }
- const stopped=()=>!projectDisclosure.open||reduced.matches||document.hidden||control?.getAttribute('aria-pressed')==='true';
+ const stopped=()=>reduced.matches||document.hidden||control?.getAttribute('aria-pressed')==='true';
  function tick(now){
   frame=0;if(!active||stopped())return;
   if(last&&now-last<32){frame=requestAnimationFrame(tick);return;}
@@ -48,15 +47,14 @@
  }
  function choose(){
   scrollFrame=0;let next=null,best=Infinity;
-  if(projectDisclosure.open)initialize();
-  for(const scene of scenes){if(!projectDisclosure.open)break;const r=scene.row.getBoundingClientRect();const shown=Math.max(0,Math.min(r.bottom,innerHeight)-Math.max(r.top,180));
+  initialize();
+  for(const scene of scenes){const r=scene.row.getBoundingClientRect();const shown=Math.max(0,Math.min(r.bottom,innerHeight)-Math.max(r.top,180));
    if(r.height<=0||shown<Math.min(r.height*.45,100))continue;
    const distance=Math.abs((r.top+r.bottom)/2-innerHeight*.55);if(distance<best){best=distance;next=scene;}
   }
   if(next!==active||stopped()||!frame){cancelAnimationFrame(frame);frame=0;last=0;active=next;scenes.forEach(s=>s.row.dataset.playing=String(s===active&&!stopped()));if(active&&!stopped())frame=requestAnimationFrame(tick);}
  }
  function queue(){if(!scrollFrame)scrollFrame=requestAnimationFrame(choose);}
- projectDisclosure.addEventListener('toggle',choose);
  const observer=new IntersectionObserver(queue,{threshold:[0,.25,.5,.75,1]});rows.forEach(row=>observer.observe(row));
  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);
  document.addEventListener('visibilitychange',choose);reduced.addEventListener('change',choose);
