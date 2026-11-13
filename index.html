@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="flight.css">
   <link rel="stylesheet" href="project-disclosures.css">
   <link rel="stylesheet" href="i2s.css">
-  <script src="app.js?v=atlas-1" defer></script>
+  <script src="app.js?v=profile-first" defer></script>
   <script type="module" src="traffic-view.js"></script>
   <script src="traffic-comparisons.js?v=atlas-1" defer></script>
   <script type="module" src="flight-view.js"></script>
@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="i2s-mobile.css">
   <script src="i2s-mobile.js" defer></script>
   <link rel="stylesheet" href="project-reading.css">
-  <link rel="stylesheet" href="timeline-layout.css?v=atlas-1">
+  <link rel="stylesheet" href="timeline-layout.css?v=profile-first">
   <link rel="stylesheet" href="timeline-preview.css?v=atlas-1">
   <script src="timeline-preview.js?v=atlas-1" defer></script>
 </head>
@@ -32,8 +32,8 @@
   <a class="home-link" href="#top" aria-label="처음으로" title="처음으로"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9"/></svg></a>
   <nav aria-label="주 메뉴">
     <a class="nav-link is-current" href="#profile">소개</a>
-    <a class="nav-link" href="#projects">프로젝트</a>
     <a class="nav-link" href="#background">이력</a>
+    <a class="nav-link" href="#projects">프로젝트</a>
     <a class="external-nav" href="https://github.com/hjcud" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </nav>
 </header>
@@ -43,6 +43,47 @@
     <div class="overview-person"><div class="overview-identity"><h1 id="profile-title">손현준</h1></div><div class="overview-contact"><a href="mailto:h991023@naver.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg><span>h991023@naver.com</span><span aria-hidden="true">↗</span></a><a href="https://github.com/hjcud" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-2-15-4 22"/></svg><span>github.com/hjcud</span><span aria-hidden="true">↗</span></a></div>
     </div>
   </section>
+</div>
+<div class="overview profile-record" id="background">
+  <div class="overview-details">
+    <div class="profile-background">
+    <section class="overview-section overview-education" id="education" aria-labelledby="education-title">
+      <div class="overview-section-title"><h2 id="education-title">학력과 교육</h2></div>
+      <ul class="profile-education-list">
+        <li>
+          <div class="profile-entry-title"><h3>세종대학교</h3><span>학력</span></div>
+          <p class="profile-entry-description">컴퓨터공학과 졸업</p>
+          <p class="profile-entry-date"><time datetime="2019-03">2019.03</time> — <time datetime="2025-02">2025.02</time></p>
+        </li>
+        <li>
+          <div class="profile-entry-title"><h3>SSAFY 15기</h3><span>개발 교육</span></div>
+          <p class="profile-entry-description">삼성 청년 SW AI 아카데미에서 교육 중</p>
+          <p class="profile-entry-date"><time datetime="2026-01">2026.01</time> — 현재</p>
+        </li>
+      </ul>
+    </section>
+    <section class="overview-section overview-languages" id="languages" aria-labelledby="languages-title">
+      <div class="overview-section-title"><h2 id="languages-title">외국어</h2></div>
+      <dl class="profile-language-list">
+        <div class="profile-language-item">
+          <dt>일본어</dt>
+          <dd class="profile-language-score"><span>OPIc</span><strong>AL</strong></dd>
+          <dd class="profile-language-project"><a href="#shimanami">일본인 3D 아티스트와 협업 <span aria-hidden="true">↗</span></a></dd>
+          <dd class="profile-entry-date">응시일 <time datetime="2026-04-12">2026.04.12</time></dd>
+        </div>
+        <div class="profile-language-item">
+          <dt>영어</dt>
+          <dd class="profile-language-score"><span>OPIc</span><strong>IH</strong></dd>
+          <dd class="profile-entry-date">응시일 <time datetime="2026-03-29">2026.03.29</time></dd>
+        </div>
+      </dl>
+    </section>
+    </div>
+    <section class="overview-section overview-skills" id="skills" aria-labelledby="skills-title">
+      <div class="overview-section-title"><h2 id="skills-title">기술 경험</h2><p class="skills-help">기술을 선택하면 사용한 프로젝트를 볼 수 있습니다.</p></div>
+      <div class="skill-exhibit"><div class="skill-collection"><h3>게임 및 메타버스</h3><div class="badge-shelf"><button class="tech-badge" type="button" data-skill="unity" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Unity</span></button><button class="tech-badge" type="button" data-skill="csharp" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">C#</span></button><button class="tech-badge" type="button" data-skill="udonsharp" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">UdonSharp</span></button></div></div><div class="skill-collection"><h3>웹</h3><div class="badge-shelf"><button class="tech-badge" type="button" data-skill="java" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Java</span></button><button class="tech-badge" type="button" data-skill="spring" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Spring Boot</span></button><button class="tech-badge" type="button" data-skill="react" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">React</span></button><button class="tech-badge" type="button" data-skill="typescript" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">TypeScript</span></button></div></div><div class="skill-collection"><h3>모바일</h3><div class="badge-shelf"><button class="tech-badge" type="button" data-skill="kotlin" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Kotlin</span></button><button class="tech-badge" type="button" data-skill="compose" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Jetpack Compose</span></button></div></div><div class="skill-collection"><h3>협업 및 AI</h3><div class="badge-shelf"><button class="tech-badge" type="button" data-skill="git" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Git</span></button><button class="tech-badge" type="button" data-skill="ai-skills" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">AI 작업 지침</span></button><button class="tech-badge" type="button" data-skill="harness" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">AI 하네스</span></button></div></div></div><div class="skill-projects" id="skill-projects" hidden><div class="skill-project-heading"><h3 id="skill-project-title"></h3><button type="button" id="skill-clear" aria-label="기술 선택 해제">×</button></div><nav id="skill-project-links" aria-labelledby="skill-project-title"></nav></div><span class="sr-only" id="skill-selection-status" aria-live="polite"></span>
+    </section>
+  </div>
 </div>
 <header class="projects-opening" id="projects" aria-labelledby="projects-title">
   <div class="projects-opening-inner"><h2 id="projects-title">프로젝트 타임라인</h2><span class="projects-years">2023 — 2026</span></div>
@@ -273,47 +314,6 @@
 </div></details></section>
 </div></div></div></article>
 </main>
-<div class="overview profile-record" id="background">
-  <div class="overview-details">
-    <div class="profile-background">
-    <section class="overview-section overview-education" id="education" aria-labelledby="education-title">
-      <div class="overview-section-title"><h2 id="education-title">학력과 교육</h2></div>
-      <ul class="profile-education-list">
-        <li>
-          <div class="profile-entry-title"><h3>세종대학교</h3><span>학력</span></div>
-          <p class="profile-entry-description">컴퓨터공학과 졸업</p>
-          <p class="profile-entry-date"><time datetime="2019-03">2019.03</time> — <time datetime="2025-02">2025.02</time></p>
-        </li>
-        <li>
-          <div class="profile-entry-title"><h3>SSAFY 15기</h3><span>개발 교육</span></div>
-          <p class="profile-entry-description">삼성 청년 SW AI 아카데미에서 교육 중</p>
-          <p class="profile-entry-date"><time datetime="2026-01">2026.01</time> — 현재</p>
-        </li>
-      </ul>
-    </section>
-    <section class="overview-section overview-languages" id="languages" aria-labelledby="languages-title">
-      <div class="overview-section-title"><h2 id="languages-title">외국어</h2></div>
-      <dl class="profile-language-list">
-        <div class="profile-language-item">
-          <dt>일본어</dt>
-          <dd class="profile-language-score"><span>OPIc</span><strong>AL</strong></dd>
-          <dd class="profile-language-project"><a href="#shimanami">일본인 3D 아티스트와 협업 <span aria-hidden="true">↗</span></a></dd>
-          <dd class="profile-entry-date">응시일 <time datetime="2026-04-12">2026.04.12</time></dd>
-        </div>
-        <div class="profile-language-item">
-          <dt>영어</dt>
-          <dd class="profile-language-score"><span>OPIc</span><strong>IH</strong></dd>
-          <dd class="profile-entry-date">응시일 <time datetime="2026-03-29">2026.03.29</time></dd>
-        </div>
-      </dl>
-    </section>
-    </div>
-    <section class="overview-section overview-skills" id="skills" aria-labelledby="skills-title">
-      <div class="overview-section-title"><h2 id="skills-title">기술 경험</h2><p class="skills-help">기술을 선택하면 사용한 프로젝트를 볼 수 있습니다.</p></div>
-      <div class="skill-exhibit"><div class="skill-collection"><h3>게임 및 메타버스</h3><div class="badge-shelf"><button class="tech-badge" type="button" data-skill="unity" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Unity</span></button><button class="tech-badge" type="button" data-skill="csharp" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">C#</span></button><button class="tech-badge" type="button" data-skill="udonsharp" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">UdonSharp</span></button></div></div><div class="skill-collection"><h3>웹</h3><div class="badge-shelf"><button class="tech-badge" type="button" data-skill="java" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Java</span></button><button class="tech-badge" type="button" data-skill="spring" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Spring Boot</span></button><button class="tech-badge" type="button" data-skill="react" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">React</span></button><button class="tech-badge" type="button" data-skill="typescript" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">TypeScript</span></button></div></div><div class="skill-collection"><h3>모바일</h3><div class="badge-shelf"><button class="tech-badge" type="button" data-skill="kotlin" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Kotlin</span></button><button class="tech-badge" type="button" data-skill="compose" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Jetpack Compose</span></button></div></div><div class="skill-collection"><h3>협업 및 AI</h3><div class="badge-shelf"><button class="tech-badge" type="button" data-skill="git" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Git</span></button><button class="tech-badge" type="button" data-skill="ai-skills" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">AI 작업 지침</span></button><button class="tech-badge" type="button" data-skill="harness" aria-pressed="false" aria-controls="skill-projects"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">AI 하네스</span></button></div></div></div><div class="skill-projects" id="skill-projects" hidden><div class="skill-project-heading"><h3 id="skill-project-title"></h3><button type="button" id="skill-clear" aria-label="기술 선택 해제">×</button></div><nav id="skill-project-links" aria-labelledby="skill-project-title"></nav></div><span class="sr-only" id="skill-selection-status" aria-live="polite"></span>
-    </section>
-  </div>
-</div>
   <footer id="contact" class="project-continuation" aria-label="앞으로도 프로젝트 기록을 이어갑니다"><span class="continuation-dots" aria-hidden="true"><i></i><i></i><i></i></span></footer>
 <dialog id="media-dialog" aria-labelledby="dialog-title"><div class="dialog-heading"><h2 id="dialog-title">프로젝트 화면</h2><button id="dialog-close" class="arrow-button" aria-label="닫기">×</button></div><div id="dialog-content"></div></dialog>
 <div id="toast" role="status"></div>

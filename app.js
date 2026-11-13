@@ -51,8 +51,8 @@ function updateReading() {
    });
  }
  const navEdge = header.getBoundingClientRect().bottom + 30;
- const section = $('#background').getBoundingClientRect().top <= navEdge ? 'background' :
-                 $('#projects').getBoundingClientRect().top <= navEdge ? 'projects' : 'profile';
+ const section = $('#projects').getBoundingClientRect().top <= navEdge ? 'projects' :
+                 $('#background').getBoundingClientRect().top <= navEdge ? 'background' : 'profile';
  $$('.nav-link').forEach(link => {
    const current = link.hash === '#' + section;
    link.classList.toggle('is-current', current);

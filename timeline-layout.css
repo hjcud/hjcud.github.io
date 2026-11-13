@@ -1,4 +1,4 @@
-/* One editorial column: a project index, three case studies, then background. */
+/* Profile and background precede the project timeline and three case studies. */
 :root {
   --folio-width: 1440px;
   --folio-text: #172633;
@@ -318,10 +318,9 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
 }
 .header .reading-track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .overview.profile-record {
-  padding-top: clamp(20px, 3.2vw, 44px);
-  padding-bottom: clamp(32px, 4vw, 64px);
+  padding-bottom: 0;
 }
-.profile-record > .overview-details { border-top: 2px solid #293e50; }
+.profile-record > .overview-details { border-top: 1px solid var(--folio-rule); }
 .profile-record .overview-skills {
   border-top: 1px solid var(--folio-rule);
   box-shadow: none;
