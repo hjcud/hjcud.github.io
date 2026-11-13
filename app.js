@@ -10,7 +10,8 @@ const stage = $('.timeline-stage');
 const timelineScroll = $('.timeline-scroll');
 const lanes = $$('.timeline-lane');
 const periods = $$('[data-project]');
-let fullTimelineHeight=0, smallTimelineHeight=0, singleTimelineHeight=0, compression=0;
+const expandedRowStep=39, compactRowStep=24;
+let fullTimelineHeight=0, singleTimelineHeight=0, entryTimelineHeight=0, compression=0;
 let laneHeights=[];
 const header = $('.header');
 let currentIndex = -1;
@@ -114,17 +115,18 @@ function revealActivePeriod() {
  const shift=title.left<left?title.left-left:targetRight>right?targetRight-right:0;
  if(shift)timelineScroll.scrollBy({left:shift,behavior:'instant'});
 }
-function visibleTimelinePeriods() {
- const project=projects[Math.max(0,currentIndex)];
+function visibleTimelinePeriods(project=projects[Math.max(0,currentIndex)]) {
  const compact=project?.closest('.compact-services');
  const ids=new Set(compact&&matchMedia('(min-width:761px)').matches
    ?$$('.compact-service',compact).map(p=>p.id):[project?.id]);
  return periods.filter(a=>ids.has(a.dataset.project));
 }
+function compactHeightFor(project) {
+ return singleTimelineHeight+compactRowStep*(visibleTimelinePeriods(project).length-1);
+}
 function setActive(index) {
  const changed=currentIndex!==index;
  currentIndex=index;
- if(singleTimelineHeight)smallTimelineHeight=singleTimelineHeight+39*(visibleTimelinePeriods().length-1);
  const highlighted=index>=0?new Set(visibleTimelinePeriods()):new Set();
  periods.forEach(a=>{
    const selected=a.dataset.project===projects[index]?.id;
@@ -142,7 +144,7 @@ function compressTimeline(amount) {
  lanes.forEach((lane,i)=>{
    const count=visible.filter(a=>lane.contains(a)).length;
    const selected=count>0;
-   lane.style.height=(laneHeights[i]*(1-amount)+(selected?52+39*(count-1):0)*amount)+'px';
+   lane.style.height=(laneHeights[i]*(1-amount)+(selected?4+compactRowStep*count:0)*amount)+'px';
    lane.style.opacity=String(selected?1:1-amount);
    lane.inert=amount>=.999&&!selected;
  });
@@ -154,7 +156,7 @@ function compressTimeline(amount) {
    const row=Number(a.style.getPropertyValue('--row'));
    const base=a.classList.contains('start-marker')?15:7;
    const compactRow=selected?visible.filter(p=>p.closest('.timeline-lane')===a.closest('.timeline-lane')).indexOf(a):row;
-   a.style.top=(base+39*(row*(1-amount)+compactRow*amount))+'px';
+   a.style.top=((base+expandedRowStep*row)*(1-amount)+(2+compactRowStep*compactRow)*amount)+'px';
  });
 }
 function measureTimeline() {
@@ -164,8 +166,9 @@ function measureTimeline() {
  lanes.forEach(lane=>{lane.style.height='';lane.style.opacity='';});
  laneHeights=lanes.map(lane=>lane.getBoundingClientRect().height);
  compressTimeline(0);fullTimelineHeight=dock.getBoundingClientRect().height;
- compressTimeline(1);smallTimelineHeight=dock.getBoundingClientRect().height;
- singleTimelineHeight=smallTimelineHeight-39*(visibleTimelinePeriods().length-1);
+ compressTimeline(1);
+ singleTimelineHeight=dock.getBoundingClientRect().height-compactRowStep*(visibleTimelinePeriods().length-1);
+ entryTimelineHeight=compactHeightFor(projects[0]);
  stage.style.height=fullTimelineHeight+'px';
  compressTimeline(old);
  updateReading();
@@ -175,20 +178,20 @@ function updateReading() {
  const headerBottom=header.getBoundingClientRect().bottom;
  const stageTop=stage.getBoundingClientRect().top;
  const pinned=stageTop<=headerBottom;
- // Selection must not depend on the selected row's height (one, two or three bars).
- // Otherwise a boundary can alternate between two projects on successive frames.
- const travel=Math.max(1,fullTimelineHeight-singleTimelineHeight);
+ // Consume exactly the space released by the first group, even when it has three rows.
+ // Keep this distance independent of later selections so boundaries cannot oscillate.
+ const travel=Math.max(1,fullTimelineHeight-entryTimelineHeight);
  const amount=pinned?Math.max(0,Math.min(1,(headerBottom-stageTop)/travel)):0;
  // Reserve the expanded height so compression does not move the articles.
  dock.classList.toggle('is-pinned',pinned);
- const readingHeight=fullTimelineHeight-(fullTimelineHeight-singleTimelineHeight)*amount;
- const edge=headerBottom+(pinned?readingHeight:0)+70;
+ const readingHeight=fullTimelineHeight-travel*amount;
+ const edge=headerBottom+(pinned?readingHeight:0)+28;
  let index=-1,readingTop=-Infinity;
  projects.forEach((p,i)=>{
    const group=p.closest('.project-group');
    const compact=p.closest('.compact-services');
-   const readingStart=compact&&matchMedia('(min-width:761px)').matches?compact:
-     group?.querySelector('.project')===p&&!compact?group:p;
+   const start=compact&&matchMedia('(min-width:761px)').matches?compact:p;
+   const readingStart=group&&start.contains(group.querySelector('.project'))?group:start;
    const top=readingStart.getBoundingClientRect().top;
    if(top<=edge&&(top>readingTop+1||(Math.abs(top-readingTop)<=1&&i===currentIndex))){index=i;readingTop=top;}
  });
@@ -199,9 +202,10 @@ function updateReading() {
    if(last.top<innerHeight&&last.bottom>headerBottom)index=projects.length-1;
  }
  setActive(index);compressTimeline(amount);
- const visibleHeight=fullTimelineHeight-(fullTimelineHeight-smallTimelineHeight)*amount;
+ const visibleHeight=pinned?dock.getBoundingClientRect().height:0;
  const footerTop=$('#contact').getBoundingClientRect().top;
  dock.style.transform=pinned?`translateY(${Math.min(0,footerTop-headerBottom-visibleHeight)}px)`:'none';
+ document.documentElement.style.setProperty('--pinned-timeline-height',visibleHeight+'px');
  updateReadingPosition(index,pinned);
  const section=$('#projects').getBoundingClientRect().top<=headerBottom+120?'projects':'profile';
  $$('.nav-link').forEach(a=>a.classList.toggle('is-current',a.getAttribute('href')==='#'+section));
@@ -227,8 +231,12 @@ function navigate(id,push=true) {
  for(let parent=target.parentElement;parent;parent=parent.parentElement){if(parent.tagName==='DETAILS')parent.open=true;}
  if(target.tagName==='DETAILS')target.open=true;
  const isProject=!!target.closest('.project-fold') || target.classList.contains('project-group') || id==='main' || id==='more-projects';
- const offset=header.offsetHeight+(isProject?smallTimelineHeight:0)+24;
- const top=id==='top'?0:target.getBoundingClientRect().top+scrollY-offset;
+ const university=targetProject?.closest('#group-university');
+ const showGroupTitle=university&&target===targetProject&&
+   (matchMedia('(min-width:761px)').matches||target===university.querySelector('.project'));
+ const landing=showGroupTitle?university:target;
+ const offset=header.offsetHeight+(isProject?compactHeightFor(targetProject||target.querySelector('.project')||projects[0]):0)+24;
+ const top=id==='top'?0:landing.getBoundingClientRect().top+scrollY-offset;
  if(isProject){
    const cleanup=()=>{
      removeEventListener('scrollend',alignHeading);
@@ -239,7 +247,8 @@ function navigate(id,push=true) {
    const alignHeading=()=>{
      cleanup();
      updateReading();
-     const overlap=header.offsetHeight+dock.getBoundingClientRect().height+24-target.getBoundingClientRect().top;
+     const coveredTo=Math.max(header.getBoundingClientRect().bottom,dock.classList.contains('is-pinned')?dock.getBoundingClientRect().bottom:0);
+     const overlap=coveredTo+24-landing.getBoundingClientRect().top;
      if(overlap>1)window.scrollBy({top:-overlap,behavior:'instant'});
    };
    cancelAnchorAlignment=cleanup;

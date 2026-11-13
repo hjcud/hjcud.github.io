@@ -52,7 +52,10 @@ img{height:auto}.image-button img{height:auto}.timeline-lane .track.triple{heigh
 .timeline-stage .timeline-lane .track{height:100%;min-height:0}
 .timeline-stage .timeline-foot{height:calc(42px * (1 - var(--compression)));padding:0;overflow:hidden;opacity:calc(1 - var(--compression))}
 .timeline-stage .time-axis{flex-shrink:0}
-.timeline-stage .timeline-grid{padding-top:calc(8px * var(--compression))}
+.timeline-stage .timeline-grid{padding-top:calc(3px * var(--compression))}
+.timeline-stage .years{font-size:calc(14px - 2px * var(--compression));line-height:calc(18px - 4px * var(--compression))}
+.timeline-stage .month-axis{margin-block:calc(9px - 7px * var(--compression)) calc(6px - 4px * var(--compression))}
+.timeline-stage .months{line-height:calc(15px - 4px * var(--compression))}
 .timeline-stage .timeline-title,.timeline-stage .timeline-actions{white-space:nowrap}
 @media(max-width:760px){.timeline-stage .timeline-dock{padding-top:calc(22px * (1 - var(--compression)))}.timeline-stage .timeline-heading{height:calc(24px * (1 - var(--compression)))}.timeline-stage .timeline-foot{height:calc(46px * (1 - var(--compression)))}}
 @media print{.timeline-stage{display:none!important}}
@@ -262,7 +265,10 @@ img{height:auto}.image-button img{height:auto}.timeline-lane .track.triple{heigh
 @media(max-width:760px){.projects-opening{padding-top:30px}.projects-opening-inner{padding:0 0 18px}.projects-opening h2{font-size:42px;letter-spacing:-1.6px}.projects-years{font-size:10px}.projects-opening+.timeline-stage .timeline-foot{height:calc(16px * (1 - var(--compression)))}}
 @media print{.projects-opening{padding:24px 0 0}.projects-opening-inner{padding:16px 0}.projects-opening h2{font-size:30px}}
 
-/* Compress the painted bars, preserving their labels, dates and click targets. */
-.timeline-stage .period:not(.start-marker){box-sizing:border-box;padding-block:calc(8px * var(--compression));background-clip:content-box}
+/* Fit the label, bar and date into the compact row while retaining a 24px link. */
+html{scroll-padding-top:calc(var(--header) + var(--pinned-timeline-height,0px) + 12px)}
+.timeline-stage .period:not(.start-marker){padding-block:calc(4px * var(--compression)) calc(14px * var(--compression));background-clip:content-box}
+.timeline-stage .period>span{line-height:calc(24px - 10px * var(--compression))}
+.timeline-stage .period small{top:calc(25px - 13px * var(--compression));line-height:calc(12px - 1px * var(--compression))}
 .timeline-stage .period.ongoing{width:calc(var(--duration) / 46 * 100% - 10px + 4px * var(--compression))}
-.timeline-stage .period.ongoing::after{top:calc(8px * var(--compression));right:calc(-10px + 4px * var(--compression));border-top-width:calc(12px - 8px * var(--compression));border-bottom-width:calc(12px - 8px * var(--compression));border-left-width:calc(10px - 4px * var(--compression))}
+.timeline-stage .period.ongoing::after{top:calc(4px * var(--compression));right:calc(-10px + 4px * var(--compression));border-top-width:calc(12px - 9px * var(--compression));border-bottom-width:calc(12px - 9px * var(--compression));border-left-width:calc(10px - 4px * var(--compression))}
