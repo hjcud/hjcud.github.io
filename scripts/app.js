@@ -138,6 +138,8 @@ function selectSkill(key) {
  $('#skill-project-links').replaceChildren();
  if(!key){$('#skill-selection-status').textContent='기술 선택을 해제했습니다.';return;}
  const button=skillButtons.find(button=>button.dataset.skill===key);
+ const additionalSkills=button.closest('.additional-skills');
+ if(additionalSkills)additionalSkills.open=true;
  const name=$('.tech-name',button).textContent;
  const related=previews.filter(project=>project.dataset.skills.split(/\s+/).includes(key));
  $('#skill-project-title').textContent=name+' 사용 프로젝트';
@@ -150,6 +152,11 @@ skillButtons.forEach(button=>{button.setAttribute('aria-expanded','false');butto
 $$('a[data-tech]').forEach(badge=>badge.addEventListener('click',()=>selectSkill(badge.dataset.tech)));
 $('#skill-clear').addEventListener('click',()=>{
  const button=skillButtons.find(button=>button.dataset.skill===selectedSkill);selectSkill(null);button?.focus({preventScroll:true});
+});
+$('.additional-skills').addEventListener('toggle',event=>{
+ if(event.target.open)return;
+ const selected=skillButtons.find(button=>button.dataset.skill===selectedSkill);
+ if(selected&&event.target.contains(selected))selectSkill(null);
 });
 
 // Native dialog provides focus containment, Escape dismissal and focus restoration.

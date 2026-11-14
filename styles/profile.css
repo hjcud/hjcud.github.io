@@ -98,6 +98,34 @@
 .profile-record .skill-projects { grid-column: 2; margin-top: 20px; }
 #skill-project-links a { font-size: 14px; line-height: 1.8; }
 
+.additional-skills {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--folio-rule);
+}
+.additional-skills > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  color: #637182;
+  font-size: 13px;
+  line-height: 1.6;
+  cursor: pointer;
+  list-style: none;
+}
+.additional-skills > summary::-webkit-details-marker { display: none; }
+.additional-skills > summary:hover { color: var(--blue); }
+.additional-skills > summary:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
+.additional-skills-icon::before { content: '+'; font-size: 18px; }
+.additional-skills[open] .additional-skills-icon::before { content: '−'; }
+.additional-skill-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px var(--profile-gap);
+  padding: 8px 0;
+}
+
 @media (max-width: 1100px) {
   .overview-lead, .overview.profile-record { --profile-label: 134px; --profile-gap: 24px; }
   .profile-entry-title h3, .profile-language-item dt, .profile-language-score strong { font-size: 23px; }
@@ -121,6 +149,7 @@
     padding-top: 18px; border-top: 1px solid var(--folio-rule);
   }
   .profile-record .skill-projects { grid-column: 1; }
+  .additional-skill-groups { grid-template-columns: minmax(0, 1fr); gap: 20px; }
 }
 @media print {
   #profile.overview-header { padding: 18px 0; }
