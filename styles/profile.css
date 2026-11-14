@@ -51,6 +51,8 @@
 .profile-entry-title h3, .profile-language-item dt {
   margin: 0; color: #172633; font-size: 25px; font-weight: 650; line-height: 1.4; letter-spacing: -.6px;
 }
+.profile-entry-title .institution-sejong { color: #c3002f; }
+.profile-entry-title .institution-ssafy { color: #3c93e8; }
 .profile-entry-description, .profile-language-project { color: #637182; font-size: 14px; line-height: 1.7; }
 .profile-entry-description { margin: 9px 0 0; }
 .profile-record .profile-entry-date {
