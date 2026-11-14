@@ -1,70 +1,127 @@
-/* Personal information: clear hierarchy without promotional copy or cards. */
-.overview-header{display:flex;justify-content:space-between;align-items:center;gap:32px;padding:48px 0 40px}
-.overview-person{min-width:0}
-.overview-identity h1{font-size:68px;line-height:1.15;letter-spacing:-3px}
-.overview-contact{margin-top:24px;display:flex;flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:10px 26px}
-.overview-contact a{font-size:14px;line-height:1.7}
-.overview-contact svg{width:17px;height:17px}
-.overview-project-link{display:inline-flex;margin:24px 0 0;font-size:14px;gap:12px;padding:0;border:0;border-radius:0;background:transparent;color:#2468b2;line-height:1.7;text-underline-offset:4px}
-.overview-project-link:hover{color:#1c5593;text-decoration:underline}
-.overview-project-link:focus-visible{outline:2px solid #397bcc;outline-offset:4px}
-.overview-section{padding:44px 0 48px}
-.overview-section-title{margin-bottom:30px}
-/* Separate topics vertically; keep related credentials together within each row. */
-.profile-background{display:block;padding:0}
-.profile-background .overview-section{padding:38px 0 42px;border:0}
-.profile-background .overview-languages{border-top:1px solid #e1e6eb}
-.profile-background .overview-section-title{margin-bottom:28px}
-.profile-background .overview-section-title h2{font-size:19px;color:#586778;font-weight:600;letter-spacing:-.4px}
-.profile-education-list,.profile-language-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:48px}
-.profile-education-list>li+li,.profile-language-item+.profile-language-item{border:0;padding:0}
-.profile-entry-title{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px}
-.profile-entry-title h3,.profile-language-item dt{font-size:25px;font-weight:650;line-height:1.4;letter-spacing:-.6px;color:#172331}
-.profile-entry-title>span{font-size:11px;color:#73808e;white-space:nowrap}
-.profile-entry-description,.profile-language-project{font-size:14px;line-height:1.7;color:#536477}
-.profile-entry-description{margin-top:9px}
-.profile-background .profile-entry-date{font-size:12px;line-height:1.7;color:#778391;font-variant-numeric:tabular-nums;margin-top:8px}
-.profile-language-item{display:grid;grid-template-columns:86px 1fr;align-content:start;align-items:baseline;column-gap:16px;row-gap:0;min-width:0}
-.profile-language-item dd{margin:0;min-width:0}
-.profile-language-score{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
-.profile-language-score>span{font-size:12px;color:#697989}
-.profile-language-score strong{font-size:25px;line-height:1.4;font-weight:650;color:#286c9d}
-.profile-language-project{grid-column:1/-1;margin-top:9px!important}
-.profile-language-project a{display:inline-flex;align-items:baseline;gap:12px}
-.profile-language-project a:hover{color:var(--blue)}
-.profile-language-project a:focus-visible{outline:2px solid #397bcc;outline-offset:4px}
-.profile-language-item .profile-entry-date{grid-column:1/-1}
-.overview-skills .overview-section-title{margin-bottom:24px}
-.skills-help{margin-top:14px;color:#738191;font-size:12px;line-height:1.7}
-.skill-exhibit{gap:28px 48px}
-.skill-collection{border-top:1px solid #dce2e9;padding-top:18px;min-width:0}
-.skill-collection h3{font-size:16px;font-weight:650;color:#3f5365;margin-bottom:12px}
-.overview-skills .badge-shelf{gap:3px 20px}
-.overview-skills .tech-badge{min-height:42px;padding:7px 0;gap:9px;border:0;border-bottom:1px solid transparent;border-radius:0;background:transparent;color:#334a5d;box-shadow:none}
-.overview-skills .tech-name{font-size:15px;line-height:1.6;font-weight:500}
-.overview-skills .tech-badge .tech-mark{width:18px;height:18px}
-.overview-skills .tech-badge:after{content:'+';font-size:15px;color:#899cac;margin-left:2px}
-.overview-skills .tech-badge:hover,.overview-skills .tech-badge[aria-pressed=true]{color:#2166a4;background:transparent;border-bottom-color:#7da6ca;box-shadow:none}
-.overview-skills .tech-badge[aria-pressed=true]:after{content:'−';color:#2166a4}
-.overview-skills .tech-badge:focus-visible{outline:2px solid #397bcc;outline-offset:4px}
-#skill-project-links a{font-size:14px;line-height:1.8}
-@media(max-width:760px){
- .overview-header{display:block;padding:36px 0 28px}
- .overview-identity h1{font-size:52px;letter-spacing:-2px}
- .overview-contact{margin-top:22px;flex-direction:column;gap:10px}
- .overview-contact a{font-size:13px}
- .overview-project-link{margin-top:24px;font-size:13px}
- .overview-section{padding:34px 0 38px}
- .profile-background .overview-section{padding:32px 0 36px}
- .profile-background .overview-section-title{margin-bottom:22px}
- .profile-background .overview-languages{border-top:1px solid #dfe4ea;padding-top:30px}
- .profile-entry-title h3,.profile-language-item dt,.profile-language-score strong{font-size:23px}
- .profile-entry-description,.profile-language-project{font-size:13px}
- .profile-education-list,.profile-language-list{grid-template-columns:1fr;gap:22px}
- .profile-education-list>li+li,.profile-language-item+.profile-language-item{border-top:1px solid #e5e9ee;padding-top:22px}
- .skill-exhibit{grid-template-columns:1fr;gap:22px}
- .overview-skills .badge-shelf{gap:4px 18px}
- .overview-skills .tech-name{font-size:14px}
+/* Aligned profile labels and two columns of credentials. */
+.overview-lead, .overview.profile-record {
+  --profile-label: clamp(150px, 15vw, 200px);
+  --profile-gap: clamp(24px, 3.4vw, 48px);
 }
-@media(prefers-reduced-motion:reduce){.overview-project-link{transition:none}}
-@media print{.overview-header{padding:24px 0}.overview-section{padding:24px 0}.skills-help,.overview-skills .tech-badge:after{display:none}}
+#profile.overview-header { display: block; padding: 48px 0; border: 0; }
+#profile .overview-person { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+#profile .overview-identity h1 {
+  margin: 0; font-size: clamp(40px, 3.6vw, 52px); line-height: 1.2;
+  font-weight: 750; letter-spacing: -.055em;
+}
+#profile .overview-contact {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin: 0;
+}
+#profile .overview-contact a {
+  display: inline-flex; align-items: center; gap: 10px;
+  color: #637182; font-size: 14px; line-height: 1.7;
+}
+#profile .overview-contact a:hover { color: var(--blue); }
+#profile .overview-contact a:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
+#profile .overview-contact svg { flex: none; width: 18px; height: 18px; }
+#profile .overview-contact .github-icon { fill: currentColor; stroke: none; }
+
+.overview.profile-record { padding-bottom: 0; }
+.profile-record > .overview-details {
+  display: block; padding-top: 0; border-top: 1px solid var(--folio-rule);
+}
+.profile-background { display: block; padding: 0; }
+.profile-record .overview-section {
+  display: grid;
+  grid-template-columns: var(--profile-label) minmax(0, 1fr);
+  column-gap: var(--profile-gap);
+  padding: 32px 0; border: 0; background: transparent; box-shadow: none; clip-path: none;
+}
+.profile-record .overview-section + .overview-section,
+.profile-record .overview-skills { border-top: 1px solid var(--folio-rule); }
+.profile-record .overview-section-title {
+  align-self: stretch; margin: 0; padding-right: 20px; border-right: 1px solid var(--folio-rule);
+}
+.profile-record .overview-section-title h2 {
+  margin: 0; color: #465565; font-size: 18px; font-weight: 650; line-height: 1.6; letter-spacing: -.4px;
+}
+.profile-education-list, .profile-language-list {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--profile-gap); list-style: none; margin: 0; padding: 0;
+}
+.profile-education-list > li, .profile-language-item { min-width: 0; }
+.profile-education-list > li + li, .profile-language-item + .profile-language-item {
+  padding-left: var(--profile-gap); border-left: 1px solid var(--folio-rule);
+}
+.profile-entry-title h3, .profile-language-item dt {
+  margin: 0; color: #172633; font-size: 25px; font-weight: 650; line-height: 1.4; letter-spacing: -.6px;
+}
+.profile-entry-description, .profile-language-project { color: #637182; font-size: 14px; line-height: 1.7; }
+.profile-entry-description { margin: 9px 0 0; }
+.profile-record .profile-entry-date {
+  margin-top: 7px; color: #7b8897; font-size: 12px; font-variant-numeric: tabular-nums; line-height: 1.7;
+}
+.profile-language-item {
+  display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: 22px;
+  align-content: start; align-items: baseline;
+}
+.profile-language-item dd { min-width: 0; margin: 0; }
+.profile-language-score { display: flex; align-items: baseline; gap: 8px; }
+.profile-language-score > span { color: #7b8897; font-size: 12px; }
+.profile-language-score strong { color: #286c9d; font-size: 25px; font-weight: 650; line-height: 1.4; }
+.profile-language-project, .profile-language-item .profile-entry-date { grid-column: 1 / -1; }
+.profile-language-project { margin-top: 8px !important; }
+.profile-language-project a { display: inline-flex; align-items: baseline; gap: 10px; }
+.profile-language-project a:hover { color: var(--blue); }
+.profile-language-project a:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
+.profile-record .skill-exhibit {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px var(--profile-gap);
+}
+.profile-record .skill-collection { min-width: 0; padding: 0; border: 0; }
+.profile-record .skill-collection:nth-child(even) {
+  padding-left: var(--profile-gap); border-left: 1px solid var(--folio-rule);
+}
+.profile-record .skill-collection:nth-child(n + 3) {
+  padding-top: 20px; border-top: 1px solid var(--folio-rule);
+}
+.profile-record .skill-collection h3 { margin: 0 0 8px; color: #7b8897; font-size: 13px; font-weight: 500; line-height: 1.6; }
+.overview-skills .badge-shelf { gap: 4px 18px; }
+.overview-skills .tech-badge {
+  min-height: 36px; gap: 8px; padding: 5px 0; border: 0; border-bottom: 1px solid transparent;
+  border-radius: 0; background: transparent; box-shadow: none; color: #334a5d;
+}
+.overview-skills .tech-name { font-size: 14px; font-weight: 500; line-height: 1.6; }
+.overview-skills .tech-badge .tech-mark { width: 21px; height: 21px; }
+.overview-skills .tech-badge::after { content: '+'; margin-left: 2px; color: #899cac; font-size: 14px; }
+.overview-skills .tech-badge:hover, .overview-skills .tech-badge[aria-pressed=true] {
+  color: #2166a4; background: transparent; border-bottom-color: #7da6ca; box-shadow: none;
+}
+.overview-skills .tech-badge[aria-pressed=true]::after { content: '−'; color: #2166a4; }
+.overview-skills .tech-badge:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
+.profile-record .skill-projects { grid-column: 2; margin-top: 20px; }
+#skill-project-links a { font-size: 14px; line-height: 1.8; }
+
+@media (max-width: 1100px) {
+  .overview-lead, .overview.profile-record { --profile-label: 134px; --profile-gap: 24px; }
+  .profile-entry-title h3, .profile-language-item dt, .profile-language-score strong { font-size: 23px; }
+}
+@media (max-width: 760px) {
+  #profile.overview-header { padding: 32px 0; }
+  #profile .overview-person { align-items: flex-start; flex-direction: column; gap: 18px; }
+  #profile .overview-contact a { font-size: 13px; }
+  .profile-record .overview-section { grid-template-columns: minmax(0, 1fr); padding: 26px 0; }
+  .profile-record .overview-section-title { margin-bottom: 20px; padding: 0; border: 0; }
+  .profile-record .overview-section-title h2 { font-size: 16px; }
+  .profile-record .profile-education-list, .profile-record .profile-language-list {
+    grid-template-columns: minmax(0, 1fr); gap: 22px;
+  }
+  .profile-education-list > li + li, .profile-language-item + .profile-language-item {
+    padding: 22px 0 0; border: 0; border-top: 1px solid var(--folio-rule);
+  }
+  .profile-record .skill-exhibit { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .profile-record .skill-collection:nth-child(even) { padding: 0; border-left: 0; }
+  .profile-record .skill-collection + .skill-collection {
+    padding-top: 18px; border-top: 1px solid var(--folio-rule);
+  }
+  .profile-record .skill-projects { grid-column: 1; }
+}
+@media print {
+  #profile.overview-header { padding: 18px 0; }
+  .profile-record .overview-section { padding-block: 18px; }
+  .overview-skills .tech-badge::after { display: none; }
+}
