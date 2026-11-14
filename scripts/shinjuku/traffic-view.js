@@ -11,7 +11,7 @@ async function init(){
  if(ready)return;ready=true;
  try{
   core=await import('./traffic-core.js');sim=new core.TrafficSimulation();
-  background=new Image();background.src='assets/shinjuku-road.svg';await background.decode();
+  background=new Image();background.src='assets/shinjuku/road.svg';await background.decode();
   resize();updateUI();schedule();
  }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';console.error(error);}
 }

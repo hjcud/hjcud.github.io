@@ -173,14 +173,14 @@ dialog.addEventListener('close',()=>{
 });
 const gallery={
 
- 'shimanami-exhibition':['shimanami-exhibition.webp','Shimanami Ekranoplan / 무사시노미술대학 전시 현장'],
- shinjuku:['shinjuku.webp','Shinjuku Live Street / 실제 플레이 화면'],
- 'shinjuku-community':['shinjuku-community.webp','Shinjuku Live Street / 역 앞 거리'],
- shimanami:['shimanami-flight.webp','Shimanami Ekranoplan / 바다 위 비행'],
- cockpit:['cockpit.webp','Shimanami Ekranoplan / 조종석'],
- 'i2s-editor':['i2s-strategy-complex-light.png','Idea2Strategy / 복합 전략 구성 (라이트 모드, 70% 배율)'],
- 'i2s-home':['i2s-strategy-list-light.png','Idea2Strategy / 전략 목록 (라이트 모드, 시연 데이터)'],
- 'i2s-backtest':['i2s-backtest-clean-light.png','Idea2Strategy / 백테스트 차트와 체결 표 (라이트 모드, 시연 데이터)']
+ 'shimanami-exhibition':['shimanami/exhibition.webp','Shimanami Ekranoplan / 무사시노미술대학 전시 현장'],
+ shinjuku:['shinjuku/street.webp','Shinjuku Live Street / 실제 플레이 화면'],
+ 'shinjuku-community':['shinjuku/community.webp','Shinjuku Live Street / 역 앞 거리'],
+ shimanami:['shimanami/flight.webp','Shimanami Ekranoplan / 바다 위 비행'],
+ cockpit:['shimanami/cockpit.webp','Shimanami Ekranoplan / 조종석'],
+ 'i2s-editor':['idea2strategy/strategy-editor.png','Idea2Strategy / 복합 전략 구성 (라이트 모드, 70% 배율)'],
+ 'i2s-home':['idea2strategy/strategy-list.png','Idea2Strategy / 전략 목록 (라이트 모드, 시연 데이터)'],
+ 'i2s-backtest':['idea2strategy/backtest.png','Idea2Strategy / 백테스트 차트와 체결 표 (라이트 모드, 시연 데이터)']
 };
 $$('[data-gallery]').forEach(button=>button.addEventListener('click',()=>{
  const [src,title]=gallery[button.dataset.gallery];const img=new Image();img.src='assets/'+src;img.alt=title;openDialog(title,img,button);

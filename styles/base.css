@@ -224,18 +224,18 @@ img{height:auto}.image-button img{height:auto}.timeline-lane .track.triple{heigh
 .tech-badge:is([data-skill="java"],[data-tech="java"]),.tech-badge:is([data-skill="spring"],[data-tech="spring"]),.tech-badge:is([data-skill="react"],[data-tech="react"]),.tech-badge:is([data-skill="typescript"],[data-tech="typescript"]){--tech-ink:#286c9d;--tech-tint:#e9f0f7}
 .tech-badge:is([data-skill="kotlin"],[data-tech="kotlin"]),.tech-badge:is([data-skill="compose"],[data-tech="compose"]){--tech-ink:#317b60;--tech-tint:#e7f2ec}
 .tech-badge:is([data-skill="git"],[data-tech="git"]),.tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"]),.tech-badge:is([data-skill="harness"],[data-tech="harness"]){--tech-ink:#4d627c;--tech-tint:#e9edf3}
-.tech-badge:is([data-skill="unity"],[data-tech="unity"]){--tech-logo:url("assets/tech/unity.svg")}
-.tech-badge:is([data-skill="csharp"],[data-tech="csharp"]){--tech-logo:url("assets/tech/csharp.svg")}
-.tech-badge:is([data-skill="udonsharp"],[data-tech="udonsharp"]){--tech-logo:url("assets/tech/udonsharp.svg")}
-.tech-badge:is([data-skill="java"],[data-tech="java"]){--tech-logo:url("assets/tech/java.svg")}
-.tech-badge:is([data-skill="spring"],[data-tech="spring"]){--tech-logo:url("assets/tech/spring.svg")}
-.tech-badge:is([data-skill="react"],[data-tech="react"]){--tech-logo:url("assets/tech/react.svg")}
-.tech-badge:is([data-skill="typescript"],[data-tech="typescript"]){--tech-logo:url("assets/tech/typescript.svg")}
-.tech-badge:is([data-skill="kotlin"],[data-tech="kotlin"]){--tech-logo:url("assets/tech/kotlin.svg")}
-.tech-badge:is([data-skill="compose"],[data-tech="compose"]){--tech-logo:url("assets/tech/compose.svg")}
-.tech-badge:is([data-skill="git"],[data-tech="git"]){--tech-logo:url("assets/tech/git.svg")}
-.tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"]){--tech-logo:url("assets/tech/ai-skills.svg")}
-.tech-badge:is([data-skill="harness"],[data-tech="harness"]){--tech-logo:url("assets/tech/harness.svg")}
+.tech-badge:is([data-skill="unity"],[data-tech="unity"]){--tech-logo:url("../assets/tech/unity.svg")}
+.tech-badge:is([data-skill="csharp"],[data-tech="csharp"]){--tech-logo:url("../assets/tech/csharp.svg")}
+.tech-badge:is([data-skill="udonsharp"],[data-tech="udonsharp"]){--tech-logo:url("../assets/tech/udonsharp.svg")}
+.tech-badge:is([data-skill="java"],[data-tech="java"]){--tech-logo:url("../assets/tech/java.svg")}
+.tech-badge:is([data-skill="spring"],[data-tech="spring"]){--tech-logo:url("../assets/tech/spring.svg")}
+.tech-badge:is([data-skill="react"],[data-tech="react"]){--tech-logo:url("../assets/tech/react.svg")}
+.tech-badge:is([data-skill="typescript"],[data-tech="typescript"]){--tech-logo:url("../assets/tech/typescript.svg")}
+.tech-badge:is([data-skill="kotlin"],[data-tech="kotlin"]){--tech-logo:url("../assets/tech/kotlin.svg")}
+.tech-badge:is([data-skill="compose"],[data-tech="compose"]){--tech-logo:url("../assets/tech/compose.svg")}
+.tech-badge:is([data-skill="git"],[data-tech="git"]){--tech-logo:url("../assets/tech/git.svg")}
+.tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"]){--tech-logo:url("../assets/tech/ai-skills.svg")}
+.tech-badge:is([data-skill="harness"],[data-tech="harness"]){--tech-logo:url("../assets/tech/harness.svg")}
 
 /* Reserve a leading label gutter; only the dated bar represents duration. */
 .timeline-grid{min-width:900px}
