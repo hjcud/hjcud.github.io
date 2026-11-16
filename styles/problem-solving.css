@@ -1,0 +1,104 @@
+/* A quieter, connected band for each project's supporting technical case study. */
+.featured-case .project-problem-solving {
+  min-width: 0;
+  margin: 36px calc(-1 * var(--gutter)) 0;
+  padding: 36px calc(var(--gutter) + 24px) 44px;
+  background: #f3f5f7;
+  border-block: 1px solid #e3e8ed;
+}
+.problem-solving-heading { margin-bottom: 28px; }
+.problem-solving-kicker {
+  margin: 0 0 12px;
+  padding-left: 12px;
+  border-left: 3px solid #6e96bd;
+  color: #627589;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.featured-case .problem-solving-heading h3 {
+  margin: 0;
+  color: #28465e;
+  font-size: clamp(20px, 2vw, 25px);
+  font-weight: 650;
+  line-height: 1.5;
+  letter-spacing: -.5px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.project-problem-solving .traffic-exhibit,
+.project-problem-solving .flight-exhibit { margin-top: 0; }
+.project-problem-solving .technical-notes {
+  margin: 32px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.project-problem-solving .technical-notes > .comparison-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+.project-problem-solving .traffic-result .result-label h5 {
+  color: #4d6175;
+  font-size: 14px;
+}
+.project-problem-solving .methods-disclaimer {
+  color: #657687;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.project-problem-solving .optimization-comparison {
+  border-color: #dde4eb;
+}
+.project-problem-solving .comparison-copy p,
+.project-problem-solving .i2s-workflow li > p {
+  color: #657687;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.project-problem-solving .comparison-pane {
+  border-color: #dce4eb;
+  background: #fbfcfd;
+}
+.project-problem-solving .comparison-pane.after { background: #f6faff; }
+.project-problem-solving .flight-notes.technical-notes > h4 {
+  margin-top: 0;
+  font-size: 17px;
+}
+.project-problem-solving .i2s-methods { margin-top: 0; }
+.project-problem-solving .i2s-method-intro { padding-top: 0; }
+.project-problem-solving .i2s-method-intro p {
+  color: #657687;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.project-problem-solving .workflow-visual { background: #fafcfe; }
+.project-problem-solving .i2s-instruction-example { border-color: #dce4eb; }
+
+@media (max-width: 760px) {
+  .featured-case .project-problem-solving {
+    margin-top: 28px;
+    padding: 28px var(--gutter) 32px;
+  }
+  .problem-solving-heading { margin-bottom: 22px; }
+  .featured-case .problem-solving-heading h3 { font-size: 21px; }
+  .project-problem-solving .technical-notes { margin-top: 24px; }
+  .project-problem-solving .i2s-methods { margin-top: 0; }
+  .project-problem-solving .i2s-method-intro p { font-size: 12px; }
+}
+@media print {
+  .featured-case .project-problem-solving {
+    break-inside: auto;
+    margin-inline: 0;
+    padding: 20px;
+    print-color-adjust: exact;
+  }
+}
