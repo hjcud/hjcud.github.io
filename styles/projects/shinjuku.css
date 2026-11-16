@@ -164,9 +164,3 @@
 @media(max-width:760px){.shinjuku-outcomes .traffic-result{grid-template-columns:1fr;gap:16px}}
 
 #traffic-methods{padding-top:0}
-
-/* Distinguish the crossing signal from the vehicle signal. */
-.traffic-signal{display:grid;gap:6px}
-.traffic-signal-row{display:flex;align-items:center;gap:7px}
-#traffic-walk-light{width:6px;height:6px;border-radius:50%;background:#d46d67;flex-shrink:0}
-#traffic-walk-light.light-green{background:#4fa27c}

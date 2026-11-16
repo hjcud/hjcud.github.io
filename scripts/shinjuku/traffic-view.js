@@ -11,7 +11,7 @@ const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
 async function init(){
  if(ready)return;ready=true;
  try{
-  core=await import('./traffic-core.js?v=traffic-motion');sim=new core.TrafficSimulation();
+  core=await import('./traffic-core.js?v=overhead-walkers');sim=new core.TrafficSimulation();
   background=new Image();background.src='assets/shinjuku/road.svg';await background.decode();
   resize();updateUI();schedule();
  }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';console.error(error);}
@@ -77,12 +77,8 @@ function draw(){
  ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(cache,0,0);
  ctx.setTransform(ratio*scale,0,0,ratio*scale,ratio*offsetX,ratio*offsetY);
  const actors=sim.cars.filter(c=>c.active),focus=chooseFocus(actors);
- for(const [x,z] of [[63.5,-16.5],[43,22.5]]){
-  const p=project({x,z});roundRect(p.x-11,p.y-5,22,10,4,'#3b4b58');
-  ['red','yellow','green'].forEach((color,i)=>{ctx.beginPath();ctx.arc(p.x-7+i*7,p.y,2.2,0,Math.PI*2);ctx.fillStyle=sim.signal===color?colors[color]:'#63737e';ctx.fill();});
- }
- const walk=sim.walk;
- for(const z of [-15,21.5]){const p=project({x:56.8,z});roundRect(p.x-3,p.y-5,6,10,2,'#3b4b58');ctx.fillStyle=walk?'#67b796':'#d4827b';ctx.beginPath();ctx.arc(p.x,p.y-2,1.2,0,Math.PI*2);ctx.fill();ctx.fillRect(p.x-.8,p.y,1.6,3);}
+ const lamp=project({x:62,z:22.5});roundRect(lamp.x-11,lamp.y-5,22,10,4,'#3b4b58');
+ ['red','yellow','green'].forEach((color,i)=>{ctx.beginPath();ctx.arc(lamp.x-7+i*7,lamp.y,2.2,0,Math.PI*2);ctx.fillStyle=sim.signal===color?colors[color]:'#63737e';ctx.fill();});
  drawGuidance(focus);
  sim.people.forEach(person);
  for(const car of actors){
@@ -105,18 +101,33 @@ function draw(){
  drawStatus(focus);
 }
 function person(p){
- const q=project(p);ctx.beginPath();ctx.ellipse(q.x+1,q.y+1.8,2.5,1.4,0,0,Math.PI*2);ctx.fillStyle='#314a5a18';ctx.fill();
- ctx.beginPath();ctx.arc(q.x,q.y,2.1,0,Math.PI*2);ctx.fillStyle=p.crossing?'#bb9375':['#849b99','#8d9db1','#b2a294'][p.id%3];ctx.fill();
- ctx.beginPath();ctx.arc(q.x-.4,q.y-.6,.9,0,Math.PI*2);ctx.fillStyle='#f0e5d9';ctx.fill();
+ const q=project(p),swing=p.crossing?Math.sin(sim.time*4.2+p.id*.7):0;
+ const shirt=['#719492','#7d91ad','#b4987c'][p.id%3];
+ const skin=['#d3b29a','#e2c6ae','#c19a7c'][p.id%3],hair=['#51443f','#39444c','#806750'][p.id%3];
+ ctx.save();ctx.translate(q.x,q.y);
+ ctx.beginPath();ctx.ellipse(.4,.8,2.15,2.5,0,0,Math.PI*2);ctx.fillStyle='#314a5a16';ctx.fill();
+ ctx.rotate(p.heading);
+ // The crown sits above the shoulders; hands and feet remain visible around the body.
+ ctx.lineCap='round';ctx.strokeStyle='#4e6070';ctx.lineWidth=.8;
+ for(const side of [-1,1]){
+  const step=swing*side;
+  ctx.beginPath();ctx.moveTo(side*.65,.7);ctx.lineTo(side*.7,1.8+step*.55);ctx.stroke();
+  roundRect(side*.7-.4,1.7+step*.55,.8,.8,.25,'#394b59');
+  ctx.strokeStyle=shirt;ctx.lineWidth=.85;ctx.beginPath();ctx.moveTo(side*1.25,-.05);ctx.lineTo(side*1.65,.7-step*.4);ctx.stroke();
+  ctx.beginPath();ctx.arc(side*1.65,.9-step*.4,.38,0,Math.PI*2);ctx.fillStyle=skin;ctx.fill();
+  ctx.strokeStyle='#4e6070';ctx.lineWidth=.8;
+ }
+ ctx.beginPath();ctx.ellipse(0,.25,1.65,1.15,0,0,Math.PI*2);ctx.fillStyle=shirt;ctx.fill();
+ ctx.beginPath();ctx.ellipse(0,-1.1,.7,.65,0,0,Math.PI*2);ctx.fillStyle=skin;ctx.fill();
+ ctx.beginPath();ctx.ellipse(0,-.65,1.05,1.15,0,0,Math.PI*2);ctx.fillStyle=hair;ctx.fill();
+ ctx.beginPath();ctx.ellipse(-.3,-.95,.35,.55,-.4,0,Math.PI*2);ctx.fillStyle='#ffffff16';ctx.fill();
+ ctx.restore();
 }
 function updateUI(){
  if(!sim)return;
  $('traffic-light').className='light-'+sim.signal;
  $('traffic-signal-label').textContent=sim.signal==='green'?'차량 통행':sim.signal==='yellow'?'정지 준비':'차량 정지';
  $('traffic-countdown').textContent=Math.ceil(sim.remaining/3)+'초';
- $('traffic-walk-light').className=sim.walk?'light-green':'light-red';
- $('traffic-walk-label').textContent=sim.walk?'보행자 횡단':'보행자 대기';
- $('traffic-walk-countdown').textContent=Math.ceil(sim.walkRemaining/3)+'초';
  canvas.dataset.signal=sim.signal;canvas.dataset.walk=String(sim.walk);canvas.dataset.laneChanges=String(sim.completedChanges);canvas.dataset.time=sim.time.toFixed(1);
 }
 function tick(now){
