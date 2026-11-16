@@ -20,9 +20,9 @@ function resize(){
  if(!background||!sim)return;
  const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return;width=r.width;height=r.height;ratio=Math.min(devicePixelRatio||1,1.5);
  canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
- // Fit the crossing and waiting queues between the controls in a short viewport.
- scale=Math.min(width<600?1.1:width/680,(height-54)/166);
- offsetX=width<600?width*.55-710*scale:width*.5-650*scale;offsetY=height*.56-232*scale;
+ // Frame the crossing and adjacent lanes, with room for the signal and status controls.
+ scale=Math.min(width<600?1.45:Math.min(2.35,width/420),(height-74)/106);
+ offsetX=width*(width<600?.53:.5)-717.4*scale;offsetY=height*(width<600?.56:.55)-240*scale;
  const roadRight=width-1045*scale,roadLeft=-65*scale;
  if(roadRight<=roadLeft)offsetX=Math.max(roadRight,Math.min(roadLeft,offsetX));
  cache=document.createElement('canvas');cache.width=canvas.width;cache.height=canvas.height;
@@ -80,7 +80,7 @@ function draw(){
  ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(cache,0,0);
  ctx.setTransform(ratio*scale,0,0,ratio*scale,ratio*offsetX,ratio*offsetY);
  const actors=sim.cars.filter(c=>c.active),focus=chooseFocus(actors);
- const lamp=project({x:62,z:22.5});roundRect(lamp.x-11,lamp.y-5,22,10,4,'#3b4b58');
+ const lamp=project({x:62,z:17});roundRect(lamp.x-11,lamp.y-5,22,10,4,'#3b4b58');
  ['red','yellow','green'].forEach((color,i)=>{ctx.beginPath();ctx.arc(lamp.x-7+i*7,lamp.y,2.2,0,Math.PI*2);ctx.fillStyle=sim.signal===color?colors[color]:'#63737e';ctx.fill();});
  drawGuidance(focus);
  sim.people.forEach(person);
