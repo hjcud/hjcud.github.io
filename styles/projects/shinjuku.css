@@ -64,8 +64,8 @@
 .comparison-pane figcaption span{font-size:9px;color:#97a4af}.comparison-pane.after figcaption span{color:#7098bd}
 .comparison-pane svg{display:block;width:100%;height:auto;padding:0 8px 10px;box-sizing:border-box}
 .comparison-pane svg text{font:9px sans-serif;fill:#9aa6b1}
-.route-node,.packet-dot{fill:#c7d1da}.after .route-node{fill:#7da3c8}.after .route-path{stroke:#82a9ca;stroke-dasharray:none}
-.after .route-calculation{display:none}.before .route-calculation{stroke-dasharray:25 250}
+.route-node{fill:#aebfcd}.route-node.is-target{fill:#bf935e}.route-sample{fill:#7da3c8}.after .route-path{stroke:#bfd1e0;stroke-dasharray:none}
+.lane-data,.sensor-data{color:#6893b7;background:#f8fbfd}.lane-data figcaption span,.sensor-data figcaption span{color:#7098bd}.comparison-pane .sensor-status{font-size:11px;font-weight:600}.comparison-pane .sensor-range-note{font-size:8px;fill:#9aa6b1}
 .traffic-result{padding-top:26px;display:grid;grid-template-columns:minmax(150px,.75fr) minmax(0,2fr);gap:14px 28px;align-items:center}
 .result-label h5{font-size:12px;color:#53687b;font-weight:500;margin:0 0 6px}.result-label>span{font-size:9px;color:#99a5b0}
 .result-bars{display:grid;gap:12px}.result-bars>div{display:grid;grid-template-columns:43px 1fr 65px;gap:10px;align-items:center;font-size:10px;color:#95a2ad}
@@ -74,8 +74,9 @@
 .traffic-result>p{grid-column:1/-1;font-size:9px;line-height:1.8;color:#9aa4ad;margin:4px 0 0}
 @media(max-width:760px){.traffic-notes{padding:22px 16px}.optimization-comparison{grid-template-columns:1fr;gap:16px;padding:24px 0}.comparison-copy h5{font-size:14px;margin-bottom:5px}.comparison-copy p{font-size:10px}.comparison-pair{gap:8px}.comparison-pane figcaption{font-size:10px;padding:12px 9px 5px;min-height:49px}.comparison-pane svg{padding:0 3px 8px}.traffic-result{grid-template-columns:1fr;gap:18px}.result-bars>div{grid-template-columns:38px 1fr 58px;gap:8px}.comparison-heading>span{font-size:8px}}
 @media(max-width:420px){.comparison-pair{grid-template-columns:1fr}.comparison-pane figcaption{flex-direction:row;align-items:baseline;gap:10px;min-height:0}.comparison-pane svg{max-height:115px}.optimization-comparison{gap:14px}}
+@media(max-width:420px){[data-comparison="route"] .comparison-pane svg,[data-comparison="physics"] .comparison-pane svg{max-height:none}}
 
-.after .physics-sweep{stroke:#b69a7a;fill:#b69a7a0b}.after .physics-car,.after .physics-signal{display:none}.traffic-stage{border-bottom:0}
+.traffic-stage{border-bottom:0}
 @media(max-width:760px){.traffic-notes{margin-top:36px}}
 
 /* Lead with the measured outcome; preserve the complete visual explanation behind one disclosure. */
