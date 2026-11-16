@@ -60,6 +60,22 @@ export class TrafficSimulation{
    if(os>s&&g<gap){gap=g;leader=other;}
   }return {gap,leader};
  }
+ observe(car){
+  if(!car?.active)return null;
+  let leaderLane=car.lane,leaderS=car.s,ahead=this.gapAhead(car,leaderLane,leaderS);
+  if(car.change){
+   const target=this.gapAhead(car,car.change.to,car.change.targetS);
+   if(target.gap<ahead.gap){ahead=target;leaderLane=car.change.to;leaderS=car.change.targetS;}
+  }
+  const stop=lanes[car.lane].stop,frontS=car.s+car.length/2;
+  const leader=ahead.leader,leaderCenter=leader?(leader.lane===leaderLane?leader.s:leader.change.targetS):null;
+  return {
+   lane:car.lane,frontS,stopS:stop>=frontS-.05?stop:null,stopGap:stop>=frontS-.05?Math.max(0,stop-frontS):null,
+   hasStop:stop>=0,leaderLane,leaderFromS:leaderS+car.length/2,
+   leaderRearS:leader?leaderCenter-leader.length/2:null,leaderGap:leader?Math.max(0,ahead.gap+2.5):null,
+   sensorHit:car.sensor.hit,sensorReach:car.sensor.reach
+  };
+ }
  safeTarget(car,lane,s){
   return this.cars.every(other=>{
    if(other===car||!other.active||!this.occupied(other,lane))return true;

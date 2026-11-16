@@ -5,13 +5,14 @@ const pause=document.querySelector('#traffic-pause');
 const $=id=>document.getElementById(id);
 let sim,core,background,cache,visible=false,ready=false,paused=motion.matches,frame=0,last=0,clock=0,uiTime=0;
 let width=1,height=1,scale=1,offsetX=0,offsetY=0,ratio=1;
-let focusId=null,focusSince=0;
+let focusId=9;
+const observerControl=$('traffic-observer'),resetControl=$('traffic-reset');
 const project=p=>({x:55+(p.x+140)*3.45,y:240-p.z*3.45});
 const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
 async function init(){
  if(ready)return;ready=true;
  try{
-  core=await import('./traffic-core.js?v=offscreen-walkers');sim=new core.TrafficSimulation();
+  core=await import('./traffic-core.js?v=vehicle-observation');resetSimulation();
   background=new Image();background.src='assets/shinjuku/road.svg?v=compact-road';await background.decode();
   resize();updateUI();schedule();
  }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';console.error(error);}
@@ -26,24 +27,56 @@ function resize(){
  const roadRight=width-1045*scale,roadLeft=-65*scale;
  if(roadRight<=roadLeft)offsetX=Math.max(roadRight,Math.min(roadLeft,offsetX));
  cache=document.createElement('canvas');cache.width=canvas.width;cache.height=canvas.height;
- const c=cache.getContext('2d',{alpha:false});c.setTransform(ratio,0,0,ratio,0,0);c.fillStyle='#f1f3f4';c.fillRect(0,0,width,height);c.translate(offsetX,offsetY);c.scale(scale,scale);c.drawImage(background,0,0,1100,440);draw();
+ const c=cache.getContext('2d',{alpha:false});c.setTransform(ratio,0,0,ratio,0,0);c.fillStyle='#f1f3f4';c.fillRect(0,0,width,height);c.translate(offsetX,offsetY);c.scale(scale,scale);c.drawImage(background,0,0,1100,440);draw();updateUI();
 }
 function roundRect(x,y,w,h,r,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill();}
-function chooseFocus(actors){
- const inFrame=actors.filter(car=>{
-  const p=project(car.pos),x=p.x*scale+offsetX,y=p.y*scale+offsetY;
-  const margin=Math.max(24,car.length*3.45*scale/2+8);
-  return x>margin&&x<width-margin&&y>55&&y<height-55;
- });
- const priority=car=>sim.walk&&car.sensor?.hit?6:car.change?5:car.sensor?.hit?4:car.reason==='signal'?3:car.reason==='vehicle'?2:0;
- inFrame.sort((a,b)=>priority(b)-priority(a)||Math.abs(a.pos.x-52)-Math.abs(b.pos.x-52));
- const current=inFrame.find(car=>car.id===focusId),next=inFrame[0];
- if(current&&(sim.time-focusSince<8||priority(current)>=priority(next)))return current;
- if(next&&next.id!==focusId){focusId=next.id;focusSince=sim.time;}
- return next;
+function resetSimulation(){
+ sim=new core.TrafficSimulation();
+ for(let step=0;step<680;step++)sim.step(.05);
+ focusId=9;clock=0;last=0;
+ if(observerControl.options.length!==sim.cars.length){
+  observerControl.replaceChildren(...sim.cars.map(car=>{
+   const option=document.createElement('option');option.value=String(car.id);option.textContent=`차량 ${String(car.id+1).padStart(2,'0')}`;return option;
+  }));
+ }
+ observerControl.value=String(focusId);observerControl.disabled=false;resetControl.disabled=false;
+}
+function inFrame(car){
+ if(!car?.active)return false;
+ const p=project(car.pos),x=p.x*scale+offsetX,y=p.y*scale+offsetY;
+ const halfLength=car.length*3.45*scale/2,halfWidth=3.3*scale;
+ const extentX=Math.abs(Math.cos(car.pos.angle))*halfLength+Math.abs(Math.sin(car.pos.angle))*halfWidth;
+ const extentY=Math.abs(Math.sin(car.pos.angle))*halfLength+Math.abs(Math.cos(car.pos.angle))*halfWidth;
+ return x+extentX>0&&x-extentX<width&&y+extentY>0&&y-extentY<height;
+}
+function chooseFocus(actors){return actors.find(car=>car.id===focusId&&inFrame(car));}
+function lanePoint(lane,s,offset){
+ const p=core.sample(lane,s);
+ return project({x:p.x-Math.sin(p.angle)*offset,z:p.z+Math.cos(p.angle)*offset});
+}
+function drawDistance(lane,from,to,offset,dashed){
+ if(to<=from)return;
+ ctx.save();ctx.beginPath();
+ const steps=Math.max(1,Math.ceil((to-from)/3));
+ for(let i=0;i<=steps;i++){
+  const p=lanePoint(lane,from+(to-from)*i/steps,offset);
+  if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);
+ }
+ ctx.strokeStyle=dashed?'#548dbba6':'#548dbb';ctx.lineWidth=1.2;ctx.setLineDash(dashed?[3,3]:[]);ctx.stroke();ctx.setLineDash([]);
+ ctx.beginPath();
+ for(const s of [from,to]){const a=lanePoint(lane,s,offset-.45),b=lanePoint(lane,s,offset+.45);ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);}
+ ctx.stroke();ctx.restore();
 }
 function drawGuidance(car){
  if(!car)return;
+ const reading=sim.observe(car),points=core.lanes[car.lane].points;
+ // These fixed road samples show the cached lane data used for positions and distances.
+ ctx.beginPath();points.forEach((point,i)=>{const p=project({x:point[0],z:point[1]});if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);});
+ ctx.strokeStyle='#7ca7c14d';ctx.lineWidth=.7;ctx.stroke();
+ ctx.fillStyle='#6999b4b3';
+ for(let i=0;i<points.length;i+=4){const p=project({x:points[i][0],z:points[i][1]});ctx.beginPath();ctx.arc(p.x,p.y,.8,0,Math.PI*2);ctx.fill();}
+ if(reading.leaderRearS!==null)drawDistance(reading.leaderLane,reading.leaderFromS,reading.leaderRearS,1.25,false);
+ if(reading.stopS!==null)drawDistance(reading.lane,reading.frontS,reading.stopS,-1.25,true);
  if(car.change){
   const ch=car.change,remaining=Math.max(0,ch.length-ch.travel);
   ctx.beginPath();
@@ -52,28 +85,23 @@ function drawGuidance(car){
    if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);
   }
   ctx.strokeStyle='#719ab5c0';ctx.lineWidth=1.2;ctx.setLineDash([3,3]);ctx.stroke();ctx.setLineDash([]);
-  const target=project(core.changePoint(car.lane,car.s,ch,remaining));
-  ctx.beginPath();ctx.arc(target.x,target.y,2.6,0,Math.PI*2);ctx.strokeStyle='#719ab5';ctx.lineWidth=.9;ctx.stroke();
- }else if(car.sensor){
+ }else{
   const front=core.sample(car.lane,car.s+car.length/2),p=project(front);
   ctx.save();ctx.translate(p.x,p.y);ctx.rotate(-front.angle);
   const reach=car.sensor.reach*3.45;
-  ctx.strokeStyle=car.sensor.hit?'#c18b54bb':'#5d9d8466';ctx.lineWidth=1.1;
+  ctx.strokeStyle=car.sensor.hit?'#c18b54dd':'#5d9d84aa';ctx.lineWidth=1.4;
   ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(reach,0);ctx.stroke();
   ctx.beginPath();ctx.moveTo(reach,-4);ctx.quadraticCurveTo(reach+4,0,reach,4);ctx.stroke();ctx.restore();
  }
 }
-function drawStatus(car){
- if(!car)return;
- const label=car.change?'차선 변경':car.reason==='person'?'보행자 감지':car.reason==='signal'?'신호 대기':car.reason==='vehicle'?'앞차 간격 유지':'주행 중';
- ctx.setTransform(ratio,0,0,ratio,0,0);
- const compact=width<600,x=14,y=height-42,w=compact?Math.min(150,width*.4):210;
- roundRect(x,y,w,28,4,'#fffffff0');
- ctx.beginPath();ctx.arc(x+12,y+14,3,0,Math.PI*2);ctx.fillStyle='#3989bb';ctx.fill();
- ctx.font=compact?'10px sans-serif':'11px sans-serif';ctx.textAlign='left';ctx.fillStyle='#466581';ctx.fillText(label,x+23,y+18);
- if(compact)roundRect(width-100,y,50,28,4,'#fffffff0');
- ctx.font=compact?'9px sans-serif':'10px sans-serif';ctx.textAlign='right';ctx.fillStyle='#7c8d9b';ctx.fillText(`${Math.round(car.v*3.6)} km/h`,compact?width-57:x+w-10,y+18);
- canvas.dataset.focus=String(car.id);canvas.dataset.focusState=car.reason;
+function updateInspector(){
+ const car=sim.cars.find(car=>car.id===focusId),reading=sim.observe(car),shown=inFrame(car);
+ const label=car?.change?'차선 변경':car?.reason==='person'?'보행자 감지':car?.reason==='signal'?'신호 대기':car?.reason==='vehicle'?'앞차 간격 유지':'주행 중';
+ $('traffic-observation-state').textContent=shown?`${label} / ${Math.round(car.v*3.6)} km/h`:'화면 밖으로 이동했습니다';
+ $('traffic-leader-distance').textContent=shown?(reading.leaderGap===null?'앞차 없음':`앞차 ${reading.leaderGap.toFixed(1)} m`):'앞차 —';
+ $('traffic-stop-distance').textContent=shown?(reading.stopGap!==null?`정지선 ${reading.stopGap.toFixed(1)} m`:reading.hasStop?'정지선 통과':'정지선 없음'):'정지선 —';
+ $('traffic-sensor-state').textContent=shown?(car.change?'차선 변경 중':reading.sensorHit?'보행자 감지':'감지 없음'):'—';
+ $('traffic-detection').classList.toggle('is-hit',shown&&reading.sensorHit);
 }
 function draw(){
  if(!sim||!cache)return;
@@ -101,7 +129,7 @@ function draw(){
   }
   ctx.restore();
  }
- drawStatus(focus);
+ canvas.dataset.focus=String(focusId);canvas.dataset.focusState=focus?.reason||'outside';
 }
 function person(p){
  const q=project(p),swing=p.moving?Math.sin(sim.time*4.2+p.id*.7):0;
@@ -131,6 +159,7 @@ function updateUI(){
  $('traffic-light').className='light-'+sim.signal;
  $('traffic-signal-label').textContent=sim.signal==='green'?'차량 통행':sim.signal==='yellow'?'정지 준비':'차량 정지';
  $('traffic-countdown').textContent=Math.ceil(sim.remaining/3)+'초';
+ updateInspector();
  canvas.dataset.signal=sim.signal;canvas.dataset.walk=String(sim.walk);canvas.dataset.laneChanges=String(sim.completedChanges);canvas.dataset.time=sim.time.toFixed(1);
 }
 function tick(now){
@@ -142,8 +171,28 @@ function tick(now){
 }
 function schedule(){cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!document.hidden&&!paused&&sim)frame=requestAnimationFrame(tick);}
 function reflectPause(){pause.textContent=paused?'▷':'Ⅱ';pause.setAttribute('aria-pressed',String(paused));pause.setAttribute('aria-label',paused?'교통 시연 재생':'교통 시연 일시정지');}
-pause.addEventListener('click',()=>{paused=!paused;reflectPause();schedule();});
-motion.addEventListener('change',()=>{paused=motion.matches;reflectPause();schedule();});
+function selectVehicle(id){focusId=id;observerControl.value=String(id);draw();updateUI();}
+function hitVehicle(event){
+ if(!sim)return null;
+ const rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top;
+ let selected=null,best=Infinity;
+ for(const car of sim.cars){
+  if(!car.active)continue;
+  const p=project(car.pos),dx=x-(p.x*scale+offsetX),dy=y-(p.y*scale+offsetY);
+  const along=dx*Math.cos(car.pos.angle)-dy*Math.sin(car.pos.angle),side=dx*Math.sin(car.pos.angle)+dy*Math.cos(car.pos.angle);
+  const distance=Math.hypot(Math.max(0,Math.abs(along)-car.length*3.45*scale/2),Math.max(0,Math.abs(side)-3.3*scale));
+  const score=distance+Math.hypot(dx,dy)*.001;
+  if(distance<=(event.pointerType==='touch'?14:9)&&score<best){selected=car;best=score;}
+ }
+ return selected;
+}
+canvas.addEventListener('click',event=>{const car=hitVehicle(event);if(car)selectVehicle(car.id);});
+canvas.addEventListener('pointermove',event=>{canvas.style.cursor=hitVehicle(event)?'pointer':'';});
+canvas.addEventListener('pointerleave',()=>{canvas.style.cursor='';});
+observerControl.addEventListener('change',()=>{if(sim)selectVehicle(Number(observerControl.value));});
+resetControl.addEventListener('click',()=>{if(!core)return;resetSimulation();draw();updateUI();schedule();});
+pause.addEventListener('click',()=>{paused=!paused;reflectPause();if(sim)updateUI();schedule();});
+motion.addEventListener('change',()=>{paused=motion.matches;reflectPause();if(sim)updateUI();schedule();});
 document.addEventListener('visibilitychange',schedule);
 new ResizeObserver(resize).observe(canvas);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)init();schedule();},{threshold:.05}).observe(canvas);
