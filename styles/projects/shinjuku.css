@@ -184,3 +184,10 @@
 #traffic-reset:hover{background:#fff}
 #traffic-canvas:focus-visible{outline:2px solid #6f99bb;outline-offset:-3px}
 @media(max-width:600px){.traffic-legend{flex-direction:column;align-items:flex-start;gap:3px;padding:6px 8px;font-size:9px}}
+
+/* Establish the problem and measured result before the live explanation. */
+#shinjuku .problem-solving-context{margin:12px 0 0;color:#657687;font-size:13px;line-height:1.8;word-break:keep-all;overflow-wrap:anywhere}
+#shinjuku .shinjuku-measurement{margin-bottom:28px}
+#shinjuku .shinjuku-measurement .shinjuku-outcomes{padding:0}
+#shinjuku .shinjuku-measurement>.methods-disclaimer{margin:12px 0 0;text-align:left}
+#shinjuku .traffic-notes .implementation-methods{margin-top:0;border-top:0}
