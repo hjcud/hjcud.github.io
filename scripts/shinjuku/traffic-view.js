@@ -6,7 +6,7 @@ const $=id=>document.getElementById(id);
 let sim,core,background,cache,visible=false,ready=false,paused=motion.matches,frame=0,last=0,clock=0,uiTime=0;
 let width=1,height=1,scale=1,offsetX=0,offsetY=0,ratio=1;
 let focusId=9;
-const observerControl=$('traffic-observer'),resetControl=$('traffic-reset');
+const resetControl=$('traffic-reset');
 const project=p=>({x:55+(p.x+140)*3.45,y:240-p.z*3.45});
 const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
 async function init(){
@@ -34,12 +34,7 @@ function resetSimulation(){
  sim=new core.TrafficSimulation();
  for(let step=0;step<680;step++)sim.step(.05);
  focusId=9;clock=0;last=0;
- if(observerControl.options.length!==sim.cars.length){
-  observerControl.replaceChildren(...sim.cars.map(car=>{
-   const option=document.createElement('option');option.value=String(car.id);option.textContent=`차량 ${String(car.id+1).padStart(2,'0')}`;return option;
-  }));
- }
- observerControl.value=String(focusId);observerControl.disabled=false;resetControl.disabled=false;
+ resetControl.disabled=false;
 }
 function inFrame(car){
  if(!car?.active)return false;
@@ -53,7 +48,7 @@ function chooseFocus(actors){
  const current=actors.find(car=>car.id===focusId&&inFrame(car));
  if(current)return current;
  const next=actors.filter(inFrame).sort((a,b)=>Math.abs(a.pos.x-52)-Math.abs(b.pos.x-52))[0];
- if(next){focusId=next.id;observerControl.value=String(focusId);updateInspector();}
+ if(next){focusId=next.id;updateLegend();}
  return next;
 }
 function lanePoint(lane,s,offset){
@@ -100,15 +95,10 @@ function drawGuidance(car){
   ctx.beginPath();ctx.moveTo(reach,-4);ctx.quadraticCurveTo(reach+4,0,reach,4);ctx.stroke();ctx.restore();
  }
 }
-function updateInspector(){
- const car=sim.cars.find(car=>car.id===focusId),reading=sim.observe(car),shown=inFrame(car);
- for(const option of observerControl.options)option.disabled=!inFrame(sim.cars[Number(option.value)]);
- const label=car?.change?'차선 변경':car?.reason==='person'?'보행자 감지':car?.reason==='signal'?'신호 대기':car?.reason==='vehicle'?'앞차 간격 유지':'주행 중';
- $('traffic-observation-state').textContent=shown?`${label} / ${Math.round(car.v*3.6)} km/h`:'화면 밖으로 이동했습니다';
- $('traffic-leader-distance').textContent=shown?(reading.leaderGap===null?'앞차 없음':`앞차 ${reading.leaderGap.toFixed(1)} m`):'앞차 —';
- $('traffic-stop-distance').textContent=shown?(reading.stopGap!==null?`정지선 ${reading.stopGap.toFixed(1)} m`:reading.hasStop?'정지선 통과':'정지선 없음'):'정지선 —';
- $('traffic-sensor-state').textContent=shown?(car.change?'차선 변경 중':reading.sensorHit?'보행자 감지':'감지 없음'):'—';
- $('traffic-detection').classList.toggle('is-hit',shown&&reading.sensorHit);
+function updateLegend(){
+ const car=sim.cars.find(car=>car.id===focusId),hit=inFrame(car)&&!car.change&&car.sensor.hit;
+ $('traffic-detection').classList.toggle('is-hit',hit);
+ $('traffic-detection-label').textContent=hit?'보행자 감지':'전방 감지';
 }
 function draw(){
  if(!sim||!cache)return;
@@ -166,7 +156,7 @@ function updateUI(){
  $('traffic-light').className='light-'+sim.signal;
  $('traffic-signal-label').textContent=sim.signal==='green'?'차량 통행':sim.signal==='yellow'?'정지 준비':'차량 정지';
  $('traffic-countdown').textContent=Math.ceil(sim.remaining/3)+'초';
- updateInspector();
+ updateLegend();
  canvas.dataset.signal=sim.signal;canvas.dataset.walk=String(sim.walk);canvas.dataset.laneChanges=String(sim.completedChanges);canvas.dataset.time=sim.time.toFixed(1);
 }
 function tick(now){
@@ -178,7 +168,7 @@ function tick(now){
 }
 function schedule(){cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!document.hidden&&!paused&&sim)frame=requestAnimationFrame(tick);}
 function reflectPause(){pause.textContent=paused?'▷':'Ⅱ';pause.setAttribute('aria-pressed',String(paused));pause.setAttribute('aria-label',paused?'교통 시연 재생':'교통 시연 일시정지');}
-function selectVehicle(id){focusId=id;observerControl.value=String(id);draw();updateUI();}
+function selectVehicle(id){focusId=id;draw();updateUI();}
 function hitVehicle(event){
  if(!sim)return null;
  const rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top;
@@ -196,7 +186,13 @@ function hitVehicle(event){
 canvas.addEventListener('click',event=>{const car=hitVehicle(event);if(car)selectVehicle(car.id);});
 canvas.addEventListener('pointermove',event=>{canvas.style.cursor=hitVehicle(event)?'pointer':'';});
 canvas.addEventListener('pointerleave',()=>{canvas.style.cursor='';});
-observerControl.addEventListener('change',()=>{if(sim)selectVehicle(Number(observerControl.value));});
+canvas.addEventListener('keydown',event=>{
+ if(!sim||!['ArrowLeft','ArrowRight'].includes(event.key))return;
+ const choices=sim.cars.filter(inFrame);if(!choices.length)return;
+ event.preventDefault();
+ const index=choices.findIndex(car=>car.id===focusId),direction=event.key==='ArrowRight'?1:-1;
+ selectVehicle(choices[(index+direction+choices.length)%choices.length].id);
+});
 resetControl.addEventListener('click',()=>{if(!core)return;resetSimulation();draw();updateUI();schedule();});
 pause.addEventListener('click',()=>{paused=!paused;reflectPause();if(sim)updateUI();schedule();});
 motion.addEventListener('change',()=>{paused=motion.matches;reflectPause();if(sim)updateUI();schedule();});
