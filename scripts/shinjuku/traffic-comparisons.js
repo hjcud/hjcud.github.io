@@ -5,14 +5,25 @@
  const control=document.getElementById('traffic-pause');
  let initialized=false;
  let active=null,frame=0,last=0,scrollFrame=0;
- const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),progress:svg.querySelector('.route-progress'),target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),status:svg.querySelector('.sensor-status'),scan:svg.querySelector('.frame-scan'),blocks:[...svg.querySelectorAll('.work-block')]}))}));
+ const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],progress:svg.querySelector('.route-progress'),target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),status:svg.querySelector('.sensor-status'),scan:svg.querySelector('.frame-scan'),blocks:[...svg.querySelectorAll('.work-block')]}))}));
  function initialize(){
   if(initialized)return;
   for(const scene of scenes)for(const p of scene.panes)if(p.path){
+   const centerline=p.centerline||p.path,length=centerline.getTotalLength(),dots=p.nodes.length?p.nodes:p.samples;
+   dots.forEach((dot,i)=>{
+    const point=centerline.getPointAtLength(length*i/Math.max(1,dots.length-1));
+    dot.setAttribute('cx',point.x.toFixed(3));dot.setAttribute('cy',point.y.toFixed(3));
+   });
+   if(p.nodes.length)p.path.setAttribute('d',p.nodes.map((node,i)=>`${i?'L':'M'}${node.getAttribute('cx')} ${node.getAttribute('cy')}`).join(' '));
    p.length=p.path.getTotalLength();
    p.waypoints=p.nodes.map(node=>({x:Number(node.getAttribute('cx')),y:Number(node.getAttribute('cy'))}));
    let distance=0;
    p.waypoints.forEach((point,i)=>{if(i)distance+=Math.hypot(point.x-p.waypoints[i-1].x,point.y-p.waypoints[i-1].y);point.distance=distance;});
+  }
+  for(const scene of scenes)for(const p of scene.panes)if(p.person){
+   const bounds=p.person.getBBox();
+   p.personHalfWidth=Math.max(Math.abs(bounds.x),Math.abs(bounds.x+bounds.width))+.9;
+   p.personHalfHeight=Math.max(Math.abs(bounds.y),Math.abs(bounds.y+bounds.height))+.9;
   }
   scenes.forEach(draw);initialized=true;
  }
@@ -41,8 +52,11 @@
      p.distance.setAttribute('d',`M60 43H${rear.toFixed(2)}M60 39V47M${rear.toFixed(2)} 39V47`);
     }
     if(p.person){
-     const phase=(t%12)/6,forward=phase<1,y=56+(forward?phase:2-phase)*70,hit=y>=73&&y<=113;
+     const phase=(t%12)/6,forward=phase<1,y=56+(forward?phase:2-phase)*70;
+     const hit=Math.abs(y-93)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
      p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(${forward?180:0})`);
+     p.sensorRay.setAttribute('d',`M60 93H${endX.toFixed(2)}`);
+     p.sensorLimit.setAttribute('d',`M${(endX-6).toFixed(2)} 81Q${(endX+6).toFixed(2)} 93 ${(endX-6).toFixed(2)} 105`);
      const color=hit?'#cb8150':'#579680';
      p.sensorRay.style.stroke=color;p.sensorLimit.style.stroke=color;
      p.sensorLimit.style.opacity=hit?String(.65+.35*(.5+.5*Math.sin(t*4))):'.5';
