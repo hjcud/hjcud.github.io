@@ -12,7 +12,7 @@ async function init(){
  if(ready)return;ready=true;
  try{
   core=await import('./traffic-core.js?v=overhead-walkers');sim=new core.TrafficSimulation();
-  background=new Image();background.src='assets/shinjuku/road.svg';await background.decode();
+  background=new Image();background.src='assets/shinjuku/road.svg?v=compact-road';await background.decode();
   resize();updateUI();schedule();
  }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';console.error(error);}
 }
@@ -20,9 +20,11 @@ function resize(){
  if(!background||!sim)return;
  const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return;width=r.width;height=r.height;ratio=Math.min(devicePixelRatio||1,1.5);
  canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
- scale=width<600?Math.max(width/430,height/265):Math.max(width/680,height/290);
- // On phones, retain readable vehicles by framing the crossing rather than shrinking the whole road.
- offsetX=width<600?width*.55-710*scale:width*.5-650*scale;offsetY=width<600?height*.54-232*scale:height*.52-230*scale;
+ // Fit the crossing and waiting queues between the controls in a short viewport.
+ scale=Math.min(width<600?1.1:width/680,(height-54)/166);
+ offsetX=width<600?width*.55-710*scale:width*.5-650*scale;offsetY=height*.56-232*scale;
+ const roadRight=width-1045*scale,roadLeft=-65*scale;
+ if(roadRight<=roadLeft)offsetX=Math.max(roadRight,Math.min(roadLeft,offsetX));
  cache=document.createElement('canvas');cache.width=canvas.width;cache.height=canvas.height;
  const c=cache.getContext('2d',{alpha:false});c.setTransform(ratio,0,0,ratio,0,0);c.fillStyle='#f1f3f4';c.fillRect(0,0,width,height);c.translate(offsetX,offsetY);c.scale(scale,scale);c.drawImage(background,0,0,1100,440);draw();
 }
@@ -65,11 +67,12 @@ function drawStatus(car){
  if(!car)return;
  const label=car.change?'차선 변경':car.reason==='person'?'보행자 감지':car.reason==='signal'?'신호 대기':car.reason==='vehicle'?'앞차 간격 유지':'주행 중';
  ctx.setTransform(ratio,0,0,ratio,0,0);
- const x=14,y=height-42,w=Math.min(210,width-70);
+ const compact=width<600,x=14,y=height-42,w=compact?Math.min(150,width*.4):210;
  roundRect(x,y,w,28,4,'#fffffff0');
  ctx.beginPath();ctx.arc(x+12,y+14,3,0,Math.PI*2);ctx.fillStyle='#3989bb';ctx.fill();
- ctx.font='11px sans-serif';ctx.textAlign='left';ctx.fillStyle='#466581';ctx.fillText(label,x+23,y+18);
- ctx.font='10px sans-serif';ctx.textAlign='right';ctx.fillStyle='#7c8d9b';ctx.fillText(`${Math.round(car.v*3.6)} km/h`,x+w-10,y+18);
+ ctx.font=compact?'10px sans-serif':'11px sans-serif';ctx.textAlign='left';ctx.fillStyle='#466581';ctx.fillText(label,x+23,y+18);
+ if(compact)roundRect(width-100,y,50,28,4,'#fffffff0');
+ ctx.font=compact?'9px sans-serif':'10px sans-serif';ctx.textAlign='right';ctx.fillStyle='#7c8d9b';ctx.fillText(`${Math.round(car.v*3.6)} km/h`,compact?width-57:x+w-10,y+18);
  canvas.dataset.focus=String(car.id);canvas.dataset.focusState=car.reason;
 }
 function draw(){
