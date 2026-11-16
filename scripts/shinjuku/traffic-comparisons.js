@@ -36,13 +36,13 @@
     }
     }else if(scene.type==='physics'){
     if(p.leader){
-     const x=172+10*Math.sin(t*.7),rear=x-11;
+     const x=254+8*Math.sin(t*.7),rear=x-11;
      move(p.leader,x,93);
      p.distance.setAttribute('d',`M60 43H${rear.toFixed(2)}M60 39V47M${rear.toFixed(2)} 39V47`);
     }
     if(p.person){
-     const y=35+(t%8)/8*110,hit=y>=73&&y<=113;
-     p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)})`);
+     const phase=(t%12)/6,forward=phase<1,y=56+(forward?phase:2-phase)*70,hit=y>=73&&y<=113;
+     p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(${forward?180:0})`);
      const color=hit?'#cb8150':'#579680';
      p.sensorRay.style.stroke=color;p.sensorLimit.style.stroke=color;
      p.sensorLimit.style.opacity=hit?String(.65+.35*(.5+.5*Math.sin(t*4))):'.5';

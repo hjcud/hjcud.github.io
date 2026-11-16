@@ -65,7 +65,14 @@
 .comparison-pane svg{display:block;width:100%;height:auto;padding:0 8px 10px;box-sizing:border-box}
 .comparison-pane svg text{font:9px sans-serif;fill:#9aa6b1}
 .route-node{fill:#aebfcd}.route-node.is-target{fill:#bf935e}.route-sample{fill:#7da3c8}.after .route-path{stroke:#bfd1e0;stroke-dasharray:none}
-.lane-data,.sensor-data{color:#6893b7;background:#f8fbfd}.lane-data figcaption span,.sensor-data figcaption span{color:#7098bd}.comparison-pane .sensor-status{font-size:11px;font-weight:600}.comparison-pane .sensor-range-note{font-size:8px;fill:#9aa6b1}
+.comparison-pane .sensor-status{font-size:11px;font-weight:600}
+.traffic-decision-visual{color:#6893b7}
+.traffic-decision-visual svg{max-width:600px;margin:12px auto 0;padding:0 12px 10px}
+.traffic-decision-visual svg text{font-size:10px;fill:#758a9b}
+.comparison-pane .traffic-decision-result{display:flex;flex-direction:row;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px 10px;min-height:0;padding:12px 16px;border-top:1px solid #e0e7ed;background:#f3f7fa;text-align:center}
+.comparison-pane .traffic-decision-result span{font-size:10px;color:#748b9f}
+.traffic-decision-result i{font-size:14px;font-style:normal;color:#88a0b4}
+.traffic-decision-result b{font-size:12px;font-weight:600;color:#426d91}
 .traffic-result{padding-top:26px;display:grid;grid-template-columns:minmax(150px,.75fr) minmax(0,2fr);gap:14px 28px;align-items:center}
 .result-label h5{font-size:12px;color:#53687b;font-weight:500;margin:0 0 6px}.result-label>span{font-size:9px;color:#99a5b0}
 .result-bars{display:grid;gap:12px}.result-bars>div{display:grid;grid-template-columns:43px 1fr 65px;gap:10px;align-items:center;font-size:10px;color:#95a2ad}
