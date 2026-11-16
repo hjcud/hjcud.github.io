@@ -60,8 +60,8 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
    Each label belongs to its line, but can extend beyond a very short period. */
 #project-timeline {
   --lane-title-width: clamp(104px, 12vw, 166px);
-  --row-step: 38px;
-  --row-pad: 9px;
+  --row-step: 32px;
+  --row-pad: 6px;
   --period-ink: #334958;
   --period-line: #b5c2ce;
   height: auto;
@@ -146,7 +146,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   top: calc(var(--row-pad) + var(--row) * var(--row-step));
   width: calc(var(--duration) / 46 * 100%);
   min-width: 0;
-  height: 32px;
+  height: 30px;
   padding: 0;
   margin: 0;
   overflow: visible;
@@ -308,7 +308,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   }
   #project-timeline .timeline-lane:first-of-type,
   #project-timeline .month-axis + .timeline-lane { border-top: 0; }
-  #project-timeline .timeline-lane > strong { padding-top: 17px; }
+  #project-timeline .timeline-lane > strong { padding-top: 15px; }
   #project-timeline .timeline-lane .track {
     display: grid;
     height: auto;
@@ -321,13 +321,13 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
     inset: auto;
     width: 100%;
     height: auto;
-    min-height: 46px;
+    min-height: 42px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 4px 12px;
     align-items: center;
     justify-content: stretch;
-    padding: 8px 0 8px 14px;
+    padding: 6px 0 6px 14px;
   }
   #project-timeline .period + .period { border-top: 1px solid #eef1f4; }
   #project-timeline .period::before,
@@ -367,7 +367,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   #project-timeline .timeline-lane,
   #project-timeline .timeline-lane:has(.track.double) {
     display: block;
-    padding: 13px 0 7px;
+    padding: 10px 0 6px;
   }
   #project-timeline .timeline-lane > strong { padding: 0 0 3px; font-size: 11px; }
   #project-timeline .timeline-lane > strong::before { height: 9px; }
