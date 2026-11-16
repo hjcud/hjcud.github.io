@@ -211,7 +211,7 @@
 
 <section class="project-problem-solving" aria-labelledby="shinjuku-problem-title">
 <header class="problem-solving-heading"><p class="problem-solving-kicker">문제 해결 과정</p><h3 id="shinjuku-problem-title">차량 처리에 드는 CPU 시간 줄이기</h3>
-<p class="problem-solving-context">차량별로 반복하던 이동 계산과 물리 검사가 같은 프레임에 집중되는 구조를 개선했습니다.</p></header>
+<p class="problem-solving-context">거리의 현장감을 높이기 위해 차량 시스템을 구현했지만, 차량의 이동 계산과 반복되는 물리 검사가 프레임 저하의 원인이 됐습니다. 이를 개선하기 위해 차선 경로를 미리 계산하고, 물리 검사 대상을 줄이며 감지 시점을 여러 프레임에 나눴습니다.</p></header>
 <div class="shinjuku-measurement">
 <div class="shinjuku-outcomes"><div class="traffic-result"><div class="result-label"><h5>평균 CPU 프레임 시간<br><strong>32.4% 감소</strong></h5></div><div class="result-bars" role="img" aria-label="평균 CPU 프레임 시간 개선 전 17.65밀리초, 개선 후 11.92밀리초"><div><span>개선 전</span><i style="--bar:100%"></i><b>17.65 <small>ms</small></b></div><div><span>개선 후</span><i style="--bar:67.535%"></i><b>11.92 <small>ms</small></b></div></div></div></div><p class="methods-disclaimer">동일 PC의 Unity Editor에서 차량 10대와 가상 플레이어 80명으로 각 300프레임을 비교했습니다. 여러 구조 변경을 함께 적용한 결과이며, 비교 장면은 원리 설명용 재현입니다.</p></div>
 <section class="traffic-exhibit" id="shinjuku-simulation" aria-labelledby="traffic-title">
