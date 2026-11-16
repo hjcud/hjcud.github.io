@@ -49,7 +49,13 @@ function inFrame(car){
  const extentY=Math.abs(Math.sin(car.pos.angle))*halfLength+Math.abs(Math.cos(car.pos.angle))*halfWidth;
  return x+extentX>0&&x-extentX<width&&y+extentY>0&&y-extentY<height;
 }
-function chooseFocus(actors){return actors.find(car=>car.id===focusId&&inFrame(car));}
+function chooseFocus(actors){
+ const current=actors.find(car=>car.id===focusId&&inFrame(car));
+ if(current)return current;
+ const next=actors.filter(inFrame).sort((a,b)=>Math.abs(a.pos.x-52)-Math.abs(b.pos.x-52))[0];
+ if(next){focusId=next.id;observerControl.value=String(focusId);updateInspector();}
+ return next;
+}
 function lanePoint(lane,s,offset){
  const p=core.sample(lane,s);
  return project({x:p.x-Math.sin(p.angle)*offset,z:p.z+Math.cos(p.angle)*offset});
@@ -96,6 +102,7 @@ function drawGuidance(car){
 }
 function updateInspector(){
  const car=sim.cars.find(car=>car.id===focusId),reading=sim.observe(car),shown=inFrame(car);
+ for(const option of observerControl.options)option.disabled=!inFrame(sim.cars[Number(option.value)]);
  const label=car?.change?'차선 변경':car?.reason==='person'?'보행자 감지':car?.reason==='signal'?'신호 대기':car?.reason==='vehicle'?'앞차 간격 유지':'주행 중';
  $('traffic-observation-state').textContent=shown?`${label} / ${Math.round(car.v*3.6)} km/h`:'화면 밖으로 이동했습니다';
  $('traffic-leader-distance').textContent=shown?(reading.leaderGap===null?'앞차 없음':`앞차 ${reading.leaderGap.toFixed(1)} m`):'앞차 —';
