@@ -74,6 +74,8 @@
   font-size: 17px;
 }
 .project-problem-solving .i2s-methods { margin-top: 0; }
+.project-problem-solving .i2s-editor-exhibit { margin-top: 0; }
+.project-problem-solving .i2s-editor-exhibit + .i2s-methods { margin-top: 32px; }
 .project-problem-solving .i2s-method-intro { padding-top: 0; }
 .project-problem-solving .i2s-method-intro p {
   color: #657687;
@@ -92,6 +94,7 @@
   .featured-case .problem-solving-heading h3 { font-size: 21px; }
   .project-problem-solving .technical-notes { margin-top: 24px; }
   .project-problem-solving .i2s-methods { margin-top: 0; }
+  .project-problem-solving .i2s-editor-exhibit + .i2s-methods { margin-top: 24px; }
   .project-problem-solving .i2s-method-intro p { font-size: 12px; }
 }
 @media print {
