@@ -66,23 +66,6 @@ addEventListener('resize', scheduleReading);
 new ResizeObserver(scheduleReading).observe(document.body);
 document.fonts.ready.then(scheduleReading);
 
-// The next link also provides a quiet, explicit end to each long case study.
-projects.forEach((project,index)=>{
- if(!projects[index+1])return;
- const next=projects[index+1];
- const link=document.createElement('a');
- link.className='project-end-nav';
- link.href='#'+next.id;
- const label=document.createElement('span');
- label.textContent='다음 프로젝트';
- const title=document.createElement('strong');
- title.textContent=next.dataset.title;
- const arrow=document.createElement('span');
- arrow.className='project-end-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='↓';
- link.append(label,title,arrow);
- project.querySelector('.project-body').append(link);
-});
-
 const timelineMonths = Number(getComputedStyle($('#project-timeline')).getPropertyValue('--timeline-months'));
 $('#months').innerHTML = Array.from({length:timelineMonths},(_,i)=>`<span>${i % 12 + 1}</span>`).join('');
 const icons = {

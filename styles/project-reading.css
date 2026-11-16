@@ -17,11 +17,6 @@
 /* Delimit long projects without turning them into separate cards. */
 .project-group>.project.project-fold+.project.project-fold{border-top:2px solid var(--category-line)}
 .project-group>.project.project-fold>.project-disclosure>.project-body{padding-bottom:28px}
-.project-end-nav{grid-column:1/-1;display:flex;justify-content:center;align-items:center;gap:8px;min-width:0;border-top:1px solid #dce4eb;padding:14px 0 0;margin-top:4px;color:#627b90;text-align:center}
-.project-end-nav>span:first-child{font-size:10px;color:#7b8e9e;white-space:nowrap}
-.project-end-nav>strong{min-width:0;font-size:12px;font-weight:500;text-align:center;overflow-wrap:anywhere}
-.project-end-arrow{flex:none;font-size:14px;line-height:1;color:#8ca1b3}
-.project-end-nav:hover strong,.project-end-nav:hover .project-end-arrow{color:#1769ff}
 @media(max-width:760px){
  .header{gap:12px}
  .header.is-reading-projects>.home-link{display:none}
@@ -29,6 +24,4 @@
  .reading-count{font-size:10px}
  .reading-name{max-width:100%;border:0;padding:0;font-size:11px}
  .reading-track{gap:3px;height:2px}
- .project-end-nav{gap:7px;padding-top:14px;margin-top:18px}
 }
-@media print{.project-end-nav{display:none}}
