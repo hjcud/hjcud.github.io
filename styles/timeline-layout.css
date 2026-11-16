@@ -55,10 +55,11 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   .timeline-instruction .touch-tip { display: inline; }
 }
 
-/* Dates are measured on the same 46-month axis as the data in the markup.
+/* Dates share the configured monthly axis with the year labels and grid.
    The visible line, including an ongoing arrowhead, spans exactly that range.
    Each label belongs to its line, but can extend beyond a very short period. */
 #project-timeline {
+  --timeline-months: 47;
   --lane-title-width: clamp(104px, 12vw, 166px);
   --row-step: 32px;
   --row-pad: 6px;
@@ -93,13 +94,19 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   font-variant-numeric: tabular-nums;
 }
 #project-timeline .years b {
+  width: calc(12 / var(--timeline-months) * 100%);
   padding: 9px 8px 4px;
   color: #354b5c;
   font-weight: 650;
   border-color: var(--folio-rule);
 }
 #project-timeline .month-axis { margin: 0 0 7px; }
-#project-timeline .months { line-height: 13px; font-variant-numeric: tabular-nums; color: #697683; }
+#project-timeline .months {
+  grid-template-columns: repeat(var(--timeline-months), minmax(0, 1fr));
+  line-height: 13px;
+  font-variant-numeric: tabular-nums;
+  color: #697683;
+}
 #project-timeline .timeline-lane {
   height: calc(2 * var(--row-pad) + 3 * var(--row-step));
   overflow: visible;
@@ -131,8 +138,8 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   height: 100%;
   border-left: 0;
   background:
-    repeating-linear-gradient(90deg, #dce3ea 0 1px, transparent 1px calc(100% * 12 / 46)),
-    repeating-linear-gradient(90deg, #f0f2f5 0 1px, transparent 1px calc(100% / 46));
+    repeating-linear-gradient(90deg, #dce3ea 0 1px, transparent 1px calc(100% * 12 / var(--timeline-months))),
+    repeating-linear-gradient(90deg, #f0f2f5 0 1px, transparent 1px calc(100% / var(--timeline-months)));
 }
 #project-timeline .period {
   --mark: var(--period-line);
@@ -142,9 +149,9 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   align-items: flex-start;
   justify-content: flex-start;
   gap: 7px;
-  left: calc(var(--start) / 46 * 100%);
+  left: calc(var(--start) / var(--timeline-months) * 100%);
   top: calc(var(--row-pad) + var(--row) * var(--row-step));
-  width: calc(var(--duration) / 46 * 100%);
+  width: calc(var(--duration) / var(--timeline-months) * 100%);
   min-width: 0;
   height: 30px;
   padding: 0;
@@ -169,9 +176,6 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   height: 5px;
   border-radius: 2px;
   background: var(--mark);
-}
-#project-timeline .period.semester::before {
-  background: repeating-linear-gradient(125deg, var(--mark) 0 3px, #d4dce4 3px 5px);
 }
 #project-timeline .period.ongoing::before { right: 5px; border-radius: 2px 0 0 2px; }
 #project-timeline .period.ongoing::after {
@@ -331,7 +335,6 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   }
   #project-timeline .period + .period { border-top: 1px solid #eef1f4; }
   #project-timeline .period::before,
-  #project-timeline .period.semester::before,
   #project-timeline .period.ongoing::before {
     inset: auto;
     top: 50%;

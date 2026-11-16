@@ -83,7 +83,8 @@ projects.forEach((project,index)=>{
  project.querySelector('.project-body').append(link);
 });
 
-$('#months').innerHTML = Array.from({length:46},(_,i)=>`<span>${i % 12 + 1}</span>`).join('');
+const timelineMonths = Number(getComputedStyle($('#project-timeline')).getPropertyValue('--timeline-months'));
+$('#months').innerHTML = Array.from({length:timelineMonths},(_,i)=>`<span>${i % 12 + 1}</span>`).join('');
 const icons = {
  blocks:'<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="15" y="3" width="8" height="8" rx="2"/><rect x="3" y="15" width="8" height="8" rx="2"/><path d="M15 19h8m-4-4v8"/>',
  chart:'<path d="M4 3v19h19M8 16l5-5 4 3 6-8M18 6h5v5"/>',
