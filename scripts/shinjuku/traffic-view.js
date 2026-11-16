@@ -11,7 +11,7 @@ const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
 async function init(){
  if(ready)return;ready=true;
  try{
-  core=await import('./traffic-core.js?v=overhead-walkers');sim=new core.TrafficSimulation();
+  core=await import('./traffic-core.js?v=offscreen-walkers');sim=new core.TrafficSimulation();
   background=new Image();background.src='assets/shinjuku/road.svg?v=compact-road';await background.decode();
   resize();updateUI();schedule();
  }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';console.error(error);}
@@ -104,7 +104,7 @@ function draw(){
  drawStatus(focus);
 }
 function person(p){
- const q=project(p),swing=p.crossing?Math.sin(sim.time*4.2+p.id*.7):0;
+ const q=project(p),swing=p.moving?Math.sin(sim.time*4.2+p.id*.7):0;
  const shirt=['#719492','#7d91ad','#b4987c'][p.id%3];
  const skin=['#d3b29a','#e2c6ae','#c19a7c'][p.id%3],hair=['#51443f','#39444c','#806750'][p.id%3];
  ctx.save();ctx.translate(q.x,q.y);

@@ -37,18 +37,19 @@ export class TrafficSimulation{
   const p=this.phase=this.time%160;
   this.signal=p<52.6667||p>=159?'red':p<155?'green':'yellow';
   this.remaining=this.signal==='red'?(p>=159?160-p+52.6667:52.6667-p):this.signal==='green'?155-p:159-p;
-  this.walk=p>=4&&p<41;
  }
  updatePeople(){
   this.people=[];const p=this.phase,cycle=Math.floor(this.time/160);
   for(let i=0;i<16;i++){
-   // Keep visitors between cycles and let the first arrivals clear space for the queue behind them.
+   // Wait offscreen, cross during vehicle red, then keep walking beyond the opposite edge.
    const row=cycle%2?3-Math.floor(i/4):Math.floor(i/4),reverse=(i%2===1)!==(cycle%2===1);
-   const start=4+row*3+(i%4)*.75,age=p-start,progress=Math.max(0,Math.min(1,age/25));
-   const from=reverse?20+row*1.5:-15-row*1.5,to=reverse?-15-(3-row)*1.5:20+(3-row)*1.5;
-   const turn=ease(Math.max(0,Math.min(1,(age-25)/2))),heading=(reverse?Math.PI:0)+Math.PI*turn;
-   this.people.push({id:i,x:49.4+(i%2)*2.7+(Math.floor(i/2)%2)*1.3,z:from+(to-from)*progress,heading,crossing:progress>0&&progress<1});
+   const start=4+row*2.5+(i%4)*.75,age=p-start;
+   const from=reverse?48+row*1.5:-35-row*1.5,to=reverse?-35-(3-row)*1.5:48+(3-row)*1.5;
+   const duration=Math.abs(to-from)/1.8,progress=Math.max(0,Math.min(1,age/duration)),moving=progress>0&&progress<1;
+   const z=from+(to-from)*progress,turn=ease(Math.max(0,Math.min(1,(age-duration)/2))),heading=(reverse?Math.PI:0)+Math.PI*turn;
+   this.people.push({id:i,x:49.4+(i%2)*2.7+(Math.floor(i/2)%2)*1.3,z,heading,moving,crossing:moving&&z>=-13&&z<=12.5});
   }
+  this.walk=this.people.some(person=>person.crossing);
  }
  occupied(car,lane){return car.lane===lane||car.change?.to===lane;}
  gapAhead(car,lane,s){
