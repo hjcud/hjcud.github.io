@@ -9,13 +9,13 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/projects/shinjuku.css?v=outcome-first">
-  <link rel="stylesheet" href="styles/projects/shimanami.css?v=context-labels">
+  <link rel="stylesheet" href="styles/projects/shimanami.css?v=coordinate-sign">
   <link rel="stylesheet" href="styles/project-details.css">
   <link rel="stylesheet" href="styles/projects/idea2strategy.css">
   <script src="scripts/app.js?v=project-boundaries" defer></script>
   <script type="module" src="scripts/shinjuku/traffic-view.js?v=minimal-traffic"></script>
   <script src="scripts/shinjuku/traffic-comparisons.js?v=aligned-points-contact" defer></script>
-  <script type="module" src="scripts/shimanami/flight-view.js?v=context-labels"></script>
+  <script type="module" src="scripts/shimanami/flight-view.js?v=coordinate-sign"></script>
   <link rel="stylesheet" href="styles/profile.css?v=additional-skills">
   <link rel="stylesheet" href="styles/carousel-controls.css">
   <script src="scripts/carousel-controls.js" defer></script>
@@ -236,19 +236,18 @@
  <div class="flight-experience">
  <section class="project-problem-solving" aria-labelledby="shimanami-problem-title">
 <header class="problem-solving-heading"><p class="problem-solving-kicker">문제 해결 과정</p><h3 id="shimanami-problem-title">장거리 비행의 좌표 정밀도 오차 줄이기</h3>
-<p class="problem-solving-context">넓은 바다를 비행하는 환경을 구현하면서, 원점에서 멀어질수록 커지는 좌표값과 그에 따른 정밀도 오차를 해결해야 했습니다.<br>기체와 탑승자는 원점에 두고 주변 환경을 이동시켰으며, 후속 개선에서는 위치를 타일 번호와 타일 안의 좌표로 나눠 관리했습니다.</p></header>
+<p class="problem-solving-context">Unity의 위치 좌표(<code>Transform.position</code>)는 각 축을 <code>float</code>로 저장하므로, 월드 원점(0, 0, 0)에서 멀어질수록 표현 가능한 좌표 간격이 커집니다. 이 때문에 작은 이동을 정밀하게 표현하기 어려워져 기체나 주변 오브젝트가 미세하게 떨리는 현상(Jittering)이 발생할 수 있습니다.<br>기체와 탑승자는 원점에 고정하고 지형을 반대 방향으로 이동시켜 이를 완화했습니다. 후속 개선에서는 이동 위치를 타일 번호와 타일 안의 좌표로 나눠, 비행 거리가 늘어나도 오브젝트에 적용하는 좌표값이 계속 커지지 않도록 했습니다.</p></header>
 <section class="flight-exhibit flight-coordinate-demo" id="flight-exhibit" data-step="1" aria-label="기체 고정과 타일 좌표 처리 시연">
 
 <div class="flight-scene">
 <button id="flight-pause" type="button" aria-label="비행 좌표 시연 일시정지" aria-pressed="false">Ⅱ</button>
 <canvas id="flight-canvas" role="img" aria-label="입체로 표현한 비행기의 수평 위치는 중앙에 고정되고 지형이 반대 방향으로 이동합니다. 기체의 위치와 자세는 고정되며, 고도 변화에 따라 지형의 기울기와 기체까지의 거리가 달라집니다. 바닥의 타일 좌표로 서로 다른 영역을 구분할 수 있습니다. 타일 경계를 통과하면 현재 타일이 바뀌고, 타일 안의 X 좌표는 양수에서 음수로 전환됩니다. 지형의 이동은 끊기지 않습니다." aria-describedby="flight-demo-note"></canvas>
 <div class="flight-boundary-label"><i aria-hidden="true"></i>타일 경계</div>
-<svg class="flight-annotations" aria-hidden="true"><path id="flight-anchor-leader"></path><path id="flight-height-measure"></path></svg>
+<svg class="flight-annotations" aria-hidden="true"><path id="flight-anchor-leader"></path></svg>
 <div class="flight-anchor" aria-label="기체의 수평 위치는 원점 X 0, Z 0에 고정"><span>기체는 원점에 고정</span><b>X 0 / Z 0</b></div>
-<div class="flight-height"><span>수면 위 높이</span><b id="flight-altitude">8.0 m</b></div>
 <div class="flight-position" aria-label="이동하는 지도의 타일 번호와 타일 안의 X 좌표">
 <div><span>현재 지도 타일</span><b id="flight-tile">(0, 0)</b></div>
-<div><span>타일 안의 X 좌표</span><b id="flight-local">X +0</b></div>
+<div><span>타일 안의 X 좌표</span><b id="flight-local" data-sign="positive" aria-label="타일 안의 X 좌표, 양수 0"><span class="flight-local-axis" aria-hidden="true">X</span><span class="flight-local-sign" aria-hidden="true">+</span><span class="flight-local-value" aria-hidden="true">0</span></b></div>
 </div>
 </div>
 <p id="flight-demo-note" class="sr-only">좌표 처리 원리를 X축 이동으로 단순화한 설명용 시연입니다. 기체의 고정 좌표와 비행 위치를 기록하는 타일 좌표는 서로 다른 기준입니다. 타일 크기 10,000인 설명용 예시입니다. 이동 속도와 고도 변화는 원리 설명을 위해 구성했습니다. 타일 경계를 넘는 동안에도 비행과 고도 변화는 계속됩니다. 위의 버튼으로 재생을 멈출 수 있습니다.</p>

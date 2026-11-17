@@ -7,13 +7,13 @@ const exhibit=document.getElementById('flight-exhibit');
 const pause=document.getElementById('flight-pause');
 const position=document.querySelector('#flight-exhibit .flight-position');
 const localLabel=document.getElementById('flight-local');
+const localSign=localLabel.querySelector('.flight-local-sign'),localValue=localLabel.querySelector('.flight-local-value');
 const tileLabel=document.getElementById('flight-tile');
-const altitudeLabel=document.getElementById('flight-altitude');
-const anchor=document.querySelector('#flight-exhibit .flight-anchor'),heightLabel=document.querySelector('#flight-exhibit .flight-height');
-const anchorLeader=document.getElementById('flight-anchor-leader'),heightMeasure=document.getElementById('flight-height-measure');
+const anchor=document.querySelector('#flight-exhibit .flight-anchor');
+const anchorLeader=document.getElementById('flight-anchor-leader');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let time=0,width=1,height=1,dpr=1,visible=false,paused=reduced.matches,frame=0,last=0;
-let previousTile=null,basisChangedAt=-Infinity;
+let previousTile=null,basisChangedAt=-Infinity,previousSign=null,signChangedAt=-Infinity;
 
 // Keep the aircraft position and attitude fixed. Apply inverse flight pitch to the environment.
 // X travel moves the environment up-left while the aircraft stays at the origin.
@@ -103,10 +103,6 @@ function draw(){
  const compact=width<600,fixedX=compact?width-120:center+126,fixedY=63;
  anchor.style.left=`${fixedX}px`;anchor.style.top=`${fixedY}px`;
  anchorLeader.setAttribute('d',`M ${center+12} ${aircraftY-8} L ${fixedX-8} ${fixedY+21} H ${fixedX}`);
- const gaugeX=compact?width-20:center+113,seaY=origin[1];
- heightMeasure.setAttribute('d',`M ${gaugeX-4} ${aircraftY} H ${gaugeX+4} M ${gaugeX} ${aircraftY} V ${seaY} M ${gaugeX-4} ${seaY} H ${gaugeX+4}`);
- heightLabel.style.left=`${compact?width-111:gaugeX+10}px`;
- heightLabel.style.top=`${compact?Math.max(seaY+10,aircraftY+52):(aircraftY+seaY)/2-17}px`;
 
  ctx.setTransform(dpr,0,0,dpr,0,0);
  ctx.fillStyle='#eaf2f6';ctx.fillRect(0,0,width,height);
@@ -172,9 +168,13 @@ function draw(){
  const emphasis=Math.max(0,1-(time-basisChangedAt)/1.25)*.18;
  position.style.setProperty('--basis-emphasis',emphasis.toFixed(3));
  tileLabel.textContent=`(${state.tile}, 0)`;
- altitudeLabel.textContent=`${state.altitude.toFixed(1)} m`;
- const local=Math.trunc(state.local);
- localLabel.textContent=`X ${local<0?'−':'+'}${Math.abs(local).toLocaleString('ko-KR')}`;
+ const negative=state.local<0,value=Math.trunc(Math.abs(state.local)).toLocaleString('ko-KR');
+ if(previousSign!==null&&negative!==previousSign)signChangedAt=time;
+ previousSign=negative;
+ localLabel.style.setProperty('--sign-emphasis',Math.max(0,1-(time-signChangedAt)/1.15).toFixed(3));
+ localLabel.dataset.sign=negative?'negative':'positive';
+ localSign.textContent=negative?'−':'+';localValue.textContent=value;
+ localLabel.setAttribute('aria-label',`타일 안의 X 좌표, ${negative?'음수':'양수'} ${value}`);
  canvas.dataset.time=time.toFixed(3);canvas.dataset.tile=String(state.tile);
  canvas.dataset.local=state.local.toFixed(3);canvas.dataset.world=state.world.toFixed(3);
  canvas.dataset.altitude=state.altitude.toFixed(3);canvas.dataset.pitch=state.pitch.toFixed(4);

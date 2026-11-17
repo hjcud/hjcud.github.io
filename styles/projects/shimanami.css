@@ -239,22 +239,22 @@
 .flight-coordinate-demo #flight-pause{top:16px;right:16px;bottom:auto;width:30px;height:30px;border:1px solid #dce5ec;background:#fff;color:#63839a}
 .flight-coordinate-demo #flight-pause:hover{background:#edf3f8}
 .flight-coordinate-demo #flight-canvas{height:360px}
-/* Values sit beside their subjects: aircraft, water gap, then moving-map coordinates. */
+/* Keep the fixed aircraft coordinates beside the model and moving-map coordinates below. */
 .flight-annotations{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .flight-annotations path{fill:none;stroke:#7091a8;stroke-width:1;stroke-linecap:round;stroke-linejoin:round}
 #flight-anchor-leader{stroke:#93aabc}
-.flight-anchor,.flight-height{position:absolute;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:4px 7px;border-radius:3px;background:rgba(255,255,255,.86);pointer-events:none;white-space:nowrap}
-.flight-anchor span,.flight-height span{font-size:10px;line-height:1.5;color:#658198}
-.flight-anchor b,.flight-height b{font-size:14px;line-height:1.4;color:#315e81;font-weight:650;font-variant-numeric:tabular-nums}
+.flight-anchor{position:absolute;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:4px 7px;border-radius:3px;background:rgba(255,255,255,.86);pointer-events:none;white-space:nowrap}
+.flight-anchor span{font-size:10px;line-height:1.5;color:#658198}
+.flight-anchor b{font-size:14px;line-height:1.4;color:#315e81;font-weight:650;font-variant-numeric:tabular-nums}
 .flight-position{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:1fr 1.3fr;gap:20px;width:min(350px,calc(100% - 32px));padding:10px 15px;border:1px solid #b8cbd9;border-radius:6px;background:rgba(255,255,255,.96);pointer-events:none}
 .flight-position>div{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
 .flight-position>div+div{padding-left:20px;border-left:1px solid #dce5ec}
-.flight-position span{font-size:10px;line-height:1.5;color:#6b8296;white-space:nowrap}
+.flight-position>div>span{font-size:10px;line-height:1.5;color:#6b8296;white-space:nowrap}
 .flight-position b{font-size:17px;line-height:1.4;color:#2e6895;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
 @media(max-width:760px){
  .flight-position{width:calc(100% - 24px);bottom:12px;padding:10px 12px;gap:12px;grid-template-columns:1fr 1.25fr}
  .flight-position>div+div{padding-left:12px}
- .flight-position span{font-size:9px}
+ .flight-position>div>span{font-size:9px}
  .flight-position b{font-size:16px}
 }
 
@@ -263,3 +263,10 @@
 
 /* Emphasize only the values that change basis, using simulation time so pause freezes the cue. */
 #flight-tile,#flight-local{border-radius:2px;background:rgba(91,154,214,var(--basis-emphasis,0));box-shadow:0 0 0 4px rgba(91,154,214,var(--basis-emphasis,0))}
+
+/* Keep the sign legible and let its boundary cue use the paused simulation clock. */
+#flight-local{display:flex;align-items:center;gap:6px;line-height:1.4}
+.flight-local-axis{font-size:12px;color:#6b8296;font-weight:500}
+.flight-local-sign{display:inline-flex;align-items:center;justify-content:center;flex:none;width:25px;height:25px;border:1px solid #b8d0e6;border-radius:4px;background:#eaf3fc;color:#2469a3;font-size:22px;line-height:1;font-weight:650;transform:scale(calc(1 + var(--sign-emphasis,0)*.18));transform-origin:center}
+#flight-local[data-sign="negative"] .flight-local-sign{border-color:#e8c2a6;background:#fff0e5;color:#a75525}
+.flight-local-value{font:inherit;min-width:5ch;text-align:right}
