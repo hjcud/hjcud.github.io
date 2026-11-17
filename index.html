@@ -9,13 +9,13 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/projects/shinjuku.css?v=outcome-first">
-  <link rel="stylesheet" href="styles/projects/shimanami.css?v=inline-coordinates">
+  <link rel="stylesheet" href="styles/projects/shimanami.css?v=ground-tile-labels">
   <link rel="stylesheet" href="styles/project-details.css">
   <link rel="stylesheet" href="styles/projects/idea2strategy.css">
   <script src="scripts/app.js?v=project-boundaries" defer></script>
   <script type="module" src="scripts/shinjuku/traffic-view.js?v=minimal-traffic"></script>
   <script src="scripts/shinjuku/traffic-comparisons.js?v=aligned-points-contact" defer></script>
-  <script type="module" src="scripts/shimanami/flight-view.js?v=inline-coordinates"></script>
+  <script type="module" src="scripts/shimanami/flight-view.js?v=ground-tile-labels"></script>
   <link rel="stylesheet" href="styles/profile.css?v=additional-skills">
   <link rel="stylesheet" href="styles/carousel-controls.css">
   <script src="scripts/carousel-controls.js" defer></script>
@@ -241,7 +241,7 @@
 
 <div class="flight-scene">
 <button id="flight-pause" type="button" aria-label="비행 좌표 시연 일시정지" aria-pressed="false">Ⅱ</button>
-<canvas id="flight-canvas" role="img" aria-label="입체로 표현한 비행기의 수평 위치는 중앙에 고정되고 지형이 반대 방향으로 이동합니다. 고도 변화에 따라 기체의 기수 각도와 지형까지의 거리가 달라집니다. 타일 경계를 통과하면 현재 타일이 바뀌고, 타일 안의 X 좌표는 양수에서 음수로 전환됩니다. 지형의 이동은 끊기지 않습니다." aria-describedby="flight-demo-note"></canvas>
+<canvas id="flight-canvas" role="img" aria-label="입체로 표현한 비행기의 수평 위치는 중앙에 고정되고 지형이 반대 방향으로 이동합니다. 고도 변화에 따라 기체의 기수 각도와 지형까지의 거리가 달라집니다. 바닥의 타일 좌표로 서로 다른 영역을 구분할 수 있습니다. 타일 경계를 통과하면 현재 타일이 바뀌고, 타일 안의 X 좌표는 양수에서 음수로 전환됩니다. 지형의 이동은 끊기지 않습니다." aria-describedby="flight-demo-note"></canvas>
 <div class="flight-anchor" aria-label="기체의 수평 위치는 원점 X 0, Z 0에 고정">
 
 <span>수평 위치 고정<b>X 0 / Z 0</b><small class="flight-altitude">비행 고도 <strong id="flight-altitude">650 m</strong></small></span>
@@ -249,7 +249,7 @@
 <div class="flight-boundary-label"><i aria-hidden="true"></i>타일 경계</div>
 <div class="flight-motion-cue" aria-hidden="true"><span>↖</span>지형 이동</div>
 <div class="flight-position" aria-label="이동 위치를 표현하는 타일 번호와 타일 안의 좌표">
-<div><span>현재 타일</span><b id="flight-tile">01</b></div>
+<div><span>현재 타일</span><b id="flight-tile">(0, 0)</b></div>
 <div><span>타일 안의 위치</span><b id="flight-local">X +0</b></div>
 </div>
 </div>

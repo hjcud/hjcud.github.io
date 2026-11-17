@@ -16,10 +16,22 @@ function prism(outline,bottom,top,color,part){
   face([[a[0],bottom,a[1]],[b[0],bottom,b[1]],[b[0],top,b[1]],[a[0],top,a[1]]],i%2?'#879dac':'#acbeca',part);
  }
 }
-prism([[-4,-38],[4,-38],[7,-20],[7,24],[4,38],[0,43],[-4,38],[-7,24],[-7,-20]],-3,6,'#dce6ed','hull');
+// Rounded, tapered hull with a boat-like underside instead of a flat slab.
+const sections=[[-40,.8,0,1],[-34,4,1,3.5],[-24,6.4,1.5,5.5],[-8,7.2,1.7,6.5],[14,7,1.7,6.6],[25,6.4,1.5,6.2],[34,4.8,1,4.8],[41,2.4,0,2.5],[44,.5,-.4,.8]];
+const hullRings=sections.map(([z,w,y,h])=>Array.from({length:12},(_,i)=>{
+ const a=i/12*Math.PI*2;return [Math.cos(a)*w,y+Math.sin(a)*h,z];
+}));
+for(let j=0;j<hullRings.length-1;j++)for(let i=0;i<12;i++){
+ const a=(i+.5)/12*Math.PI*2,light=.79+.19*Math.sin(a)+.07*Math.cos(a);
+ const color='#'+[197,213,223].map(v=>Math.round(v*light).toString(16).padStart(2,'0')).join('');
+ face([hullRings[j][i],hullRings[j][(i+1)%12],hullRings[j+1][(i+1)%12],hullRings[j+1][i]],color,'hull');
+}
+face(hullRings[0].slice().reverse(),'#7c96a9','hull');
+face(hullRings.at(-1),'#adc3d2','hull');
 // Separate convex wings prevent a triangle fan from filling the concave gap.
 prism([[-6,4],[-47,-12],[-47,-20],[-6,-14]],0,2,'#bdcfdc','wing');
 prism([[6,4],[47,-12],[47,-20],[6,-14]],0,2,'#bdcfdc','wing');
+for(const side of [-1,1])face([[side*8,2.12,-11.6],[side*45,2.12,-18],[side*45,2.12,-19],[side*8,2.12,-13]],'#91aabd','wing-flap');
 prism([[-3,-26],[-21,-31],[-21,-37],[21,-37],[21,-31],[3,-26]],19,21,'#c6d9e6','tail');
 // Closed fin with both sides, leading/trailing edges and thickness.
 const fin=[[5,-25],[19,-28],[19,-37],[3,-38]];
@@ -29,12 +41,15 @@ for(let i=0;i<fin.length;i++){
  const a=fin[i],b=fin[(i+1)%fin.length];
  face([[-1.4,...a],[1.4,...a],[1.4,...b],[-1.4,...b]],'#adc3d2','tail');
 }
-face([[-4,6.3,27],[4,6.3,27],[3,8,32],[-3,8,32]],'#386783','cockpit');
+face([[-3.2,8.1,24],[3.2,8.1,24],[2.5,7.1,32],[-2.5,7.1,32]],'#315c76','cockpit');
+face([[6.1,4.2,24],[4.8,3.8,32],[3.8,6,33],[4.5,7,25]],'#386783','cockpit');
 prism([[-32,19],[32,19],[32,23],[-32,23]],1,4,'#a7bdcd','engine-mount');
 for(const x of [-29,-22,-15,-8,8,15,22,29]){
  const ring=z=>Array.from({length:8},(_,i)=>[x+Math.cos(i*Math.PI/4)*2.7,6+Math.sin(i*Math.PI/4)*2.7,z]);
  const a=ring(18),b=ring(28);
- face(a,'#6a8293','engine');face(b,'#405f77','engine');
+ face(a,'#6a8293','engine');face(b,'#b9cedc','engine');
+ const inlet=Array.from({length:8},(_,i)=>[x+Math.cos(i*Math.PI/4)*1.85,6+Math.sin(i*Math.PI/4)*1.85,28.12]);
+ face(inlet,'#294c63','engine-inlet');
  for(let i=0;i<8;i++)face([a[i],a[(i+1)%8],b[(i+1)%8],b[i]],i<4?'#e2e9ee':'#8a9dab','engine');
 }
 
@@ -63,15 +78,17 @@ export function createAircraftRenderer(){
  const surface=document.createElement('canvas'),context=surface.getContext('2d');
  let buffer,depth,w=0,h=0;
  return (ctx,pose,project,dpr)=>{
+  const sampleRatio=Math.max(2,dpr);
   const triangles=projectedAircraft(pose,project),points=triangles.flatMap(t=>t.points);
   const left=Math.floor(Math.min(...points.map(p=>p[0]))-2),top=Math.floor(Math.min(...points.map(p=>p[1]))-2);
-  const nextW=Math.ceil((Math.max(...points.map(p=>p[0]))-left+2)*dpr),nextH=Math.ceil((Math.max(...points.map(p=>p[1]))-top+2)*dpr);
+  const nextW=Math.ceil((Math.max(...points.map(p=>p[0]))-left+2)*sampleRatio),nextH=Math.ceil((Math.max(...points.map(p=>p[1]))-top+2)*sampleRatio);
   // Use a fixed allocation bucket to avoid reallocating ImageData on every angle.
   const bucketW=Math.ceil(nextW/32)*32,bucketH=Math.ceil(nextH/32)*32;
   if(bucketW>w||bucketH>h){w=Math.max(w,bucketW);h=Math.max(h,bucketH);surface.width=w;surface.height=h;buffer=context.createImageData(w,h);depth=new Float64Array(w*h);}
   buffer.data.fill(0);depth.fill(-Infinity);
-  for(const t of triangles)rasterizeTriangle(t.points.map(([x,y,z])=>[(x-left)*dpr,(y-top)*dpr,z]),t.rgb,w,h,buffer.data,depth);
+  for(const t of triangles)rasterizeTriangle(t.points.map(([x,y,z])=>[(x-left)*sampleRatio,(y-top)*sampleRatio,z]),t.rgb,w,h,buffer.data,depth);
   context.putImageData(buffer,0,0);
-  ctx.drawImage(surface,0,0,nextW,nextH,left,top,nextW/dpr,nextH/dpr);
+  ctx.drawImage(surface,0,0,nextW,nextH,left,top,nextW/sampleRatio,nextH/sampleRatio);
+  return {left,top,width:nextW/sampleRatio,height:nextH/sampleRatio};
  };
 }
