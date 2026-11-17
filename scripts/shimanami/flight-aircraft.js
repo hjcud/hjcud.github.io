@@ -64,8 +64,24 @@ export function rasterizeTriangle(vertices,rgb,width,height,pixels,depth,ids,id)
   const offset=at*4;pixels[offset]=rgb[0];pixels[offset+1]=rgb[1];pixels[offset+2]=rgb[2];pixels[offset+3]=255;
  }
 }
+// One material, lit by a broad overhead source. No edge strokes or painted details.
+function shadedMaterial(points){
+ const [a,b,c]=points,u=b.map((v,i)=>v-a[i]),v=c.map((n,i)=>n-a[i]);
+ let nx=u[1]*v[2]-u[2]*v[1],ny=u[2]*v[0]-u[0]*v[2],nz=u[0]*v[1]-u[1]*v[0];
+ const length=Math.hypot(nx,ny,nz)||1;nx/=length;ny/=length;nz/=length;
+ // Two-sided normals keep mirrored mesh parts consistently lit.
+ if(nx*.433+ny*.5-nz*.75<0){nx=-nx;ny=-ny;nz=-nz;}
+ const lightLength=Math.hypot(-.35,.88,-.32);
+ const diffuse=Math.max(0,(-.35*nx+.88*ny-.32*nz)/lightLength);
+ const intensity=.78+.30*diffuse;
+ return AIRCRAFT_RGB.map(channel=>Math.min(255,Math.round(channel*intensity)));
+}
 export function projectedAircraft(pose,project){
- return aircraftTriangles.map(t=>({...t,points:t.points.map(p=>{const q=aircraftToWorld(p,pose),s=project(q);return [s[0],s[1],cameraDepth(q)];})}));
+ return aircraftTriangles.map(t=>{
+  const world=t.points.map(p=>aircraftToWorld(p,pose));
+  const points=world.map(q=>{const s=project(q);return [s[0],s[1],cameraDepth(q)];});
+  return {...t,points,rgb:shadedMaterial(world)};
+ });
 }
 // Rasterize only the aircraft's small bounding rectangle, capped by the view DPR.
 export function createAircraftRenderer(){
