@@ -239,33 +239,22 @@
 .flight-coordinate-demo #flight-pause{top:16px;right:16px;bottom:auto;width:30px;height:30px;border:1px solid #dce5ec;background:#fff;color:#63839a}
 .flight-coordinate-demo #flight-pause:hover{background:#edf3f8}
 .flight-coordinate-demo #flight-canvas{height:360px}
-.flight-anchor{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);display:flex;align-items:center;flex-direction:column;pointer-events:none}
-
-.flight-anchor>span{display:block;padding:7px 13px;border:1px solid #adc5d6;border-radius:5px;background:#fff;text-align:center;color:#658198;font-size:10px;line-height:1.5;white-space:nowrap}
-.flight-anchor b{display:block;color:#315e81;font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
-.flight-position{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:1.15fr 1.45fr;gap:18px;width:min(360px,calc(100% - 32px));padding:12px 16px;border:1px solid #a8c2d6;border-radius:6px;background:#fff;pointer-events:none}
-.flight-position>div{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
-.flight-position>div+div{padding-left:18px;border-left:1px solid #d7e2ea}
+/* One stable instrument strip leaves the aircraft and its shadow unobstructed. */
+.flight-position{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:1.05fr .9fr .8fr 1.25fr;gap:16px;width:min(620px,calc(100% - 32px));padding:11px 16px;border:1px solid #b8cbd9;border-radius:6px;background:rgba(255,255,255,.95);pointer-events:none}
+.flight-position>div{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
+.flight-position>div+div{padding-left:16px;border-left:1px solid #dce5ec}
 .flight-position span{font-size:10px;line-height:1.5;color:#6b8296;white-space:nowrap}
-.flight-position b{font-size:18px;line-height:1.4;color:#2e6895;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
+.flight-position b{font-size:17px;line-height:1.4;color:#2e6895;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
 @media(max-width:760px){
- .flight-coordinate-demo #flight-pause{right:16px;top:16px}
- .flight-coordinate-demo #flight-canvas{height:360px}
- .flight-anchor{top:58%}
-
- .flight-position{gap:12px;padding:11px 12px;grid-template-columns:.95fr 1.35fr}
- .flight-position>div{display:block}
+ .flight-position{width:calc(100% - 24px);bottom:12px;padding:10px 12px;gap:9px 12px;grid-template-columns:1fr 1.15fr}
  .flight-position>div+div{padding-left:12px}
- .flight-position b{display:block;margin-top:2px;font-size:20px}
+ .flight-position>div:nth-child(3){padding-left:0;border-left:0}
+ .flight-position span{font-size:9px}
+ .flight-position b{font-size:16px}
 }
-
-.flight-altitude{display:block;margin-top:5px;padding-top:5px;border-top:1px solid #e0e8ee;font-size:10px;line-height:1.5;color:#698295}
-.flight-altitude strong{margin-left:4px;font-size:13px;font-weight:600;color:#315e81;font-variant-numeric:tabular-nums}
 
 .flight-boundary-label{position:absolute;left:16px;top:16px;display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:4px;background:#fff;color:#346c96;font-size:11px;font-weight:600;line-height:1.5;pointer-events:none}
 .flight-boundary-label i{display:block;width:22px;border-top:2px dashed #3476a6}
 
 /* Emphasize only the values that change basis, using simulation time so pause freezes the cue. */
-.flight-position b{border-radius:2px;background:rgba(91,154,214,var(--basis-emphasis,0));box-shadow:0 0 0 4px rgba(91,154,214,var(--basis-emphasis,0))}
-
-@media(max-width:760px){#flight-tile{font-size:16px;line-height:1.75}}
+#flight-tile,#flight-local{border-radius:2px;background:rgba(91,154,214,var(--basis-emphasis,0));box-shadow:0 0 0 4px rgba(91,154,214,var(--basis-emphasis,0))}

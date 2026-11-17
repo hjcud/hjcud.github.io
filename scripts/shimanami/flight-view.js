@@ -1,4 +1,4 @@
-import {coordinateFrame,TILE_SIZE,groundDashes,terrainScale,aircraftToWorld} from './flight-model.js?v=world-anchored';
+import {coordinateFrame,TILE_SIZE,groundDashes,terrainScale,aircraftToWorld} from './flight-model.js?v=low-flight';
 import {createAircraftRenderer,aircraftTriangles} from './flight-aircraft.js?v=balanced-view';
 
 const canvas=document.getElementById('flight-canvas');
@@ -51,11 +51,11 @@ function cacheAircraft(){
  }
 }
 function drawShadow(state,project,basis,scale){
- const altitude=Math.max(0,Math.min(1,(state.altitude-550)/200));
+ const altitude=Math.max(0,Math.min(1,(state.altitude-4)/8));
  // Keep the shadow close beneath the aircraft, with a small directional offset.
- const offset=Math.min(width*.07,state.altitude*.035)/(Math.SQRT2*scale);
+ const offset=Math.min(width*.07,18+state.altitude*.65)/(Math.SQRT2*scale);
  const ground=project(state.world-offset,0,-offset);
- ctx.save();ctx.globalAlpha=.24-altitude*.05;ctx.filter=`blur(${1.7+altitude*1.6}px)`;
+ ctx.save();ctx.globalAlpha=.24-altitude*.05;ctx.filter=`blur(${1.4+altitude*2.3}px)`;
  ctx.transform(basis.xx,basis.xy,basis.zx,basis.zy,...ground);
  ctx.drawImage(shadowLayer,-aircraftPadding,-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
  ctx.restore();
@@ -84,9 +84,9 @@ function drawGroundLabels(project,shoreAt,basis,scale,from,to,reach){
 }
 function draw(){
  const state=coordinateFrame(time),scale=terrainScale(width);
- const center=width/2,groundY=height*.45+(state.altitude-650)*.1,aircraftY=height*.34;
+ const center=width/2,groundY=height*.45+(state.altitude-8)*3.8,aircraftY=height*.34;
  cacheAircraft();
- const tilt=state.pitch*1.4,c=Math.cos(tilt),s=Math.sin(tilt);
+ const tilt=state.pitch*1.8,c=Math.cos(tilt),s=Math.sin(tilt);
  // Scale the displayed altitude for a legible tracking view, then rotate the
  // environment opposite the climb around the fixed aircraft reference point.
  const cameraHeight=(groundY-aircraftY)/(.866*scale);
@@ -161,7 +161,7 @@ function draw(){
  const emphasis=Math.max(0,1-(time-basisChangedAt)/1.25)*.18;
  position.style.setProperty('--basis-emphasis',emphasis.toFixed(3));
  tileLabel.textContent=`(${state.tile}, 0)`;
- altitudeLabel.textContent=`${Math.round(state.altitude)} m`;
+ altitudeLabel.textContent=`${state.altitude.toFixed(1)} m`;
  const local=Math.trunc(state.local);
  localLabel.textContent=`X ${local<0?'−':'+'}${Math.abs(local).toLocaleString('ko-KR')}`;
  canvas.dataset.time=time.toFixed(3);canvas.dataset.tile=String(state.tile);

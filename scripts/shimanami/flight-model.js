@@ -4,15 +4,16 @@ export function splitCoordinate(value){
  const tile=Math.floor((value+TILE_SIZE/2)/TILE_SIZE);
  return {tile,local:value-tile*TILE_SIZE};
 }
-// Continuous forward flight. Slow down near a boundary without ever stopping.
+// Continuous illustrative flight, with only a small speed variation at tile boundaries.
 export function coordinateFrame(time){
- const duration=18,cycle=Math.floor(time/duration),phase=time-cycle*duration;
- const angle=phase/duration*Math.PI*2,baseSpeed=TILE_SIZE/duration,minSpeed=220;
+ const duration=12,cycle=Math.floor(time/duration),phase=time-cycle*duration;
+ const angle=phase/duration*Math.PI*2,baseSpeed=TILE_SIZE/duration,minSpeed=760;
  const amplitude=(baseSpeed-minSpeed)*duration/(Math.PI*2);
  const world=cycle*TILE_SIZE+baseSpeed*phase+amplitude*Math.sin(angle);
  const speed=baseSpeed+(baseSpeed-minSpeed)*Math.cos(angle);
- const altitude=650+100*Math.sin(time*.22),climb=22*Math.cos(time*.22);
- return {world,...splitCoordinate(world),speed,altitude,pitch:Math.atan2(climb,speed),step:phase>=6&&phase<13.5?2:1};
+ // Low flight height and attitude are visual cues, not an aerodynamic simulation.
+ const altitude=8+4*Math.sin(time*.4),pitch=.075*Math.cos(time*.4);
+ return {world,...splitCoordinate(world),speed,altitude,pitch,step:phase>=4&&phase<8?2:1};
 }
 // Dash endpoints are terrain coordinates. View culling must never restart the pattern.
 export function* groundDashes(min,max){
