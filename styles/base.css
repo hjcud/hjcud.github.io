@@ -237,6 +237,19 @@ img{height:auto}.image-button img{height:auto}.timeline-lane .track.triple{heigh
 .tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"]){--tech-logo:url("../assets/tech/ai-skills.svg")}
 .tech-badge:is([data-skill="harness"],[data-tech="harness"]){--tech-logo:url("../assets/tech/harness.svg")}
 
+/* Shared AI accent: slow blue-violet color flow, without changing badge geometry. */
+.tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"],[data-skill="harness"],[data-tech="harness"]){--tech-ink:#315dc6;--tech-tint:#edf1fc;--ai-accent:linear-gradient(110deg,#245acb 0%,#6941bf 36%,#216fa7 68%,#245acb 100%)}
+.tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"],[data-skill="harness"],[data-tech="harness"]) :is(.tech-name,.tech-mark){background-image:var(--ai-accent);background-size:240% 100%;animation:ai-accent-flow 7s ease-in-out infinite alternate}
+@supports (background-clip:text){
+ .tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"],[data-skill="harness"],[data-tech="harness"]) .tech-name{color:transparent;background-clip:text;-webkit-background-clip:text}
+}
+@keyframes ai-accent-flow{from{background-position:0% 50%}to{background-position:100% 50%}}
+@media(prefers-reduced-motion:reduce){.tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"],[data-skill="harness"],[data-tech="harness"]) :is(.tech-name,.tech-mark){animation:none;background-position:50% 50%}}
+@media(forced-colors:active),print{
+ .tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"],[data-skill="harness"],[data-tech="harness"]) :is(.tech-name,.tech-mark){animation:none;background-image:none}
+ .tech-badge:is([data-skill="ai-skills"],[data-tech="ai-skills"],[data-skill="harness"],[data-tech="harness"]) .tech-name{color:CanvasText}
+}
+
 /* Reserve a leading label gutter; only the dated bar represents duration. */
 .timeline-grid{min-width:900px}
 .time-axis,.timeline-lane{grid-template-columns:220px minmax(0,1fr)}
