@@ -66,15 +66,22 @@ function draw(){
   const far=top?reach:-reach;
   polygon([...lip,project(to,180,far),project(from,180,far)],'#bfd2c3');
  }
- // Keep the one explanatory boundary visible over both water and land.
- // A white casing separates the dashed blue line from every terrain color.
- if(state.step===2){
-  const boundary=(Math.floor(time/18)+.5)*TILE_SIZE;
-  const a=project(boundary,0,-reach),b=project(boundary,0,reach);
-  ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.setLineDash([11,7]);
-  ctx.lineCap='round';ctx.strokeStyle='#ffffff';ctx.lineWidth=5.5;ctx.stroke();
+ // Tile boundaries remain visible throughout the flight. Follow the raised
+ // shore instead of projecting the land portion down at sea level.
+ const shoreAt=(x,top)=>{
+  const sample=a=>top?3400+850*Math.sin(a/2800)+280*Math.sin(a/1100):-4100+500*Math.sin(a/2400+.8);
+  const left=Math.floor(x/400)*400,t=(x-left)/400;
+  return sample(left)*(1-t)+sample(left+400)*t;
+ };
+ for(let tile=Math.floor(from/TILE_SIZE);tile<=Math.ceil(to/TILE_SIZE);tile++){
+  const boundary=(tile+.5)*TILE_SIZE,lower=shoreAt(boundary,false),upper=shoreAt(boundary,true);
+  const points=[[-reach,180],[lower,180],[lower,0],[upper,0],[upper,180],[reach,180]].map(([z,y])=>project(boundary,y,z));
+  if(points.every(p=>p[0]<-4)||points.every(p=>p[0]>width+4)||points.every(p=>p[1]<-4)||points.every(p=>p[1]>height+4))continue;
+  ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
+  ctx.setLineDash([11,7]);ctx.lineCap='round';ctx.lineJoin='round';
+  ctx.strokeStyle='#ffffff';ctx.lineWidth=5.5;ctx.stroke();
   ctx.strokeStyle='#3476a6';ctx.lineWidth=2.5;ctx.stroke();
-  ctx.setLineDash([]);ctx.lineCap='butt';
+  ctx.setLineDash([]);ctx.lineCap='butt';ctx.lineJoin='miter';
  }
  // A soft shadow is enough to establish height; avoid extra rings and axes on the sea.
  ctx.save();ctx.translate(center,groundY);ctx.rotate(Math.atan2(.25,.866));
