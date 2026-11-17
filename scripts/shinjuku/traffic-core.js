@@ -28,10 +28,10 @@ function changePose(lane,s,change){
 }
 export class TrafficSimulation{
  constructor({incidents=false}={}){
-  this.enableIncidents=incidents;this.incident=null;this.nextIncidentAt=0;this.observedId=9;this.completedRecoveries=0;
+  this.enableIncidents=incidents;this.incident=null;this.nextIncidentAt=0;this.observedId=9;this.completedRecoveries=0;this.incidentCount=0;
   this.time=140;this.completedChanges=0;this.stops=0;this.cars=[];this.people=[];this.signal='green';this.phase=140;
   const seeds=[[1,108],[1,132],[0,36],[2,18],[2,173],[0,220],[3,28],[3,96],[4,48],[4,185],[5,10],[5,125],[4,238],[0,115]];
-  this.cars=seeds.map(([lane,s],id)=>({id,lane,spawnLane:lane,s,v:id===1?3.2:6.8,cruise:id===1?3.2:7.2+(id%3)*.35,length:id===1?8:4.2,change:null,cooldown:0,reason:'cruise',sensor:{reach:12,castReach:12,halfWidth:1.2,hit:false,personId:null,point:null},recovery:null,blockedFor:0,pos:sample(lane,s),active:true}));
+  this.cars=seeds.map(([lane,s],id)=>({id,lane,spawnLane:lane,s,v:id===1?3.2:6.8,cruise:id===1?3.2:7.2+(id%3)*.35,length:id===1?8:4.2,change:null,cooldown:0,reason:'cruise',sensor:{enabled:true,reach:12,castReach:12,halfWidth:1.2,hit:false,personId:null,point:null},recovery:null,blockedFor:0,pos:sample(lane,s),active:true}));
   this.lastDt=0;this.updateSignal();this.updatePeople();
  }
  updateSignal(){
@@ -52,11 +52,11 @@ export class TrafficSimulation{
   }
   if(this.incident){
    const e=this.incident,target=this.cars.find(c=>c.id===e.carId);
-   if(target&&(!target.active||target.pos.x>e.x+10))e.released=true;
+   if((target&&(!target.active||target.pos.x>e.x+10))||this.time-e.startedAt>28)e.released=true;
    if(e.released)e.z+=1.8*this.lastDt;
    else e.z=Math.max(e.holdZ,e.z-7*this.lastDt);
    const moving=e.released||e.z>e.holdZ;
-   if(e.z>52){this.incident=null;this.nextIncidentAt=this.time+20;}
+   if(e.z>52){this.incident=null;this.nextIncidentAt=this.time+6;}
    else this.people.push({id:100,x:e.x,z:e.z,heading:e.released?0:Math.PI,moving,crossing:e.z>=-13&&e.z<=13,radius:.6,incident:true});
   }
   this.walk=this.people.some(person=>person.crossing);
@@ -108,11 +108,33 @@ export class TrafficSimulation{
  }
  // A staged intrusion makes the original stop/reverse/recovery conditions observable.
  beginIncident(){
-  if(!this.enableIncidents||this.incident||this.time<this.nextIncidentAt||this.signal!=='green')return;
+  if(!this.enableIncidents||this.incident||this.time<this.nextIncidentAt||this.signal!=='green'||this.remaining<28)return;
   const car=this.cars.find(c=>c.id===this.observedId);
-  if(!car?.active||car.lane<3||car.lane>5||car.change||car.recovery||car.pos.x<30||car.pos.x>37||car.v>3.2)return;
-  const point=sample(car.lane,car.s+36);
-  this.incident={carId:car.id,x:point.x,z:36,holdZ:point.z,released:false};
+  if(!car?.active||car.lane<3||car.lane>5||car.change||car.recovery||car.pos.x<18||car.pos.x>38)return;
+  // Allow moving vehicles as well as the initial queue: reserve time to enter and brake.
+  const ahead=sample(car.lane,car.s+40),entryTime=Math.max(0,(32-ahead.z-1.8)/7);
+  const reserve=car.v*entryTime+car.v*car.v/6+car.length/2+2;
+  const distance=Math.max(36,65-car.pos.x,reserve),point=sample(car.lane,car.s+distance);
+  if(point.x>76)return;
+  this.incident={carId:car.id,x:point.x,z:32,holdZ:point.z,released:false,startedAt:this.time};this.incidentCount++;
+ }
+ waitingAtSignal(car){
+  if(this.signal==='green'||!car.active||Math.abs(car.v)>.1||car.change||car.recovery)return false;
+  let queued=car;
+  for(let count=0;count<this.cars.length;count++){
+   if(Math.abs(queued.v)>.1||queued.change||queued.recovery||queued.reason==='person')return false;
+   const stop=lanes[queued.lane].stop,gap=stop-queued.s-queued.length/2;
+   if(stop<0||gap<-.2)return false;
+   if(gap<=.5)return true;
+   const ahead=this.gapAhead(queued,queued.lane,queued.s);
+   if(!ahead.leader||ahead.gap>1)return false;
+   queued=ahead.leader;
+  }
+  return false;
+ }
+ forwardSensor(car){
+  if(this.waitingAtSignal(car))return {enabled:false,reach:0,castReach:0,halfWidth:1.2,hit:false,personId:null,point:null,path:[]};
+  return this.sense(car);
  }
  sense(car,direction=1,maxReach=null){
   const frontOf=p=>({x:p.x+Math.cos(p.angle)*direction*car.length/2,z:p.z+Math.sin(p.angle)*direction*car.length/2});
@@ -125,7 +147,7 @@ export class TrafficSimulation{
     path.push(frontOf(p));
    }
   }else path.push({x:front.x+Math.cos(car.pos.angle)*direction*castReach,z:front.z+Math.sin(car.pos.angle)*direction*castReach});
-  const sensor={front,direction,castReach,reach:castReach,halfWidth,hit:false,personId:null,point:null,path:[front]};
+  const sensor={enabled:true,front,direction,castReach,reach:castReach,halfWidth,hit:false,personId:null,point:null,path:[front]};
   let travel=0;
   for(let i=1;i<path.length&&travel<castReach;i++){
    const a=path[i-1],b=path[i],length=Math.hypot(b.x-a.x,b.z-a.z);if(length<1e-6)continue;
@@ -212,7 +234,7 @@ export class TrafficSimulation{
     car.change={to:r.to,targetS,travel:0,length:10,recovery:true};car.recovery=null;
    }
   }
-  car.sensor=this.sense(car);return true;
+  car.sensor=this.forwardSensor(car);return true;
  }
  step(dt){
   this.lastDt=dt;this.time+=dt;this.updateSignal();this.beginIncident();this.updatePeople();
@@ -238,7 +260,7 @@ export class TrafficSimulation{
    const canBrake=stopGap>car.v*car.v/6;
    if(lane.stop>=0&&stopGap>=-.05&&(this.signal==='red'||this.signal==='yellow'&&canBrake)&&stopGap<gap){gap=Math.max(0,stopGap);leader=null;reason='signal';}
    // Swept front rectangle against pedestrian circles, including the nearest contact point.
-   car.sensor=this.sense(car);
+   car.sensor=this.forwardSensor(car);
    if(car.sensor.hit&&car.sensor.reach-.9<gap){gap=Math.max(0,car.sensor.reach-.9);leader=null;reason='person';}
    if(leader)limit=Math.min(limit,Math.max(0,leader.v+(gap-car.v*1.2)/2));
    limit=Math.min(limit,Math.sqrt(Math.max(0,2*2.7*(gap-.15))));
@@ -255,7 +277,7 @@ export class TrafficSimulation{
     car.pos=changePose(car.lane,car.s,ch);
     if(ch.travel>=ch.length){car.lane=ch.to;car.s=ch.targetS;car.change=null;this.completedChanges++;if(ch.recovery)this.completedRecoveries++;}
    }else car.pos=sample(car.lane,car.s);
-   car.sensor=this.sense(car);
+   car.sensor=this.forwardSensor(car);
    if(car.s>lanes[car.lane].length-car.length){car.active=false;car.change=null;}
   }
  }

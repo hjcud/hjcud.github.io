@@ -12,7 +12,7 @@ const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
 async function init(){
  if(ready)return;ready=true;
  try{
-  core=await import('./traffic-core.js?v=pedestrian-recovery');resetSimulation();
+  core=await import('./traffic-core.js?v=signal-wait-repeat');resetSimulation();
   background=new Image();background.src='assets/shinjuku/road.svg?v=compact-road';await background.decode();
   resize();updateUI();schedule();
  }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';console.error(error);}
@@ -48,7 +48,9 @@ function inFrame(car){
 function chooseFocus(actors){
  const current=actors.find(car=>car.id===focusId&&inFrame(car));
  if(current){sim.observedId=current.id;return current;}
- const next=actors.filter(inFrame).sort((a,b)=>Math.abs(a.pos.x-52)-Math.abs(b.pos.x-52))[0];
+ const candidates=actors.filter(inFrame);
+ const incoming=candidates.filter(car=>car.lane>=3&&car.lane<=5&&car.pos.x<=38);
+ const next=(incoming.length?incoming:candidates).sort((a,b)=>Math.abs(a.pos.x-28)-Math.abs(b.pos.x-28))[0];
  if(next){focusId=next.id;sim.observedId=next.id;updateLegend();}
  return next;
 }
@@ -68,7 +70,7 @@ function drawDistance(lane,from,to,offset,dashed,car=null,leader=null,gap=null){
  if(car&&leader){
   const ends=[{x:car.pos.x+Math.cos(car.pos.angle)*car.length/2,z:car.pos.z+Math.sin(car.pos.angle)*car.length/2},{x:leader.pos.x-Math.cos(leader.pos.angle)*leader.length/2,z:leader.pos.z-Math.sin(leader.pos.angle)*leader.length/2}];
   ends.forEach((end,i)=>{const p=project(end),q=i?points.at(-1):points[0];ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();ctx.beginPath();ctx.arc(p.x,p.y,.9,0,Math.PI*2);ctx.fillStyle='#317fac';ctx.fill();});
-  const mid=lanePoint(lane,(from+to)/2,offset-1.25),x=mid.x*scale+offsetX,y=mid.y*scale+offsetY;
+  const mid=lanePoint(lane,(from+to)/2,offset-2.2),x=mid.x*scale+offsetX,y=mid.y*scale+offsetY;
   if(x>32&&x<width-32&&y>42&&y<height-43){
    const text=`앞차 ${gap.toFixed(1)} m`,font=(width<600?10:11)/scale;ctx.font=`600 ${font}px system-ui,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
    const w=ctx.measureText(text).width+7/scale,h=15/scale;roundRect(mid.x-w/2,mid.y-h/2,w,h,2/scale,'#ffffffef');ctx.fillStyle='#2d7099';ctx.fillText(text,mid.x,mid.y);
@@ -77,7 +79,7 @@ function drawDistance(lane,from,to,offset,dashed,car=null,leader=null,gap=null){
  ctx.restore();
 }
 function drawSensor(car){
- const sensor=car.sensor,path=sensor.path;if(!path?.length||path.length<2)return;
+ const sensor=car.sensor,path=sensor.path;if(sensor.enabled===false||!path?.length||path.length<2)return;
  const left=[],right=[];
  path.forEach((p,i)=>{
   const before=path[Math.max(0,i-1)],after=path[Math.min(path.length-1,i+1)],angle=Math.atan2(after.z-before.z,after.x-before.x);
@@ -115,9 +117,10 @@ function drawFocusState(car){
  }
 }
 function updateLegend(){
- const car=sim.cars.find(car=>car.id===focusId),hit=inFrame(car)&&car.sensor.hit;
+ const car=sim.cars.find(car=>car.id===focusId),hit=inFrame(car)&&car.sensor.hit,inactive=inFrame(car)&&car.sensor.enabled===false;
  $('traffic-detection').classList.toggle('is-hit',hit);
- $('traffic-detection-label').textContent=hit?'보행자 감지':'BoxCast 감지';
+ $('traffic-detection').classList.toggle('is-inactive',inactive);
+ $('traffic-detection-label').textContent=inactive?'신호 대기: 감지 끔':hit?'보행자 감지':'BoxCast 감지';
 }
 function draw(){
  if(!sim||!cache)return;
@@ -146,12 +149,12 @@ function draw(){
   }
   ctx.restore();
  }
- if(focus){const reading=sim.observe(focus);if(reading.leaderRearS!==null&&reading.leaderGap>.1){const leader=sim.cars.find(c=>c.id===reading.leaderId);drawDistance(reading.leaderLane,reading.leaderFromS,reading.leaderRearS,-1.8,false,focus,leader,reading.leaderGap);}}
+ if(focus){const reading=sim.observe(focus);if(reading.leaderRearS!==null&&reading.leaderGap>.1){const leader=sim.cars.find(c=>c.id===reading.leaderId);drawDistance(reading.leaderLane,reading.leaderFromS,reading.leaderRearS,0,false,focus,leader,reading.leaderGap);}}
  drawFocusState(focus);updateLegend();
  canvas.dataset.focus=String(focusId);canvas.dataset.focusState=focus?.reason||'outside';
- canvas.dataset.sensorHit=String(!!focus?.sensor.hit);canvas.dataset.sensorReach=String(focus?.sensor.reach??0);canvas.dataset.sensorRange=String(focus?.sensor.castReach??0);canvas.dataset.sensorPerson=String(focus?.sensor.personId??'');
+ canvas.dataset.sensorEnabled=String(!!focus&&focus.sensor.enabled!==false);canvas.dataset.sensorHit=String(!!focus?.sensor.hit);canvas.dataset.sensorReach=String(focus?.sensor.reach??0);canvas.dataset.sensorRange=String(focus?.sensor.castReach??0);canvas.dataset.sensorPerson=String(focus?.sensor.personId??'');
  canvas.dataset.leaderGap=String(focus?sim.observe(focus).leaderGap??'':'');canvas.dataset.recovery=focus?.recovery?.phase||(focus?.change?.recovery?'change':'');
- canvas.dataset.recoveries=String(sim.completedRecoveries);
+ canvas.dataset.recoveries=String(sim.completedRecoveries);canvas.dataset.incidents=String(sim.incidentCount);
 }
 function person(p){
  const q=project(p),swing=p.moving?Math.sin(sim.time*4.2+p.id*.7):0;
