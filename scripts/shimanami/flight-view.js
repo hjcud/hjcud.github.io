@@ -53,14 +53,6 @@ function draw(){
  const x0=(state.tile-.5)*TILE_SIZE,z0=-TILE_SIZE/2;
  const currentTile=[[x0,z0],[x0+TILE_SIZE,z0],[x0+TILE_SIZE,z0+TILE_SIZE],[x0,z0+TILE_SIZE]].map(([x,z])=>project(x,0,z));
  polygon(currentTile,'#deebf3');
- // Only the boundary being crossed is relevant to the explanation. Draw it on
- // the water first so continuous, raised terrain naturally occludes it.
- if(state.step===2){
-  const boundary=(Math.floor(time/18)+.5)*TILE_SIZE;
-  const a=project(boundary,0,-TILE_SIZE/2),b=project(boundary,0,TILE_SIZE/2);
-  ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);
-  ctx.setLineDash([7,7]);ctx.strokeStyle='#719ab4';ctx.lineWidth=1.5;ctx.stroke();ctx.setLineDash([]);
- }
  // Paint each shoreline once, across tiles. Ground-tile clipping previously
  // sliced the elevated edges and left visible seams at the coordinate boundary.
  for(const top of [true,false]){
@@ -73,6 +65,16 @@ function draw(){
   polygon([...coast.map(([x,z])=>project(x,0,z)),...lip.slice().reverse()],'#a6bdad');
   const far=top?reach:-reach;
   polygon([...lip,project(to,180,far),project(from,180,far)],'#bfd2c3');
+ }
+ // Keep the one explanatory boundary visible over both water and land.
+ // A white casing separates the dashed blue line from every terrain color.
+ if(state.step===2){
+  const boundary=(Math.floor(time/18)+.5)*TILE_SIZE;
+  const a=project(boundary,0,-reach),b=project(boundary,0,reach);
+  ctx.beginPath();ctx.moveTo(...a);ctx.lineTo(...b);ctx.setLineDash([11,7]);
+  ctx.lineCap='round';ctx.strokeStyle='#ffffff';ctx.lineWidth=5.5;ctx.stroke();
+  ctx.strokeStyle='#3476a6';ctx.lineWidth=2.5;ctx.stroke();
+  ctx.setLineDash([]);ctx.lineCap='butt';
  }
  // A soft shadow is enough to establish height; avoid extra rings and axes on the sea.
  ctx.save();ctx.translate(center,groundY);ctx.rotate(Math.atan2(.25,.866));
