@@ -1,5 +1,5 @@
-import {coordinateFrame,TILE_SIZE,groundDashes,terrainScale} from './flight-model.js?v=world-anchored';
-import {createAircraftRenderer} from './flight-aircraft.js?v=balanced-view';
+import {coordinateFrame,TILE_SIZE,groundDashes,terrainScale,aircraftToWorld} from './flight-model.js?v=world-anchored';
+import {createAircraftRenderer,aircraftTriangles} from './flight-aircraft.js?v=balanced-view';
 
 const canvas=document.getElementById('flight-canvas');
 const ctx=canvas.getContext('2d',{alpha:false});
@@ -19,6 +19,7 @@ const pose={yaw:Math.PI/2,pitch:0,roll:0};
 const drawAircraft=createAircraftRenderer();
 const aircraftLayer=document.createElement('canvas');
 const aircraftContext=aircraftLayer.getContext('2d');
+const shadowLayer=document.createElement('canvas'),shadowContext=shadowLayer.getContext('2d');
 let aircraftPadding=1,cachedZoom=0,cachedDpr=0;
 // Symmetric tracking view: forward length and lateral span use equal foreshortening.
 function iso(x,y,z){return [Math.SQRT1_2*(x+z),Math.SQRT1_2*.5*(x-z)-y*.866];}
@@ -34,6 +35,30 @@ function cacheAircraft(){
  drawAircraft(aircraftContext,pose,p=>{
   const q=iso(...p);return [aircraftPadding+q[0]*zoom,aircraftPadding+q[1]*zoom];
  },dpr);
+ // Cache the top-down union of the actual model parts, with height flattened.
+ // The main canvas then projects this footprint onto the moving ground plane.
+ shadowLayer.width=side;shadowLayer.height=side;
+ shadowContext.setTransform(dpr,0,0,dpr,0,0);
+ shadowContext.fillStyle='#354e5c';
+ for(const triangle of aircraftTriangles){
+  shadowContext.beginPath();
+  triangle.points.forEach((p,i)=>{
+   const [x,,z]=aircraftToWorld(p,pose);
+   const u=aircraftPadding+x*zoom*.74,v=aircraftPadding+z*zoom*.74;
+   if(i===0)shadowContext.moveTo(u,v);else shadowContext.lineTo(u,v);
+  });
+  shadowContext.closePath();shadowContext.fill();
+ }
+}
+function drawShadow(state,project,basis,scale){
+ const altitude=Math.max(0,Math.min(1,(state.altitude-550)/200));
+ // Keep the illustrative light offset clear of the coordinate readout.
+ const offset=Math.min(width*.25,state.altitude*.15)/(Math.SQRT2*scale);
+ const ground=project(state.world-offset,0,-offset);
+ ctx.save();ctx.globalAlpha=.24-altitude*.07;ctx.filter=`blur(${2.3+altitude*2.5}px)`;
+ ctx.transform(basis.xx,basis.xy,basis.zx,basis.zy,...ground);
+ ctx.drawImage(shadowLayer,-aircraftPadding,-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
+ ctx.restore();
 }
 function polygon(points,fill,stroke,lineWidth=1){
  ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();
@@ -99,6 +124,7 @@ function draw(){
   const left=Math.floor(x/400)*400,t=(x-left)/400;
   return sample(left)*(1-t)+sample(left+400)*t;
  };
+ drawShadow(state,project,basis,scale);
  // Build dashes in world space, not with a screen-space line-dash phase.
  // Both axes and every intersection retain their pattern while the camera moves.
  ctx.beginPath();
