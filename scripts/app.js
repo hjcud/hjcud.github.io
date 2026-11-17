@@ -172,7 +172,7 @@ const gallery={
  cockpit:['shimanami/cockpit.webp','Shimanami Ekranoplan / 조종석'],
  'i2s-editor':['idea2strategy/strategy-editor.png','Idea2Strategy / 복합 전략 구성 (라이트 모드, 70% 배율)'],
  'i2s-home':['idea2strategy/strategy-list.png','Idea2Strategy / 전략 목록 (라이트 모드, 시연 데이터)'],
- 'i2s-backtest':['idea2strategy/backtest.png','Idea2Strategy / 백테스트 차트와 체결 표 (라이트 모드, 시연 데이터)']
+ 'i2s-backtest':['idea2strategy/backtest.png?v=reviewed-ui','Idea2Strategy / 백테스트 차트와 체결 표 (라이트 모드, 시연 데이터)']
 };
 $$('[data-gallery]').forEach(button=>button.addEventListener('click',()=>{
  const [src,title]=gallery[button.dataset.gallery];const img=new Image();img.src='assets/'+src;img.alt=title;openDialog(title,img,button);
@@ -189,6 +189,8 @@ for(const config of [
  {id:'i2s',slides:[['i2s-editor','조건을 블록으로 조합하는 전략 편집기','가격, RSI, 거래량 같은 조건과 매수 및 매도 비중을 설정해 투자 전략을 구성합니다.'],['i2s-backtest','과거 시세로 전략을 검증하는 백테스트','기간을 정해 전략을 시험하고, 수익 변화 차트와 거래 내역으로 결과를 확인합니다.'],['i2s-home','작성한 전략을 모아 보는 전략 목록','저장한 전략과 작성 상태를 확인하고, 전략을 선택해 다시 편집합니다.']]}
 ]){
  const carousel=$('#'+config.id+'-carousel'),images=$$('.carousel-image',carousel);
+ const interactionRoot=config.id==='i2s'?carousel.closest('.project-visual'):carousel;
+ const choices=$$('[data-i2s-slide]',interactionRoot);
  let index=0,visible=false,hover=false,focused=false;
  function show(next,manual=false){
   index=(next+config.slides.length)%config.slides.length;
@@ -200,11 +202,13 @@ for(const config of [
   const description=$('#'+config.id+'-slide-description'),count=$('#'+config.id+'-slide-count');
   if(description)description.textContent=config.slides[index][2];
   if(count)count.textContent=(index+1)+' / '+config.slides.length;
+  choices.forEach(choice=>choice.setAttribute('aria-pressed',String(Number(choice.dataset.i2sSlide)===index)));
   if(manual)$('#'+config.id+'-slide-status').textContent=caption+', '+(index+1)+' / '+config.slides.length;
  }
- carousel.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();show(index+(event.key==='ArrowRight'?1:-1),true);}});
- carousel.addEventListener('mouseenter',()=>hover=true);carousel.addEventListener('mouseleave',()=>hover=false);
- carousel.addEventListener('focusin',()=>focused=true);carousel.addEventListener('focusout',e=>{if(!carousel.contains(e.relatedTarget))focused=false;});
+ choices.forEach(choice=>choice.addEventListener('click',()=>show(Number(choice.dataset.i2sSlide),true)));
+ interactionRoot.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();show(index+(event.key==='ArrowRight'?1:-1),true);}});
+ interactionRoot.addEventListener('mouseenter',()=>hover=true);interactionRoot.addEventListener('mouseleave',()=>hover=false);
+ interactionRoot.addEventListener('focusin',()=>focused=true);interactionRoot.addEventListener('focusout',e=>{if(!interactionRoot.contains(e.relatedTarget))focused=false;});
  new IntersectionObserver(e=>{visible=e[0].isIntersecting;},{threshold:.25}).observe(carousel);
  setInterval(()=>{if(visible&&!reducedMotion.matches&&!hover&&!focused&&!document.hidden&&!dialog.open)show(index+1);},5000);
 }
