@@ -14,6 +14,14 @@ export function coordinateFrame(time){
  const altitude=650+100*Math.sin(time*.22),climb=22*Math.cos(time*.22);
  return {world,...splitCoordinate(world),speed,altitude,pitch:Math.atan2(climb,speed),step:phase>=6&&phase<13.5?2:1};
 }
+// Dash endpoints are terrain coordinates. View culling must never restart the pattern.
+export function* groundDashes(min,max){
+ for(let i=Math.floor(min/500)-1;i<=Math.ceil(max/500)+1;i++){
+  const start=i*500-150,end=start+300;
+  if(end>=min&&start<=max)yield [start,end];
+ }
+}
+export function terrainScale(width){return Math.max(160,Math.min(760,width*.68))/TILE_SIZE;}
 export function remoteTarget(receivedTile,local,displayedTile){return local+(receivedTile-displayedTile)*TILE_SIZE;}
 // External tracking view: inverse of worldToAircraft, without translation.
 export function aircraftToWorld([x,y,z],pose){

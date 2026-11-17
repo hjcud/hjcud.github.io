@@ -3,17 +3,18 @@ import {aircraftToWorld} from './flight-model.js';
 // Small, closed convex parts. Triangles are baked once, not sorted every frame.
 // Per-pixel depth avoids intersecting wings/fuselage changing painter order.
 export const aircraftTriangles=[];
-function face(points,color,part){
+const AIRCRAFT_RGB=[134,164,184];
+function face(points,part){
  const p=points.map(v=>v.map(n=>n*1.4));
- const rgb=[1,3,5].map(i=>parseInt(color.slice(i,i+2),16));
+ const rgb=AIRCRAFT_RGB;
  for(let i=1;i<p.length-1;i++)aircraftTriangles.push({points:[p[0],p[i],p[i+1]],rgb,part});
 }
-function prism(outline,bottom,top,color,part){
- face(outline.map(([x,z])=>[x,top,z]),color,part);
- face(outline.map(([x,z])=>[x,bottom,z]).reverse(),'#8399aa',part);
+function prism(outline,bottom,top,part){
+ face(outline.map(([x,z])=>[x,top,z]),part);
+ face(outline.map(([x,z])=>[x,bottom,z]).reverse(),part);
  for(let i=0;i<outline.length;i++){
   const a=outline[i],b=outline[(i+1)%outline.length];
-  face([[a[0],bottom,a[1]],[b[0],bottom,b[1]],[b[0],top,b[1]],[a[0],top,a[1]]],i%2?'#879dac':'#acbeca',part);
+  face([[a[0],bottom,a[1]],[b[0],bottom,b[1]],[b[0],top,b[1]],[a[0],top,a[1]]],part);
  }
 }
 // Rounded, tapered hull with a boat-like underside instead of a flat slab.
@@ -22,33 +23,28 @@ const hullRings=sections.map(([z,w,y,h])=>Array.from({length:12},(_,i)=>{
  const a=i/12*Math.PI*2;return [Math.cos(a)*w,y+Math.sin(a)*h,z];
 }));
 for(let j=0;j<hullRings.length-1;j++)for(let i=0;i<12;i++){
- const a=(i+.5)/12*Math.PI*2,light=.79+.19*Math.sin(a)+.07*Math.cos(a);
- const color='#'+[197,213,223].map(v=>Math.round(v*light).toString(16).padStart(2,'0')).join('');
- face([hullRings[j][i],hullRings[j][(i+1)%12],hullRings[j+1][(i+1)%12],hullRings[j+1][i]],color,'hull');
+ face([hullRings[j][i],hullRings[j][(i+1)%12],hullRings[j+1][(i+1)%12],hullRings[j+1][i]],'hull');
 }
-face(hullRings[0].slice().reverse(),'#7c96a9','hull');
-face(hullRings.at(-1),'#adc3d2','hull');
+face(hullRings[0].slice().reverse(),'hull');
+face(hullRings.at(-1),'hull');
 // Separate convex wings prevent a triangle fan from filling the concave gap.
-prism([[-6,4],[-47,-12],[-47,-20],[-6,-14]],0,2,'#bdcfdc','wing');
-prism([[6,4],[47,-12],[47,-20],[6,-14]],0,2,'#bdcfdc','wing');
-for(const side of [-1,1])face([[side*8,2.12,-11.6],[side*45,2.12,-18],[side*45,2.12,-19],[side*8,2.12,-13]],'#91aabd','wing-flap');
-prism([[-3,-26],[-21,-31],[-21,-37],[21,-37],[21,-31],[3,-26]],19,21,'#c6d9e6','tail');
+prism([[-6,4],[-47,-12],[-47,-20],[-6,-14]],0,2,'wing');
+prism([[6,4],[47,-12],[47,-20],[6,-14]],0,2,'wing');
+prism([[-3,-26],[-21,-31],[-21,-37],[21,-37],[21,-31],[3,-26]],19,21,'tail');
 // Closed fin with both sides, leading/trailing edges and thickness.
 const fin=[[5,-25],[19,-28],[19,-37],[3,-38]];
-face(fin.map(([y,z])=>[-1.4,y,z]),'#7794aa','tail');
-face(fin.map(([y,z])=>[1.4,y,z]),'#9bb4c6','tail');
+face(fin.map(([y,z])=>[-1.4,y,z]),'tail');
+face(fin.map(([y,z])=>[1.4,y,z]),'tail');
 for(let i=0;i<fin.length;i++){
  const a=fin[i],b=fin[(i+1)%fin.length];
- face([[-1.4,...a],[1.4,...a],[1.4,...b],[-1.4,...b]],'#adc3d2','tail');
+ face([[-1.4,...a],[1.4,...a],[1.4,...b],[-1.4,...b]],'tail');
 }
-prism([[-32,19],[32,19],[32,23],[-32,23]],1,4,'#a7bdcd','engine-mount');
+prism([[-32,19],[32,19],[32,23],[-32,23]],1,4,'engine-mount');
 for(const x of [-29,-22,-15,-8,8,15,22,29]){
  const ring=z=>Array.from({length:8},(_,i)=>[x+Math.cos(i*Math.PI/4)*2.7,6+Math.sin(i*Math.PI/4)*2.7,z]);
  const a=ring(18),b=ring(28);
- face(a,'#6a8293','engine');face(b,'#b9cedc','engine');
- const inlet=Array.from({length:8},(_,i)=>[x+Math.cos(i*Math.PI/4)*1.85,6+Math.sin(i*Math.PI/4)*1.85,28.12]);
- face(inlet,'#294c63','engine-inlet');
- for(let i=0;i<8;i++)face([a[i],a[(i+1)%8],b[(i+1)%8],b[i]],i<4?'#e2e9ee':'#8a9dab','engine');
+ face(a,'engine');face(b,'engine');
+ for(let i=0;i<8;i++)face([a[i],a[(i+1)%8],b[(i+1)%8],b[i]],'engine');
 }
 
 // Camera depth is orthogonal to both screen projection rows in flight-view.js.
