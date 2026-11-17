@@ -52,10 +52,10 @@ function cacheAircraft(){
 }
 function drawShadow(state,project,basis,scale){
  const altitude=Math.max(0,Math.min(1,(state.altitude-550)/200));
- // Keep the illustrative light offset clear of the coordinate readout.
- const offset=Math.min(width*.25,state.altitude*.15)/(Math.SQRT2*scale);
+ // Keep the shadow close beneath the aircraft, with a small directional offset.
+ const offset=Math.min(width*.07,state.altitude*.035)/(Math.SQRT2*scale);
  const ground=project(state.world-offset,0,-offset);
- ctx.save();ctx.globalAlpha=.24-altitude*.07;ctx.filter=`blur(${2.3+altitude*2.5}px)`;
+ ctx.save();ctx.globalAlpha=.24-altitude*.05;ctx.filter=`blur(${1.7+altitude*1.6}px)`;
  ctx.transform(basis.xx,basis.xy,basis.zx,basis.zy,...ground);
  ctx.drawImage(shadowLayer,-aircraftPadding,-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
  ctx.restore();
@@ -84,7 +84,7 @@ function drawGroundLabels(project,shoreAt,basis,scale,from,to,reach){
 }
 function draw(){
  const state=coordinateFrame(time),scale=terrainScale(width);
- const center=width/2,groundY=height*.52+(state.altitude-650)*.2,aircraftY=height*.34;
+ const center=width/2,groundY=height*.45+(state.altitude-650)*.1,aircraftY=height*.34;
  cacheAircraft();
  const tilt=state.pitch*1.4,c=Math.cos(tilt),s=Math.sin(tilt);
  // Scale the displayed altitude for a legible tracking view, then rotate the
