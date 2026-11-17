@@ -1,6 +1,0 @@
-.i2s-mobile-notice{display:none}
-@media(max-width:760px){
-  .i2s-editor-viewport{aspect-ratio:auto;padding:28px 20px}
-  .i2s-editor-viewport iframe,.i2s-demo-label{display:none}
-  .i2s-mobile-notice:not([hidden]){display:block;margin:0;color:#647a8d;font-size:13px;line-height:1.8;text-align:center;word-break:keep-all}
-}
