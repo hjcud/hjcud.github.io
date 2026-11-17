@@ -261,12 +261,18 @@
 .flight-boundary-label{position:absolute;left:16px;top:16px;display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:4px;background:#fff;color:#346c96;font-size:11px;font-weight:600;line-height:1.5;pointer-events:none}
 .flight-boundary-label i{display:block;width:22px;border-top:2px dashed #3476a6}
 
-/* Emphasize only the values that change basis, using simulation time so pause freezes the cue. */
-#flight-tile,#flight-local{border-radius:2px;background:rgba(91,154,214,var(--basis-emphasis,0));box-shadow:0 0 0 4px rgba(91,154,214,var(--basis-emphasis,0))}
+/* The next tile number pushes the previous number out of a fixed-width viewport. */
+#flight-tile{position:relative;display:block;width:7ch;height:1.4em;overflow:hidden}
+.flight-tile-current,.flight-tile-previous{position:absolute;inset:0;font:inherit;line-height:inherit;white-space:nowrap}
+.flight-tile-current{transform:translateX(calc(var(--tile-shift,0)*100%))}
+.flight-tile-previous{color:#748da2;transform:translateX(calc((var(--tile-shift,0) - 1)*100%))}
 
-/* Keep the sign legible and let its boundary cue use the paused simulation clock. */
-#flight-local{display:flex;align-items:center;gap:6px;line-height:1.4}
+/* Quote-style typography: sign and value form one number, with a brief replacement slide. */
+#flight-local{display:flex;align-items:center;gap:8px;line-height:1.4}
 .flight-local-axis{font-size:12px;color:#6b8296;font-weight:500}
-.flight-local-sign{display:inline-flex;align-items:center;justify-content:center;flex:none;width:25px;height:25px;border:1px solid #b8d0e6;border-radius:4px;background:#eaf3fc;color:#2469a3;font-size:22px;line-height:1;font-weight:650;transform:scale(calc(1 + var(--sign-emphasis,0)*.18));transform-origin:center}
-#flight-local[data-sign="negative"] .flight-local-sign{border-color:#e8c2a6;background:#fff0e5;color:#a75525}
-.flight-local-value{font:inherit;min-width:5ch;text-align:right}
+.flight-local-number{position:relative;display:inline-block;width:7ch;height:1.4em;overflow:hidden;font:inherit;vertical-align:bottom}
+.flight-local-current{position:absolute;inset:0;display:flex;justify-content:flex-end;align-items:baseline;color:#a64b3d;transform:translateY(calc(var(--sign-emphasis,0)*1.4em))}
+#flight-local[data-sign="negative"] .flight-local-current{color:#286c9e}
+.flight-local-sign,.flight-local-value{font:inherit;line-height:inherit}
+.flight-local-previous{position:absolute;top:0;right:0;color:#a64b3d;font:inherit;white-space:nowrap;opacity:var(--sign-emphasis,0);transform:translateY(calc((var(--sign-emphasis,0) - 1)*1.4em))}
+.flight-local-previous[data-sign="negative"]{color:#286c9e}

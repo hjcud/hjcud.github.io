@@ -7,8 +7,9 @@ const exhibit=document.getElementById('flight-exhibit');
 const pause=document.getElementById('flight-pause');
 const position=document.querySelector('#flight-exhibit .flight-position');
 const localLabel=document.getElementById('flight-local');
-const localSign=localLabel.querySelector('.flight-local-sign'),localValue=localLabel.querySelector('.flight-local-value');
+const localSign=localLabel.querySelector('.flight-local-sign'),localValue=localLabel.querySelector('.flight-local-value'),localPrevious=localLabel.querySelector('.flight-local-previous');
 const tileLabel=document.getElementById('flight-tile');
+const tileCurrent=tileLabel.querySelector('.flight-tile-current'),tilePrevious=tileLabel.querySelector('.flight-tile-previous');
 const anchor=document.querySelector('#flight-exhibit .flight-anchor');
 const anchorLeader=document.getElementById('flight-anchor-leader');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
@@ -163,15 +164,24 @@ function draw(){
  drawGroundLabels(project,shoreAt,basis,scale,from,to,reach);
  ctx.drawImage(aircraftLayer,center-aircraftPadding,aircraftY-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
  exhibit.dataset.step=String(state.step);
- if(previousTile!==null&&state.tile!==previousTile)basisChangedAt=time;
+ if(previousTile!==null&&state.tile!==previousTile){
+  basisChangedAt=time;
+  tilePrevious.textContent=tileCurrent.textContent;
+ }
  previousTile=state.tile;
- const emphasis=Math.max(0,1-(time-basisChangedAt)/1.25)*.18;
- position.style.setProperty('--basis-emphasis',emphasis.toFixed(3));
- tileLabel.textContent=`(${state.tile}, 0)`;
+ const tileShift=reduced.matches?0:Math.max(0,1-(time-basisChangedAt)/.6);
+ position.style.setProperty('--tile-shift',tileShift.toFixed(3));
+ tileCurrent.textContent=`(${state.tile}, 0)`;
+ tileLabel.setAttribute('aria-label',`현재 지도 타일 ${state.tile}, 0`);
  const negative=state.local<0,value=Math.trunc(Math.abs(state.local)).toLocaleString('ko-KR');
- if(previousSign!==null&&negative!==previousSign)signChangedAt=time;
+ if(previousSign!==null&&negative!==previousSign){
+  signChangedAt=time;
+  localPrevious.textContent=localSign.textContent+localValue.textContent;
+  localPrevious.dataset.sign=previousSign?'negative':'positive';
+ }
  previousSign=negative;
- localLabel.style.setProperty('--sign-emphasis',Math.max(0,1-(time-signChangedAt)/1.15).toFixed(3));
+ const signEmphasis=reduced.matches?0:Math.max(0,1-(time-signChangedAt)/.55);
+ localLabel.style.setProperty('--sign-emphasis',signEmphasis.toFixed(3));
  localLabel.dataset.sign=negative?'negative':'positive';
  localSign.textContent=negative?'−':'+';localValue.textContent=value;
  localLabel.setAttribute('aria-label',`타일 안의 X 좌표, ${negative?'음수':'양수'} ${value}`);

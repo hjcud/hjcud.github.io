@@ -9,13 +9,13 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles/base.css">
   <link rel="stylesheet" href="styles/projects/shinjuku.css?v=outcome-first">
-  <link rel="stylesheet" href="styles/projects/shimanami.css?v=coordinate-sign">
+  <link rel="stylesheet" href="styles/projects/shimanami.css?v=sliding-readouts">
   <link rel="stylesheet" href="styles/project-details.css">
   <link rel="stylesheet" href="styles/projects/idea2strategy.css">
   <script src="scripts/app.js?v=project-boundaries" defer></script>
   <script type="module" src="scripts/shinjuku/traffic-view.js?v=minimal-traffic"></script>
   <script src="scripts/shinjuku/traffic-comparisons.js?v=aligned-points-contact" defer></script>
-  <script type="module" src="scripts/shimanami/flight-view.js?v=coordinate-sign"></script>
+  <script type="module" src="scripts/shimanami/flight-view.js?v=sliding-readouts"></script>
   <link rel="stylesheet" href="styles/profile.css?v=additional-skills">
   <link rel="stylesheet" href="styles/carousel-controls.css">
   <script src="scripts/carousel-controls.js" defer></script>
@@ -246,8 +246,8 @@
 <svg class="flight-annotations" aria-hidden="true"><path id="flight-anchor-leader"></path></svg>
 <div class="flight-anchor" aria-label="기체의 수평 위치는 원점 X 0, Z 0에 고정"><span>기체는 원점에 고정</span><b>X 0 / Z 0</b></div>
 <div class="flight-position" aria-label="이동하는 지도의 타일 번호와 타일 안의 X 좌표">
-<div><span>현재 지도 타일</span><b id="flight-tile">(0, 0)</b></div>
-<div><span>타일 안의 X 좌표</span><b id="flight-local" data-sign="positive" aria-label="타일 안의 X 좌표, 양수 0"><span class="flight-local-axis" aria-hidden="true">X</span><span class="flight-local-sign" aria-hidden="true">+</span><span class="flight-local-value" aria-hidden="true">0</span></b></div>
+<div><span>현재 지도 타일</span><b id="flight-tile" aria-label="현재 지도 타일 0, 0"><span class="flight-tile-current" aria-hidden="true">(0, 0)</span><span class="flight-tile-previous" aria-hidden="true"></span></b></div>
+<div><span>타일 안의 X 좌표</span><b id="flight-local" data-sign="positive" aria-label="타일 안의 X 좌표, 양수 0"><span class="flight-local-axis" aria-hidden="true">X</span><span class="flight-local-number" aria-hidden="true"><span class="flight-local-current"><span class="flight-local-sign">+</span><span class="flight-local-value">0</span></span><span class="flight-local-previous"></span></span></b></div>
 </div>
 </div>
 <p id="flight-demo-note" class="sr-only">좌표 처리 원리를 X축 이동으로 단순화한 설명용 시연입니다. 기체의 고정 좌표와 비행 위치를 기록하는 타일 좌표는 서로 다른 기준입니다. 타일 크기 10,000인 설명용 예시입니다. 이동 속도와 고도 변화는 원리 설명을 위해 구성했습니다. 타일 경계를 넘는 동안에도 비행과 고도 변화는 계속됩니다. 위의 버튼으로 재생을 멈출 수 있습니다.</p>
