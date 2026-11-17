@@ -1,5 +1,5 @@
 import {coordinateFrame,TILE_SIZE,groundDashes,terrainScale} from './flight-model.js?v=world-anchored';
-import {createAircraftRenderer} from './flight-aircraft.js?v=lun-proportions';
+import {createAircraftRenderer} from './flight-aircraft.js?v=balanced-view';
 
 const canvas=document.getElementById('flight-canvas');
 const ctx=canvas.getContext('2d',{alpha:false});
@@ -20,7 +20,8 @@ const drawAircraft=createAircraftRenderer();
 const aircraftLayer=document.createElement('canvas');
 const aircraftContext=aircraftLayer.getContext('2d');
 let aircraftPadding=1,cachedZoom=0,cachedDpr=0;
-function iso(x,y,z){return [x*.866+z*.5,x*.25-y*.866-z*.433];}
+// Symmetric tracking view: forward length and lateral span use equal foreshortening.
+function iso(x,y,z){return [Math.SQRT1_2*(x+z),Math.SQRT1_2*.5*(x-z)-y*.866];}
 function cacheAircraft(){
  const zoom=width<600?1.2:1.55;
  if(zoom===cachedZoom&&dpr===cachedDpr)return;
@@ -127,10 +128,6 @@ function draw(){
  ctx.strokeStyle='#ffffff';ctx.lineWidth=width<600?4.5:5.5;ctx.stroke();
  ctx.strokeStyle='#3476a6';ctx.lineWidth=width<600?2:2.5;ctx.stroke();ctx.lineJoin='miter';
  drawGroundLabels(project,shoreAt,basis,scale,from,to,reach);
- // A soft shadow is enough to establish height; avoid extra rings and axes on the sea.
- ctx.save();ctx.translate(...origin);ctx.rotate(Math.atan2(basis.xy,basis.xx));
- ctx.filter='blur(3px)';ctx.fillStyle='#587a9124';ctx.beginPath();
- ctx.ellipse(0,0,width<600?45:60,13,0,0,Math.PI*2);ctx.fill();ctx.restore();
  ctx.drawImage(aircraftLayer,center-aircraftPadding,aircraftY-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
  exhibit.dataset.step=String(state.step);
  if(previousTile!==null&&state.tile!==previousTile)basisChangedAt=time;

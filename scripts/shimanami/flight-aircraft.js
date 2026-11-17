@@ -17,7 +17,7 @@ function prism(outline,bottom,top,part){
   face([[a[0],bottom,a[1]],[b[0],bottom,b[1]],[b[0],top,b[1]],[a[0],top,a[1]]],part);
  }
 }
-// The native exterior is about 76 m long and 45 m wide, with a narrow hull.
+// Preserve the native exterior length/span ratio (about 1.70) and narrow hull.
 const sections=[[-39,.25,2.2,.35],[-34,1,1.8,1.3],[-26,2,1.3,2.4],
  [-14,2.9,1.1,3.1],[0,3.1,1.1,3.5],[16,3,1.1,3.6],
  [24,2.7,1.1,3.5],[30,1.9,1.2,2.9],[34,1,1.7,1.9],[36,.12,2.1,.3]];
@@ -60,7 +60,7 @@ for(const x of [-10.55,-8.17,-5.8,-3.43,3.43,5.8,8.17,10.55]){
 }
 
 // Camera depth is orthogonal to both screen projection rows in flight-view.js.
-export function cameraDepth([x,y,z]){return .433*x+.5*y-.75*z;}
+export function cameraDepth([x,y,z]){return .866*Math.SQRT1_2*(x-z)+.5*y;}
 const edge=(a,b,x,y)=>(b[0]-a[0])*(y-a[1])-(b[1]-a[1])*(x-a[0]);
 export function rasterizeTriangle(vertices,rgb,width,height,pixels,depth,ids,id){
  const [a,b,c]=vertices,area=edge(a,b,c[0],c[1]);
@@ -82,7 +82,7 @@ function shadedMaterial(points,base){
  let nx=u[1]*v[2]-u[2]*v[1],ny=u[2]*v[0]-u[0]*v[2],nz=u[0]*v[1]-u[1]*v[0];
  const length=Math.hypot(nx,ny,nz)||1;nx/=length;ny/=length;nz/=length;
  // Two-sided normals keep mirrored mesh parts consistently lit.
- if(nx*.433+ny*.5-nz*.75<0){nx=-nx;ny=-ny;nz=-nz;}
+ if(.866*Math.SQRT1_2*(nx-nz)+ny*.5<0){nx=-nx;ny=-ny;nz=-nz;}
  const lightLength=Math.hypot(-.35,.88,-.32);
  const diffuse=Math.max(0,(-.35*nx+.88*ny-.32*nz)/lightLength);
  const intensity=.88+.16*diffuse;
