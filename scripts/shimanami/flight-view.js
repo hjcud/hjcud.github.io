@@ -7,14 +7,14 @@ const exhibit=document.getElementById('flight-exhibit');
 const pause=document.getElementById('flight-pause');
 const position=document.querySelector('#flight-exhibit .flight-position');
 const localLabel=document.getElementById('flight-local');
-const localSign=localLabel.querySelector('.flight-local-sign'),localValue=localLabel.querySelector('.flight-local-value'),localPrevious=localLabel.querySelector('.flight-local-previous');
+const localSign=localLabel.querySelector('.flight-local-sign'),localValue=localLabel.querySelector('.flight-local-value');
 const tileLabel=document.getElementById('flight-tile');
 const tileCurrent=tileLabel.querySelector('.flight-tile-current'),tilePrevious=tileLabel.querySelector('.flight-tile-previous');
 const anchor=document.querySelector('#flight-exhibit .flight-anchor');
 const anchorLeader=document.getElementById('flight-anchor-leader');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let time=0,width=1,height=1,dpr=1,visible=false,paused=reduced.matches,frame=0,last=0;
-let previousTile=null,basisChangedAt=-Infinity,previousSign=null,signChangedAt=-Infinity;
+let previousTile=null,basisChangedAt=-Infinity;
 
 // Keep the aircraft position and attitude fixed. Apply inverse flight pitch to the environment.
 // X travel moves the environment up-left while the aircraft stays at the origin.
@@ -174,14 +174,6 @@ function draw(){
  tileCurrent.textContent=`(${state.tile}, 0)`;
  tileLabel.setAttribute('aria-label',`현재 지도 타일 ${state.tile}, 0`);
  const negative=state.local<0,value=Math.trunc(Math.abs(state.local)).toLocaleString('ko-KR');
- if(previousSign!==null&&negative!==previousSign){
-  signChangedAt=time;
-  localPrevious.textContent=localSign.textContent+localValue.textContent;
-  localPrevious.dataset.sign=previousSign?'negative':'positive';
- }
- previousSign=negative;
- const signEmphasis=reduced.matches?0:Math.max(0,1-(time-signChangedAt)/.55);
- localLabel.style.setProperty('--sign-emphasis',signEmphasis.toFixed(3));
  localLabel.dataset.sign=negative?'negative':'positive';
  localSign.textContent=negative?'−':'+';localValue.textContent=value;
  localLabel.setAttribute('aria-label',`타일 안의 X 좌표, ${negative?'음수':'양수'} ${value}`);
