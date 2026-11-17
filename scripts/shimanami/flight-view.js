@@ -9,6 +9,8 @@ const position=document.querySelector('#flight-exhibit .flight-position');
 const localLabel=document.getElementById('flight-local');
 const tileLabel=document.getElementById('flight-tile');
 const altitudeLabel=document.getElementById('flight-altitude');
+const anchor=document.querySelector('#flight-exhibit .flight-anchor'),heightLabel=document.querySelector('#flight-exhibit .flight-height');
+const anchorLeader=document.getElementById('flight-anchor-leader'),heightMeasure=document.getElementById('flight-height-measure');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let time=0,width=1,height=1,dpr=1,visible=false,paused=reduced.matches,frame=0,last=0;
 let previousTile=null,basisChangedAt=-Infinity;
@@ -97,6 +99,15 @@ function draw(){
  };
  const origin=project(state.world,0,0),xAxis=project(state.world+1/scale,0,0),zAxis=project(state.world,0,1/scale);
  const basis={origin,xx:xAxis[0]-origin[0],xy:xAxis[1]-origin[1],zx:zAxis[0]-origin[0],zy:zAxis[1]-origin[1]};
+ // Associate each value with its subject, leaving only moving-map coordinates below.
+ const compact=width<600,fixedX=compact?width-120:center+126,fixedY=63;
+ anchor.style.left=`${fixedX}px`;anchor.style.top=`${fixedY}px`;
+ anchorLeader.setAttribute('d',`M ${center+12} ${aircraftY-8} L ${fixedX-8} ${fixedY+21} H ${fixedX}`);
+ const gaugeX=compact?width-20:center+113,seaY=origin[1];
+ heightMeasure.setAttribute('d',`M ${gaugeX-4} ${aircraftY} H ${gaugeX+4} M ${gaugeX} ${aircraftY} V ${seaY} M ${gaugeX-4} ${seaY} H ${gaugeX+4}`);
+ heightLabel.style.left=`${compact?width-111:gaugeX+10}px`;
+ heightLabel.style.top=`${compact?Math.max(seaY+10,aircraftY+52):(aircraftY+seaY)/2-17}px`;
+
  ctx.setTransform(dpr,0,0,dpr,0,0);
  ctx.fillStyle='#eaf2f6';ctx.fillRect(0,0,width,height);
  const reach=(width+height)*2/scale;

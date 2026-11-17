@@ -239,16 +239,21 @@
 .flight-coordinate-demo #flight-pause{top:16px;right:16px;bottom:auto;width:30px;height:30px;border:1px solid #dce5ec;background:#fff;color:#63839a}
 .flight-coordinate-demo #flight-pause:hover{background:#edf3f8}
 .flight-coordinate-demo #flight-canvas{height:360px}
-/* One stable instrument strip leaves the aircraft and its shadow unobstructed. */
-.flight-position{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:1.05fr .9fr .8fr 1.25fr;gap:16px;width:min(620px,calc(100% - 32px));padding:11px 16px;border:1px solid #b8cbd9;border-radius:6px;background:rgba(255,255,255,.95);pointer-events:none}
+/* Values sit beside their subjects: aircraft, water gap, then moving-map coordinates. */
+.flight-annotations{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.flight-annotations path{fill:none;stroke:#7091a8;stroke-width:1;stroke-linecap:round;stroke-linejoin:round}
+#flight-anchor-leader{stroke:#93aabc}
+.flight-anchor,.flight-height{position:absolute;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:4px 7px;border-radius:3px;background:rgba(255,255,255,.86);pointer-events:none;white-space:nowrap}
+.flight-anchor span,.flight-height span{font-size:10px;line-height:1.5;color:#658198}
+.flight-anchor b,.flight-height b{font-size:14px;line-height:1.4;color:#315e81;font-weight:650;font-variant-numeric:tabular-nums}
+.flight-position{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:1fr 1.3fr;gap:20px;width:min(350px,calc(100% - 32px));padding:10px 15px;border:1px solid #b8cbd9;border-radius:6px;background:rgba(255,255,255,.96);pointer-events:none}
 .flight-position>div{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
-.flight-position>div+div{padding-left:16px;border-left:1px solid #dce5ec}
+.flight-position>div+div{padding-left:20px;border-left:1px solid #dce5ec}
 .flight-position span{font-size:10px;line-height:1.5;color:#6b8296;white-space:nowrap}
 .flight-position b{font-size:17px;line-height:1.4;color:#2e6895;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
 @media(max-width:760px){
- .flight-position{width:calc(100% - 24px);bottom:12px;padding:10px 12px;gap:9px 12px;grid-template-columns:1fr 1.15fr}
+ .flight-position{width:calc(100% - 24px);bottom:12px;padding:10px 12px;gap:12px;grid-template-columns:1fr 1.25fr}
  .flight-position>div+div{padding-left:12px}
- .flight-position>div:nth-child(3){padding-left:0;border-left:0}
  .flight-position span{font-size:9px}
  .flight-position b{font-size:16px}
 }
