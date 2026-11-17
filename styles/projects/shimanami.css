@@ -243,8 +243,6 @@
 
 .flight-anchor>span{display:block;padding:7px 13px;border:1px solid #adc5d6;border-radius:5px;background:#fff;text-align:center;color:#658198;font-size:10px;line-height:1.5;white-space:nowrap}
 .flight-anchor b{display:block;color:#315e81;font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
-.flight-motion-cue{position:absolute;left:24px;bottom:24px;display:flex;align-items:center;gap:12px;font-size:12px;color:#4f798f;pointer-events:none}
-.flight-motion-cue>span{font-size:40px;font-weight:300;line-height:1}
 .flight-position{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:grid;grid-template-columns:1.15fr 1.45fr;gap:18px;width:min(360px,calc(100% - 32px));padding:12px 16px;border:1px solid #a8c2d6;border-radius:6px;background:#fff;pointer-events:none}
 .flight-position>div{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
 .flight-position>div+div{padding-left:18px;border-left:1px solid #d7e2ea}
@@ -255,7 +253,6 @@
  .flight-coordinate-demo #flight-canvas{height:360px}
  .flight-anchor{top:58%}
 
- .flight-motion-cue{display:none}
  .flight-position{gap:12px;padding:11px 12px;grid-template-columns:.95fr 1.35fr}
  .flight-position>div{display:block}
  .flight-position>div+div{padding-left:12px}
