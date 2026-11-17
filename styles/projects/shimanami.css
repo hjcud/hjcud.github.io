@@ -230,3 +230,7 @@
 .flight-origin-scene .origin-axis{font-size:9px;font-weight:500}
 .flight-context-figure .flight-map-scene .context-count{font-size:22px}
 .flight-context-figure .flight-map-scene .context-small{font-size:9px}
+
+/* Keep role details in the introduction and establish the coordinate problem before the demo. */
+#shimanami .flight-experience{border-top:0;padding-top:0}
+#shimanami .problem-solving-context{margin:12px 0 0;color:#657687;font-size:13px;line-height:1.8;word-break:keep-all;overflow-wrap:anywhere}
