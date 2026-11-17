@@ -1,5 +1,5 @@
 import {coordinateFrame,TILE_SIZE} from './flight-model.js?v=continuous-flight';
-import {createAircraftRenderer} from './flight-aircraft.js?v=rounded-hull';
+import {createAircraftRenderer} from './flight-aircraft.js?v=no-windows';
 
 const canvas=document.getElementById('flight-canvas');
 const ctx=canvas.getContext('2d',{alpha:false});
@@ -13,19 +13,19 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let time=0,width=1,height=1,dpr=1,visible=false,paused=reduced.matches,frame=0,last=0;
 let previousTile=null,basisChangedAt=-Infinity;
 
-// Use the original mesh and camera. Keep the horizontal origin fixed while pitch follows the climb.
+// Keep the aircraft position and attitude fixed. Apply inverse flight pitch to the environment.
 // X travel moves the environment up-left while the aircraft stays at the origin.
 const pose={yaw:Math.PI/2,pitch:0,roll:0};
 const drawAircraft=createAircraftRenderer();
 const aircraftLayer=document.createElement('canvas');
 const aircraftContext=aircraftLayer.getContext('2d');
-let aircraftPadding=1,cachedPitch=NaN,cachedZoom=0,cachedDpr=0,aircraftBounds;
+let aircraftPadding=1,cachedZoom=0,cachedDpr=0,aircraftBounds;
 const groundLabelAnchors=new Map();
 function iso(x,y,z){return [x*.866+z*.5,x*.25-y*.866-z*.433];}
-function cacheAircraft(pitch){
- const zoom=width<600?1.2:1.55,angle=Math.round(pitch*1000)/1000;
- if(angle===cachedPitch&&zoom===cachedZoom&&dpr===cachedDpr)return;
- cachedPitch=angle;cachedZoom=zoom;cachedDpr=dpr;pose.pitch=angle;
+function cacheAircraft(){
+ const zoom=width<600?1.2:1.55;
+ if(zoom===cachedZoom&&dpr===cachedDpr)return;
+ cachedZoom=zoom;cachedDpr=dpr;
  aircraftPadding=100*zoom+8;
  const side=Math.ceil(aircraftPadding*2*dpr);
  if(aircraftLayer.width!==side||aircraftLayer.height!==side){aircraftLayer.width=side;aircraftLayer.height=side;}
@@ -40,7 +40,7 @@ function polygon(points,fill,stroke,lineWidth=1){
  if(fill){ctx.fillStyle=fill;ctx.fill();}
  if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lineWidth;ctx.stroke();}
 }
-function drawGroundLabels(state,project,shoreAt,center,aircraftY,groundY,scale){
+function drawGroundLabels(state,project,shoreAt,center,aircraftY,basis,scale){
  const base=canvas.getBoundingClientRect();
  const obstacles=Array.from(exhibit.querySelectorAll('.flight-anchor,.flight-position,.flight-boundary-label,#flight-pause,.flight-motion-cue')).filter(el=>getComputedStyle(el).display!=='none').map(el=>{
   const r=el.getBoundingClientRect();return {left:r.left-base.left-1,top:r.top-base.top-1,right:r.right-base.left+1,bottom:r.bottom-base.top+1};
@@ -59,7 +59,7 @@ function drawGroundLabels(state,project,shoreAt,center,aircraftY,groundY,scale){
    const x=(tile+localX)*TILE_SIZE,y=z<shoreAt(x,false)||z>shoreAt(x,true)?180:0;
    if(Math.abs(localX)*TILE_SIZE+halfWidth/scale>=TILE_SIZE/2||Math.abs(z)+halfHeight/scale>=TILE_SIZE/2)return null;
    const point=project(x,y+1,z);
-   const corners=[[-halfWidth,-halfHeight],[halfWidth,-halfHeight],[halfWidth,halfHeight],[-halfWidth,halfHeight]].map(([a,b])=>[point[0]+a*.866-b*.5,point[1]+a*.25+b*.433]);
+   const corners=[[-halfWidth,-halfHeight],[halfWidth,-halfHeight],[halfWidth,halfHeight],[-halfWidth,halfHeight]].map(([a,b])=>[point[0]+a*basis.xx-b*basis.zx,point[1]+a*basis.xy-b*basis.zy]);
    const box={left:Math.min(...corners.map(p=>p[0])),right:Math.max(...corners.map(p=>p[0])),top:Math.min(...corners.map(p=>p[1])),bottom:Math.max(...corners.map(p=>p[1]))};
    if(box.left<7||box.right>width-7||box.top<7||box.bottom>height-7||obstacles.some(r=>overlaps(box,r)))return null;
    let clearance=Math.min(box.left,width-box.right,box.top,height-box.bottom);
@@ -79,8 +79,8 @@ function drawGroundLabels(state,project,shoreAt,center,aircraftY,groundY,scale){
   // Convert those free screen positions back to stable world anchors as well.
   if(!previous||!candidate(previous.localX,previous.z)){
    for(const fx of [.15,.85,.3,.7,.5])for(const fy of [.58,.54,.65,.25,.16]){
-    const u=(width*fx-center)/scale,v=(height*fy-groundY)/scale,det=-.866*.433-.5*.25;
-    const x=state.world+(-.433*u-.5*v)/det,z=(-.25*u+.866*v)/det;
+    const u=(width*fx-basis.origin[0])/scale,v=(height*fy-basis.origin[1])/scale,det=basis.xx*basis.zy-basis.zx*basis.xy;
+    const x=state.world+(basis.zy*u-basis.zx*v)/det,z=(-basis.xy*u+basis.xx*v)/det;
     const localX=(Math.round(x/10)*10-tile*TILE_SIZE)/TILE_SIZE;
     if(localX<=-.49||localX>=.49||Math.abs(z)>4800)continue;
     const next=candidate(localX,Math.round(z/10)*10);
@@ -89,7 +89,7 @@ function drawGroundLabels(state,project,shoreAt,center,aircraftY,groundY,scale){
   }
   if(!chosen)continue;
   groundLabelAnchors.set(tile,{localX:chosen.localX,z:chosen.z});
-  ctx.save();ctx.transform(.866,.25,-.5,.433,...chosen.point);
+  ctx.save();ctx.transform(basis.xx,basis.xy,-basis.zx,-basis.zy,...chosen.point);
   ctx.lineJoin='round';ctx.strokeStyle='#ffffffee';ctx.lineWidth=3;ctx.strokeText(text,0,0);
   ctx.fillStyle=tile===state.tile?'#32688f':'#6b8595';ctx.fillText(text,0,0);ctx.restore();
   obstacles.push({left:chosen.box.left-5,right:chosen.box.right+5,top:chosen.box.top-5,bottom:chosen.box.bottom+5});
@@ -101,10 +101,18 @@ function drawGroundLabels(state,project,shoreAt,center,aircraftY,groundY,scale){
 function draw(){
  const state=coordinateFrame(time),scale=Math.max(400,Math.min(760,width*.68))/TILE_SIZE;
  const center=width/2,groundY=height*.52+(state.altitude-650)*.2,aircraftY=height*.34;
- cacheAircraft(state.pitch);
+ cacheAircraft();
+ const tilt=state.pitch*1.4,c=Math.cos(tilt),s=Math.sin(tilt);
+ // Scale the displayed altitude for a legible tracking view, then rotate the
+ // environment opposite the climb around the fixed aircraft reference point.
+ const cameraHeight=(groundY-aircraftY)/(.866*scale);
  const project=(x,y,z)=>{
-  const q=iso(x-state.world,y,z);return [center+q[0]*scale,groundY+q[1]*scale];
+  const dx=x-state.world,dy=y-cameraHeight;
+  const q=iso(c*dx+s*dy,-s*dx+c*dy,z);
+  return [center+q[0]*scale,aircraftY+q[1]*scale];
  };
+ const origin=project(state.world,0,0),xAxis=project(state.world+1/scale,0,0),zAxis=project(state.world,0,1/scale);
+ const basis={origin,xx:xAxis[0]-origin[0],xy:xAxis[1]-origin[1],zx:zAxis[0]-origin[0],zy:zAxis[1]-origin[1]};
  ctx.setTransform(dpr,0,0,dpr,0,0);
  ctx.fillStyle='#eaf2f6';ctx.fillRect(0,0,width,height);
  const reach=(width+height)*2/scale;
@@ -126,26 +134,32 @@ function draw(){
   const far=top?reach:-reach;
   polygon([...lip,project(to,180,far),project(from,180,far)],'#bfd2c3');
  }
- // Tile boundaries remain visible throughout the flight. Follow the raised
- // shore instead of projecting the land portion down at sea level.
+ // Both tile axes follow the same terrain transform and raised shore.
  const shoreAt=(x,top)=>{
   const sample=a=>top?3400+850*Math.sin(a/2800)+280*Math.sin(a/1100):-4100+500*Math.sin(a/2400+.8);
   const left=Math.floor(x/400)*400,t=(x-left)/400;
   return sample(left)*(1-t)+sample(left+400)*t;
  };
- for(let tile=Math.floor(from/TILE_SIZE);tile<=Math.ceil(to/TILE_SIZE);tile++){
-  const boundary=(tile+.5)*TILE_SIZE,lower=shoreAt(boundary,false),upper=shoreAt(boundary,true);
-  const points=[[-reach,180],[lower,180],[lower,0],[upper,0],[upper,180],[reach,180]].map(([z,y])=>project(boundary,y,z));
-  if(points.every(p=>p[0]<-4)||points.every(p=>p[0]>width+4)||points.every(p=>p[1]<-4)||points.every(p=>p[1]>height+4))continue;
+ function boundaryLine(points){
+  if(points.every(p=>p[0]<-4)||points.every(p=>p[0]>width+4)||points.every(p=>p[1]<-4)||points.every(p=>p[1]>height+4))return;
   ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));
   ctx.setLineDash([11,7]);ctx.lineCap='round';ctx.lineJoin='round';
   ctx.strokeStyle='#ffffff';ctx.lineWidth=5.5;ctx.stroke();
   ctx.strokeStyle='#3476a6';ctx.lineWidth=2.5;ctx.stroke();
   ctx.setLineDash([]);ctx.lineCap='butt';ctx.lineJoin='miter';
  }
- drawGroundLabels(state,project,shoreAt,center,aircraftY,groundY,scale);
+ for(let tile=Math.floor(from/TILE_SIZE);tile<=Math.ceil(to/TILE_SIZE);tile++){
+  const boundary=(tile+.5)*TILE_SIZE,lower=shoreAt(boundary,false),upper=shoreAt(boundary,true);
+  boundaryLine([[-reach,180],[lower,180],[lower,0],[upper,0],[upper,180],[reach,180]].map(([z,y])=>project(boundary,y,z)));
+ }
+ // Z boundaries lie beyond the sea corridor, on the raised land surface.
+ for(let row=Math.floor(-reach/TILE_SIZE);row<=Math.ceil(reach/TILE_SIZE);row++){
+  const z=(row+.5)*TILE_SIZE;
+  boundaryLine([project(from,180,z),project(to,180,z)]);
+ }
+ drawGroundLabels(state,project,shoreAt,center,aircraftY,basis,scale);
  // A soft shadow is enough to establish height; avoid extra rings and axes on the sea.
- ctx.save();ctx.translate(center,groundY);ctx.rotate(Math.atan2(.25,.866));
+ ctx.save();ctx.translate(...origin);ctx.rotate(Math.atan2(basis.xy,basis.xx));
  ctx.filter='blur(3px)';ctx.fillStyle='#587a9124';ctx.beginPath();
  ctx.ellipse(0,0,width<600?45:60,13,0,0,Math.PI*2);ctx.fill();ctx.restore();
  ctx.drawImage(aircraftLayer,center-aircraftPadding,aircraftY-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
@@ -161,6 +175,7 @@ function draw(){
  canvas.dataset.time=time.toFixed(3);canvas.dataset.tile=String(state.tile);
  canvas.dataset.local=state.local.toFixed(3);canvas.dataset.world=state.world.toFixed(3);
  canvas.dataset.altitude=state.altitude.toFixed(3);canvas.dataset.pitch=state.pitch.toFixed(4);
+ canvas.dataset.terrainPitch=(-tilt).toFixed(4);
 }
 function resize(){
  const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return;

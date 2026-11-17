@@ -41,8 +41,6 @@ for(let i=0;i<fin.length;i++){
  const a=fin[i],b=fin[(i+1)%fin.length];
  face([[-1.4,...a],[1.4,...a],[1.4,...b],[-1.4,...b]],'#adc3d2','tail');
 }
-face([[-3.2,8.1,24],[3.2,8.1,24],[2.5,7.1,32],[-2.5,7.1,32]],'#315c76','cockpit');
-face([[6.1,4.2,24],[4.8,3.8,32],[3.8,6,33],[4.5,7,25]],'#386783','cockpit');
 prism([[-32,19],[32,19],[32,23],[-32,23]],1,4,'#a7bdcd','engine-mount');
 for(const x of [-29,-22,-15,-8,8,15,22,29]){
  const ring=z=>Array.from({length:8},(_,i)=>[x+Math.cos(i*Math.PI/4)*2.7,6+Math.sin(i*Math.PI/4)*2.7,z]);
