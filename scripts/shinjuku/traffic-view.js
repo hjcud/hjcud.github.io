@@ -12,7 +12,7 @@ const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
 async function init(){
  if(ready)return;ready=true;
  try{
-  core=await import('./traffic-core.js?v=vehicle-observation');resetSimulation();
+  core=await import('./traffic-core.js?v=pedestrian-recovery');resetSimulation();
   background=new Image();background.src='assets/shinjuku/road.svg?v=compact-road';await background.decode();
   resize();updateUI();schedule();
  }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';console.error(error);}
@@ -32,7 +32,8 @@ function resize(){
 function roundRect(x,y,w,h,r,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill();}
 function resetSimulation(){
  sim=new core.TrafficSimulation();
- for(let step=0;step<680;step++)sim.step(.05);
+ for(let step=0;step<1320;step++)sim.step(.05);
+ sim.enableIncidents=true;sim.observedId=9;
  focusId=9;clock=0;last=0;
  resetControl.disabled=false;
 }
@@ -46,59 +47,77 @@ function inFrame(car){
 }
 function chooseFocus(actors){
  const current=actors.find(car=>car.id===focusId&&inFrame(car));
- if(current)return current;
+ if(current){sim.observedId=current.id;return current;}
  const next=actors.filter(inFrame).sort((a,b)=>Math.abs(a.pos.x-52)-Math.abs(b.pos.x-52))[0];
- if(next){focusId=next.id;updateLegend();}
+ if(next){focusId=next.id;sim.observedId=next.id;updateLegend();}
  return next;
 }
 function lanePoint(lane,s,offset){
  const p=core.sample(lane,s);
  return project({x:p.x-Math.sin(p.angle)*offset,z:p.z+Math.cos(p.angle)*offset});
 }
-function drawDistance(lane,from,to,offset,dashed){
+function drawDistance(lane,from,to,offset,dashed,car=null,leader=null,gap=null){
  if(to<=from)return;
- ctx.save();ctx.beginPath();
- const steps=Math.max(1,Math.ceil((to-from)/3));
- for(let i=0;i<=steps;i++){
-  const p=lanePoint(lane,from+(to-from)*i/steps,offset);
-  if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);
- }
- ctx.strokeStyle=dashed?'#548dbba6':'#548dbb';ctx.lineWidth=1.2;ctx.setLineDash(dashed?[3,3]:[]);ctx.stroke();ctx.setLineDash([]);
+ const points=[],steps=Math.max(1,Math.ceil((to-from)/2));
+ for(let i=0;i<=steps;i++)points.push(lanePoint(lane,from+(to-from)*i/steps,offset));
+ ctx.save();ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));
+ ctx.lineWidth=dashed?1.4:3;ctx.strokeStyle='#ffffffdd';ctx.stroke();
+ ctx.lineWidth=dashed?.8:1.35;ctx.strokeStyle=dashed?'#859cb0aa':'#317fac';ctx.setLineDash(dashed?[3,3]:[]);ctx.stroke();ctx.setLineDash([]);
  ctx.beginPath();
- for(const s of [from,to]){const a=lanePoint(lane,s,offset-.45),b=lanePoint(lane,s,offset+.45);ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);}
- ctx.stroke();ctx.restore();
+ for(const d of [from,to]){const a=lanePoint(lane,d,offset-.5),b=lanePoint(lane,d,offset+.5);ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);}ctx.stroke();
+ if(car&&leader){
+  const ends=[{x:car.pos.x+Math.cos(car.pos.angle)*car.length/2,z:car.pos.z+Math.sin(car.pos.angle)*car.length/2},{x:leader.pos.x-Math.cos(leader.pos.angle)*leader.length/2,z:leader.pos.z-Math.sin(leader.pos.angle)*leader.length/2}];
+  ends.forEach((end,i)=>{const p=project(end),q=i?points.at(-1):points[0];ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();ctx.beginPath();ctx.arc(p.x,p.y,.9,0,Math.PI*2);ctx.fillStyle='#317fac';ctx.fill();});
+  const mid=lanePoint(lane,(from+to)/2,offset-1.25),x=mid.x*scale+offsetX,y=mid.y*scale+offsetY;
+  if(x>32&&x<width-32&&y>42&&y<height-43){
+   const text=`앞차 ${gap.toFixed(1)} m`,font=(width<600?10:11)/scale;ctx.font=`600 ${font}px system-ui,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+   const w=ctx.measureText(text).width+7/scale,h=15/scale;roundRect(mid.x-w/2,mid.y-h/2,w,h,2/scale,'#ffffffef');ctx.fillStyle='#2d7099';ctx.fillText(text,mid.x,mid.y);
+  }
+ }
+ ctx.restore();
+}
+function drawSensor(car){
+ const sensor=car.sensor,path=sensor.path;if(!path?.length||path.length<2)return;
+ const left=[],right=[];
+ path.forEach((p,i)=>{
+  const before=path[Math.max(0,i-1)],after=path[Math.min(path.length-1,i+1)],angle=Math.atan2(after.z-before.z,after.x-before.x);
+  const nx=-Math.sin(angle)*sensor.halfWidth,nz=Math.cos(angle)*sensor.halfWidth;
+  left.push(project({x:p.x+nx,z:p.z+nz}));right.push(project({x:p.x-nx,z:p.z-nz}));
+ });
+ ctx.save();ctx.beginPath();[...left,...right.slice().reverse()].forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();
+ ctx.fillStyle=sensor.hit?'#ce8a5626':'#57998116';ctx.fill();ctx.strokeStyle=sensor.hit?'#bc7948':'#579981b3';ctx.lineWidth=sensor.hit?1.2:.8;ctx.stroke();
+ const a=left.at(-1),b=right.at(-1);ctx.lineWidth=sensor.hit?1.8:1.1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+ if(sensor.point){const p=project(sensor.point);ctx.beginPath();ctx.arc(p.x,p.y,1.15,0,Math.PI*2);ctx.fillStyle='#c57a41';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=.6;ctx.stroke();}
+ ctx.restore();
 }
 function drawGuidance(car){
  if(!car)return;
  const reading=sim.observe(car),points=core.lanes[car.lane].points;
- // These fixed road samples show the cached lane data used for positions and distances.
  ctx.beginPath();points.forEach((point,i)=>{const p=project({x:point[0],z:point[1]});if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);});
- ctx.strokeStyle='#7ca7c14d';ctx.lineWidth=.7;ctx.stroke();
- ctx.fillStyle='#6999b4b3';
- for(let i=0;i<points.length;i+=4){const p=project({x:points[i][0],z:points[i][1]});ctx.beginPath();ctx.arc(p.x,p.y,.8,0,Math.PI*2);ctx.fill();}
- if(reading.leaderRearS!==null)drawDistance(reading.leaderLane,reading.leaderFromS,reading.leaderRearS,1.25,false);
- if(reading.stopS!==null)drawDistance(reading.lane,reading.frontS,reading.stopS,-1.25,true);
+ ctx.strokeStyle='#7ca7c133';ctx.lineWidth=.6;ctx.stroke();ctx.fillStyle='#6999b477';
+ for(let i=0;i<points.length;i+=4){const p=project({x:points[i][0],z:points[i][1]});ctx.beginPath();ctx.arc(p.x,p.y,.65,0,Math.PI*2);ctx.fill();}
+ drawSensor(car);
+ if(reading.stopS!==null&&sim.signal!=='green')drawDistance(reading.lane,reading.frontS,reading.stopS,1.2,true);
  if(car.change){
-  const ch=car.change,remaining=Math.max(0,ch.length-ch.travel);
-  ctx.beginPath();
-  for(let i=0;i<=24;i++){
-   const p=project(core.changePoint(car.lane,car.s,ch,remaining*i/24));
-   if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);
-  }
-  ctx.strokeStyle='#719ab5c0';ctx.lineWidth=1.2;ctx.setLineDash([3,3]);ctx.stroke();ctx.setLineDash([]);
- }else{
-  const front=core.sample(car.lane,car.s+car.length/2),p=project(front);
-  ctx.save();ctx.translate(p.x,p.y);ctx.rotate(-front.angle);
-  const reach=car.sensor.reach*3.45;
-  ctx.strokeStyle=car.sensor.hit?'#c18b54dd':'#5d9d84aa';ctx.lineWidth=1.4;
-  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(reach,0);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(reach,-4);ctx.quadraticCurveTo(reach+4,0,reach,4);ctx.stroke();ctx.restore();
+  const ch=car.change,remaining=Math.max(0,ch.length-ch.travel);ctx.beginPath();
+  for(let i=0;i<=24;i++){const p=project(core.changePoint(car.lane,car.s,ch,remaining*i/24));if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);}
+  ctx.strokeStyle='#719ab5c0';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.stroke();ctx.setLineDash([]);
+ }
+}
+function drawFocusState(car){
+ if(!car)return;
+ if(car.sensor.hit){const hit=sim.people.find(p=>p.id===car.sensor.personId);if(hit){const p=project(hit);ctx.beginPath();ctx.arc(p.x,p.y,3.6,0,Math.PI*2);ctx.strokeStyle='#c17c46';ctx.lineWidth=1;ctx.stroke();}}
+ const state=car.reason==='reverse'?'후진':car.change?.recovery?'차선 변경':car.sensor.hit&&Math.abs(car.v)<.2?'정지':null;
+ if(state){
+  const p=project(car.pos);ctx.save();ctx.font=`600 ${10/scale}px system-ui,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+  const w=ctx.measureText(state).width+10/scale,h=17/scale,y=p.y-7-8/scale;
+  roundRect(p.x-w/2,y-h/2,w,h,3/scale,'#ffffffed');ctx.fillStyle=state==='정지'?'#aa713f':'#3d7095';ctx.fillText(state,p.x,y);ctx.restore();
  }
 }
 function updateLegend(){
- const car=sim.cars.find(car=>car.id===focusId),hit=inFrame(car)&&!car.change&&car.sensor.hit;
+ const car=sim.cars.find(car=>car.id===focusId),hit=inFrame(car)&&car.sensor.hit;
  $('traffic-detection').classList.toggle('is-hit',hit);
- $('traffic-detection-label').textContent=hit?'보행자 감지':'전방 감지';
+ $('traffic-detection-label').textContent=hit?'보행자 감지':'BoxCast 감지';
 }
 function draw(){
  if(!sim||!cache)return;
@@ -118,15 +137,21 @@ function draw(){
   roundRect(len/2-5,-w/2+.8,2.8,w-1.6,.7,selected?'#b0d1e2':'#607a8b');
   if(car.id===1){roundRect(-len/2+1,-w/2+.5,len-7,w-1,1,'#c3cdd3');}else roundRect(-len/2+2,-w/2+.9,2,w-1.8,.5,'#91a8b5');
   ctx.fillStyle='#ffedbe';ctx.fillRect(len/2-1,-w/2+.4,1,1.4);ctx.fillRect(len/2-1,w/2-1.8,1,1.4);
-  if(car.v<.5){ctx.fillStyle='#d46e66';ctx.fillRect(-len/2,-w/2+.3,1,1.5);ctx.fillRect(-len/2,w/2-1.8,1,1.5);}
-  if(car.change&&Math.floor(sim.time*3)%2===0){
-   const target=core.sample(car.change.to,car.change.targetS),dx=target.x-car.pos.x,dz=target.z-car.pos.z;
+  if(Math.abs(car.v)<.5){ctx.fillStyle='#d46e66';ctx.fillRect(-len/2,-w/2+.3,1,1.5);ctx.fillRect(-len/2,w/2-1.8,1,1.5);}
+  if(car.v<-.1){ctx.fillStyle='#fff9e4';ctx.fillRect(-len/2,-w/2+.3,1,1.5);ctx.fillRect(-len/2,w/2-1.8,1,1.5);}
+  if((car.change||car.recovery)&&Math.floor(sim.time*3)%2===0){
+   const target=core.sample(car.change?.to??car.recovery.to,car.change?.targetS??core.nearest(car.recovery.to,car.pos)),dx=target.x-car.pos.x,dz=target.z-car.pos.z;
    const side=-dx*Math.sin(car.pos.angle)+dz*Math.cos(car.pos.angle),indicatorY=side>0?-w/2-1:w/2;
    ctx.fillStyle='#f4bd54';ctx.fillRect(len/2-4,indicatorY,2.5,1.3);ctx.fillRect(-len/2+1,indicatorY,2.5,1.3);
   }
   ctx.restore();
  }
+ if(focus){const reading=sim.observe(focus);if(reading.leaderRearS!==null&&reading.leaderGap>.1){const leader=sim.cars.find(c=>c.id===reading.leaderId);drawDistance(reading.leaderLane,reading.leaderFromS,reading.leaderRearS,-1.8,false,focus,leader,reading.leaderGap);}}
+ drawFocusState(focus);updateLegend();
  canvas.dataset.focus=String(focusId);canvas.dataset.focusState=focus?.reason||'outside';
+ canvas.dataset.sensorHit=String(!!focus?.sensor.hit);canvas.dataset.sensorReach=String(focus?.sensor.reach??0);canvas.dataset.sensorRange=String(focus?.sensor.castReach??0);canvas.dataset.sensorPerson=String(focus?.sensor.personId??'');
+ canvas.dataset.leaderGap=String(focus?sim.observe(focus).leaderGap??'':'');canvas.dataset.recovery=focus?.recovery?.phase||(focus?.change?.recovery?'change':'');
+ canvas.dataset.recoveries=String(sim.completedRecoveries);
 }
 function person(p){
  const q=project(p),swing=p.moving?Math.sin(sim.time*4.2+p.id*.7):0;
