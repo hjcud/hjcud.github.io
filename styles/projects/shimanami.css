@@ -236,10 +236,7 @@
 #shimanami .problem-solving-context{margin:12px 0 0;color:#657687;font-size:13px;line-height:1.8;word-break:keep-all;overflow-wrap:anywhere}
 
 /* One sequential explanation replaces the instruments and separate diagrams. */
-.flight-coordinate-demo .flight-demo-heading{position:relative;min-height:112px;padding:20px 64px 22px 24px;border-bottom:1px solid #d9e3eb;background:#fbfcfd}
-.flight-coordinate-demo .flight-demo-step{margin:0 0 7px;font-size:11px;font-weight:500;color:#6f879c;line-height:1.5}
-.flight-coordinate-demo #flight-title{margin:0;font-size:clamp(18px,2vw,23px);font-weight:650;line-height:1.5;letter-spacing:-.6px;color:#284f70;word-break:keep-all;overflow-wrap:anywhere}
-.flight-coordinate-demo #flight-pause{top:22px;right:20px;bottom:auto;width:30px;height:30px;border:1px solid #dce5ec;background:#fff;color:#63839a}
+.flight-coordinate-demo #flight-pause{top:16px;right:16px;bottom:auto;width:30px;height:30px;border:1px solid #dce5ec;background:#fff;color:#63839a}
 .flight-coordinate-demo #flight-pause:hover{background:#edf3f8}
 .flight-coordinate-demo #flight-canvas{height:360px}
 .flight-anchor{position:absolute;left:50%;top:60%;transform:translate(-50%,-50%);display:flex;align-items:center;flex-direction:column;pointer-events:none}
@@ -253,15 +250,12 @@
 .flight-position>div+div{padding-left:18px;border-left:1px solid #d7e2ea}
 .flight-position span{font-size:10px;line-height:1.5;color:#6b8296;white-space:nowrap}
 .flight-position b{font-size:18px;line-height:1.4;color:#2e6895;font-weight:650;font-variant-numeric:tabular-nums;white-space:nowrap}
-.flight-coordinate-demo[data-step="1"] .flight-position,.flight-coordinate-demo[data-step="2"] .flight-motion-cue{visibility:hidden}
 @media(max-width:760px){
- .flight-coordinate-demo .flight-demo-heading{min-height:116px;padding:18px 58px 18px 18px}
- .flight-coordinate-demo #flight-title span{display:block}
- .flight-coordinate-demo #flight-pause{right:16px;top:18px}
+ .flight-coordinate-demo #flight-pause{right:16px;top:16px}
  .flight-coordinate-demo #flight-canvas{height:360px}
  .flight-anchor{top:58%}
 
- .flight-motion-cue{left:18px;bottom:24px}
+ .flight-motion-cue{display:none}
  .flight-position{gap:12px;padding:11px 12px;grid-template-columns:.8fr 1.5fr}
  .flight-position>div{display:block}
  .flight-position>div+div{padding-left:12px}
@@ -271,5 +265,8 @@
 .flight-altitude{display:block;margin-top:5px;padding-top:5px;border-top:1px solid #e0e8ee;font-size:10px;line-height:1.5;color:#698295}
 .flight-altitude strong{margin-left:4px;font-size:13px;font-weight:600;color:#315e81;font-variant-numeric:tabular-nums}
 
-.flight-boundary-label{position:absolute;right:16px;top:16px;display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:4px;background:#fff;color:#346c96;font-size:11px;font-weight:600;line-height:1.5;pointer-events:none}
+.flight-boundary-label{position:absolute;left:16px;top:16px;display:flex;align-items:center;gap:7px;padding:5px 9px;border-radius:4px;background:#fff;color:#346c96;font-size:11px;font-weight:600;line-height:1.5;pointer-events:none}
 .flight-boundary-label i{display:block;width:22px;border-top:2px dashed #3476a6}
+
+/* Emphasize only the values that change basis, using simulation time so pause freezes the cue. */
+.flight-position b{border-radius:2px;background:rgba(91,154,214,var(--basis-emphasis,0));box-shadow:0 0 0 4px rgba(91,154,214,var(--basis-emphasis,0))}

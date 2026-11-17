@@ -5,13 +5,13 @@ const canvas=document.getElementById('flight-canvas');
 const ctx=canvas.getContext('2d',{alpha:false});
 const exhibit=document.getElementById('flight-exhibit');
 const pause=document.getElementById('flight-pause');
-const title=document.getElementById('flight-title');
-const stepLabel=document.getElementById('flight-step');
+const position=document.querySelector('#flight-exhibit .flight-position');
 const localLabel=document.getElementById('flight-local');
 const tileLabel=document.getElementById('flight-tile');
 const altitudeLabel=document.getElementById('flight-altitude');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let time=0,width=1,height=1,dpr=1,visible=false,paused=reduced.matches,frame=0,last=0;
+let previousTile=null,basisChangedAt=-Infinity;
 
 // Use the original mesh and camera. Keep the horizontal origin fixed while pitch follows the climb.
 // X travel moves the environment up-left while the aircraft stays at the origin.
@@ -90,9 +90,10 @@ function draw(){
  cacheAircraft(state.pitch);
  ctx.drawImage(aircraftLayer,center-aircraftPadding,aircraftY-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
  exhibit.dataset.step=String(state.step);
- const heading=state.step===1?['비행기는 제자리,','지형만 이동']:['타일이 바뀌면','좌표 기준도 전환'];
- if(title.textContent!==heading.join(' '))title.innerHTML=heading.map(text=>`<span>${text}</span>`).join(' ');
- stepLabel.textContent=state.step===1?'01 / 기체 고정':'02 / 좌표 전환';
+ if(previousTile!==null&&state.tile!==previousTile)basisChangedAt=time;
+ previousTile=state.tile;
+ const emphasis=Math.max(0,1-(time-basisChangedAt)/1.25)*.18;
+ position.style.setProperty('--basis-emphasis',emphasis.toFixed(3));
  tileLabel.textContent=String(state.tile+1).padStart(2,'0');
  altitudeLabel.textContent=`${Math.round(state.altitude)} m`;
  const local=Math.trunc(state.local);
