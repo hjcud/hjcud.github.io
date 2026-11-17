@@ -235,14 +235,14 @@
 #shimanami .flight-experience{border-top:0;padding-top:0}
 #shimanami .problem-solving-context{margin:12px 0 0;color:#657687;font-size:13px;line-height:1.8;word-break:keep-all;overflow-wrap:anywhere}
 
-/* One flat, sequential explanation replaces the instruments and separate diagrams. */
+/* One sequential explanation replaces the instruments and separate diagrams. */
 .flight-coordinate-demo .flight-demo-heading{position:relative;min-height:112px;padding:20px 64px 22px 24px;border-bottom:1px solid #d9e3eb;background:#fbfcfd}
 .flight-coordinate-demo .flight-demo-step{margin:0 0 7px;font-size:11px;font-weight:500;color:#6f879c;line-height:1.5}
 .flight-coordinate-demo #flight-title{margin:0;font-size:clamp(18px,2vw,23px);font-weight:650;line-height:1.5;letter-spacing:-.6px;color:#284f70;word-break:keep-all;overflow-wrap:anywhere}
 .flight-coordinate-demo #flight-pause{top:22px;right:20px;bottom:auto;width:30px;height:30px;border:1px solid #dce5ec;background:#fff;color:#63839a}
 .flight-coordinate-demo #flight-pause:hover{background:#edf3f8}
-.flight-coordinate-demo #flight-canvas{height:330px}
-.flight-anchor{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);display:flex;align-items:center;flex-direction:column;pointer-events:none}
+.flight-coordinate-demo #flight-canvas{height:360px}
+.flight-anchor{position:absolute;left:50%;top:63%;transform:translate(-50%,-50%);display:flex;align-items:center;flex-direction:column;pointer-events:none}
 .flight-anchor svg{display:block;width:130px;height:106px;filter:drop-shadow(0 3px 2px #355d7820)}
 .flight-anchor>span{display:block;padding:7px 13px;border:1px solid #adc5d6;border-radius:5px;background:#fffffff0;text-align:center;color:#658198;font-size:10px;line-height:1.5;white-space:nowrap}
 .flight-anchor b{display:block;color:#315e81;font-size:15px;font-weight:650;font-variant-numeric:tabular-nums}
@@ -258,7 +258,7 @@
  .flight-coordinate-demo .flight-demo-heading{min-height:116px;padding:18px 58px 18px 18px}
  .flight-coordinate-demo #flight-title span{display:block}
  .flight-coordinate-demo #flight-pause{right:16px;top:18px}
- .flight-coordinate-demo #flight-canvas{height:330px}
+ .flight-coordinate-demo #flight-canvas{height:360px}
  .flight-anchor svg{width:108px;height:88px}
  .flight-motion-cue{left:18px;bottom:24px}
  .flight-position{gap:12px;padding:11px 12px;grid-template-columns:.8fr 1.5fr}
