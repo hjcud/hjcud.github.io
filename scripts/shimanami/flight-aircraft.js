@@ -3,10 +3,14 @@ import {aircraftToWorld} from './flight-model.js';
 // Small, closed convex parts. Triangles are baked once, not sorted every frame.
 // Per-pixel depth avoids intersecting wings/fuselage changing painter order.
 export const aircraftTriangles=[];
-const AIRCRAFT_RGB=[134,164,184];
+// Lightened palette inspired by the project's gray hull, silver wings and red tail bands.
+const MATERIALS={
+ hull:[183,196,204],wing:[219,227,231],tail:[194,207,216],
+ engine:[190,202,209],'engine-mount':[185,198,206],'tail-accent':[185,153,158]
+};
 function face(points,part){
  const p=points.map(v=>v.map(n=>n*1.4));
- const rgb=AIRCRAFT_RGB;
+ const rgb=MATERIALS[part];
  for(let i=1;i<p.length-1;i++)aircraftTriangles.push({points:[p[0],p[i],p[i+1]],rgb,part});
 }
 function prism(outline,bottom,top,part){
@@ -39,6 +43,11 @@ for(let i=0;i<fin.length;i++){
  const a=fin[i],b=fin[(i+1)%fin.length];
  face([[-1.4,...a],[1.4,...a],[1.4,...b],[-1.4,...b]],'tail');
 }
+// A single broad, muted tail band echoes the real model without adding fine linework.
+for(const side of [-1,1])face([
+ [side*1.42,10,-26.0714],[side*1.42,13.5,-26.8214],
+ [side*1.42,13.5,-37.3438],[side*1.42,10,-37.5625]
+],'tail-accent');
 prism([[-32,19],[32,19],[32,23],[-32,23]],1,4,'engine-mount');
 for(const x of [-29,-22,-15,-8,8,15,22,29]){
  const ring=z=>Array.from({length:8},(_,i)=>[x+Math.cos(i*Math.PI/4)*2.7,6+Math.sin(i*Math.PI/4)*2.7,z]);
@@ -64,8 +73,8 @@ export function rasterizeTriangle(vertices,rgb,width,height,pixels,depth,ids,id)
   const offset=at*4;pixels[offset]=rgb[0];pixels[offset+1]=rgb[1];pixels[offset+2]=rgb[2];pixels[offset+3]=255;
  }
 }
-// One material, lit by a broad overhead source. No edge strokes or painted details.
-function shadedMaterial(points){
+// Broad soft lighting keeps the pale material colors readable without heavy shadows.
+function shadedMaterial(points,base){
  const [a,b,c]=points,u=b.map((v,i)=>v-a[i]),v=c.map((n,i)=>n-a[i]);
  let nx=u[1]*v[2]-u[2]*v[1],ny=u[2]*v[0]-u[0]*v[2],nz=u[0]*v[1]-u[1]*v[0];
  const length=Math.hypot(nx,ny,nz)||1;nx/=length;ny/=length;nz/=length;
@@ -73,14 +82,14 @@ function shadedMaterial(points){
  if(nx*.433+ny*.5-nz*.75<0){nx=-nx;ny=-ny;nz=-nz;}
  const lightLength=Math.hypot(-.35,.88,-.32);
  const diffuse=Math.max(0,(-.35*nx+.88*ny-.32*nz)/lightLength);
- const intensity=.78+.30*diffuse;
- return AIRCRAFT_RGB.map(channel=>Math.min(255,Math.round(channel*intensity)));
+ const intensity=.88+.16*diffuse;
+ return base.map(channel=>Math.min(255,Math.round(channel*intensity)));
 }
 export function projectedAircraft(pose,project){
  return aircraftTriangles.map(t=>{
   const world=t.points.map(p=>aircraftToWorld(p,pose));
   const points=world.map(q=>{const s=project(q);return [s[0],s[1],cameraDepth(q)];});
-  return {...t,points,rgb:shadedMaterial(world)};
+  return {...t,points,rgb:shadedMaterial(world,t.rgb)};
  });
 }
 // Rasterize only the aircraft's small bounding rectangle, capped by the view DPR.

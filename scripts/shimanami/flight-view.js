@@ -1,5 +1,5 @@
 import {coordinateFrame,TILE_SIZE,groundDashes,terrainScale} from './flight-model.js?v=world-anchored';
-import {createAircraftRenderer} from './flight-aircraft.js?v=soft-monochrome-light';
+import {createAircraftRenderer} from './flight-aircraft.js?v=light-original-colors';
 
 const canvas=document.getElementById('flight-canvas');
 const ctx=canvas.getContext('2d',{alpha:false});
