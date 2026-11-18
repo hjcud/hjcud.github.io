@@ -6,6 +6,13 @@
   background: #f3f5f7;
   border-block: 1px solid #e3e8ed;
 }
+/* Both demonstrations meet the supporting section without an extra divider. */
+.featured-case .project-body > :is(.shinjuku-experience, .flight-experience) {
+  display: flow-root;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
 .problem-solving-heading { margin-bottom: 28px; }
 .problem-solving-kicker {
   margin: 0 0 12px;
@@ -78,6 +85,8 @@
     margin-top: 28px;
     padding: 28px var(--gutter) 32px;
   }
+  .featured-case .project-body > :is(.shinjuku-experience, .flight-experience) { margin-top: 28px; }
+  .featured-case :is(.shinjuku-experience, .flight-experience) > .project-problem-solving { margin-top: 0; }
   .problem-solving-heading { margin-bottom: 22px; }
   .featured-case .problem-solving-heading h3 { font-size: 21px; }
   .project-problem-solving .technical-notes { margin-top: 24px; }

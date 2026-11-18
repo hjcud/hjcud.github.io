@@ -74,7 +74,7 @@
 .profile-language-score > span { color: #7b8897; font-size: 12px; }
 .profile-language-score strong { color: #286c9d; font-size: 25px; font-weight: 650; line-height: 1.4; }
 .profile-language-score .opic-grade-al { color: #b65045; }
-.profile-language-score .opic-grade-ih { color: #66762d; }
+.profile-language-score .opic-grade-ih { color: #7e9d18; font-weight: 700; }
 .profile-language-item .profile-entry-date { grid-column: 3; grid-row: 1; justify-self: end; text-align: right; white-space: nowrap; }
 .profile-language-project { grid-column: 1 / -1; grid-row: 2; justify-self: start; text-align: left; }
 .profile-language-project { margin-top: 8px !important; }
