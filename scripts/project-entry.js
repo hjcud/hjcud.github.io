@@ -35,11 +35,11 @@
   logo.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
   const lightLogo=logo.cloneNode(true);lightLogo.classList.add('case-entry-logo-light');
   stage.append(picture,logo,lightLogo);
-  const entry={project,track,stage,layout,summary,copy,visual,heading,photograph,picture,image,logo,lightLogo,run:0,progress:1};entries.push(entry);
+  const entry={project,track,stage,layout,summary,copy,visual,heading,photograph,picture,image,logo,lightLogo,cover:0,run:0,progress:1};entries.push(entry);
   layout.addEventListener('focusin',()=>{
    if(!entry.run||entry.progress>=1)return;
    // Keyboard navigation reveals the actual control rather than an invisible target.
-   const end=scrollY+track.getBoundingClientRect().top-entry.top+entry.run;
+   const end=scrollY+track.getBoundingClientRect().top-entry.top+entry.cover+entry.run;
    scrollTo({top:end,behavior:'instant'});update();
   });
  }
@@ -63,14 +63,15 @@
    track.classList.toggle('is-animated',active);
    entry.top=top;entry.screen=viewportHeight-top;
    track.style.setProperty('--entry-top',top+'px');track.style.setProperty('--entry-screen',entry.screen+'px');
-   if(!active){entry.run=0;entry.progress=1;track.dataset.entryPhase='settled';continue;}
-   // Finish the move before releasing the sticky introduction, so a wheel gesture
-   // can land on readable copy without immediately pushing the heading offscreen.
+   if(!active){entry.cover=entry.run=0;entry.progress=1;track.style.setProperty('--entry-cover','0px');track.dataset.entryPhase='settled';continue;}
+   // Give the full-screen cover and the final introduction separate reading intervals.
+   entry.cover=mobile?Math.min(280,Math.max(180,entry.screen*.32)):Math.min(380,Math.max(240,entry.screen*.38));
+   track.style.setProperty('--entry-cover',entry.cover+'px');
    entry.run=mobile?Math.min(320,viewportHeight*.38):Math.min(440,viewportHeight*.46);
-   entry.reading=Math.max(Math.min(320,Math.max(220,entry.screen*.3)),entry.screen-stage.offsetHeight-entry.run+80);
+   entry.reading=Math.max(Math.min(320,Math.max(220,entry.screen*.3)),entry.screen-stage.offsetHeight-entry.cover-entry.run+80);
    track.style.setProperty('--entry-travel',entry.run+'px');
    track.style.setProperty('--entry-reading',entry.reading+'px');
-   track.style.height=(stage.offsetHeight+entry.run+entry.reading)+'px';
+   track.style.height=(stage.offsetHeight+entry.cover+entry.run+entry.reading)+'px';
    const origin=stage.getBoundingClientRect(),photo=photograph.getBoundingClientRect();
    entry.photo={x:photo.left-origin.left,y:photo.top-origin.top,width:photo.width,height:photo.height};
    const wordmark=heading.querySelector('.world-wordmark');
@@ -99,14 +100,14 @@
   for(const [index,entry] of entries.entries()){
    if(!entry.run)continue;
    const {track,picture,logo,lightLogo,photo,brand}=entry;
-   const raw=clamp((entry.top-positions[index])/entry.run);
+   const raw=clamp((entry.top-positions[index]-entry.cover)/entry.run);
    const progress=raw>=.998?1:raw;
    const phase=progress>=1?'settled':progress<=0?'cover':'transition';
    if(track.dataset.entryPhase==='settled'&&phase!=='settled')syncImage(entry);
    track.dataset.entryPhase=phase;entry.progress=progress;
    if(phase==='settled')continue;
-   // A brief logo-only opening, then one continuous move into the real introduction.
-   const t=ease(clamp((progress-.12)/.88));
+   // Keep the full cover still through its own interval, then move continuously.
+   const t=ease(progress);
    picture.style.width=mix(viewport,photo.width,t)+'px';picture.style.height=mix(entry.screen,photo.height,t)+'px';
    picture.style.transform=`translate(${photo.x*t}px,${photo.y*t}px)`;picture.style.borderRadius=(7*t)+'px';
    picture.style.setProperty('--entry-shade',.42*(1-t));
