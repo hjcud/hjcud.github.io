@@ -48,29 +48,28 @@
     }
     }else if(scene.type==='physics'){
     const phase=t%12,waiting=phase>=8;
-    if(p.leader){
-     const x=254+(waiting?0:8*Math.sin(phase*Math.PI/4)),rear=x-11;
-     move(p.leader,x,88);
-     p.distance.setAttribute('d',`M59 88H${rear.toFixed(2)}M59 84V92M${rear.toFixed(2)} 84V92`);
-     p.distanceHalo.setAttribute('d',`M59 88H${rear.toFixed(2)}`);
-     p.distanceValue.textContent=((rear-59)/diagramUnitsPerMeter).toFixed(1)+' m';
-    }
-    if(p.person){
-     const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
-     const incoming=phase<2.6,y=phase<2.6?27+61*smooth(phase/2.6):phase<4.8?88:88-61*smooth((phase-4.8)/2.4);
-     const hit=Math.abs(y-88)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
-     p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(${incoming?180:0})`);
-     p.sensorRay.setAttribute('d',`M59 76H${endX.toFixed(2)}V100H59Z`);
-     p.sensorLimit.setAttribute('d',`M${endX.toFixed(2)} 76V100`);
-     const color=hit?'#cb8150':'#579680';
-     p.sensorRay.style.stroke=color;p.sensorRay.style.fill=hit?'#cb815026':'#57968016';p.sensorLimit.style.stroke=color;
-     p.footprint.style.opacity='1';p.contact.style.opacity=hit?'1':'0';
-     p.contact.setAttribute('cx',endX.toFixed(2));p.contact.setAttribute('cy',Math.max(76,Math.min(100,y)).toFixed(2));
-     p.signalRed.style.fill=waiting?'#e3746c':'#74838c';
-     p.signalGreen.style.fill=waiting?'#74838c':'#63b69c';
-     p.svg.dataset.sensorState=hit?'hit':'clear';
-     p.svg.dataset.signalState=waiting?'red':'green';
-    }
+    const leaderX=254+(waiting?0:8*Math.sin(phase*Math.PI/4)),rear=leaderX-11;
+    move(p.leader,leaderX,88);
+    const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
+    const incoming=phase<2.6,y=phase<2.6?27+61*smooth(phase/2.6):phase<4.8?88:88-61*smooth((phase-4.8)/2.4);
+    const hit=Math.abs(y-88)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
+    p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(${incoming?180:0})`);
+    p.sensorRay.setAttribute('d',`M59 76H${endX.toFixed(2)}V100H59Z`);
+    p.sensorLimit.setAttribute('d',`M${endX.toFixed(2)} 76V100`);
+    const color=hit?'#cb8150':'#579680';
+    p.sensorRay.style.stroke=color;p.sensorRay.style.fill=hit?'#cb815026':'#57968016';p.sensorLimit.style.stroke=color;
+    p.footprint.style.opacity='1';p.contact.style.opacity=hit?'1':'0';
+    p.contact.setAttribute('cx',endX.toFixed(2));p.contact.setAttribute('cy',Math.max(76,Math.min(100,y)).toFixed(2));
+    // Use the nearest obstruction, keeping the value, endpoint and target in sync.
+    const personIsCloser=hit&&endX<rear,measuredEnd=personIsCloser?endX:rear;
+    p.distance.setAttribute('d',`M59 88H${measuredEnd.toFixed(2)}M59 84V92M${measuredEnd.toFixed(2)} 84V92`);
+    p.distanceHalo.setAttribute('d',`M59 88H${measuredEnd.toFixed(2)}`);
+    p.distanceValue.textContent=(personIsCloser?'보행자 ':'앞차 ')+((measuredEnd-59)/diagramUnitsPerMeter).toFixed(1)+' m';
+    p.svg.dataset.distanceTarget=personIsCloser?'pedestrian':'vehicle';
+    p.signalRed.style.fill=waiting?'#e3746c':'#74838c';
+    p.signalGreen.style.fill=waiting?'#74838c':'#63b69c';
+    p.svg.dataset.sensorState=hit?'hit':'clear';
+    p.svg.dataset.signalState=waiting?'red':'green';
    }else if(scene.type==='schedule'){
     const current=Math.floor(t*1.5)%5;p.scan.setAttribute('x',String(22+current*55));
     p.blocks.forEach(b=>{const selected=Number(b.dataset.frame)===current;b.style.opacity=selected?'1':'.65';});
