@@ -207,3 +207,6 @@
 .traffic-decision-result .distance-key i{width:16px;border-top:2px solid #317fac}
 .traffic-decision-result .sensor-key i{width:16px;height:9px;border:1px solid #579680;background:#57968016}
 .traffic-decision-visual:has(svg[data-sensor-state="hit"]) .sensor-key i{border-color:#cb8150;background:#cb815026}
+
+/* Keep the live distance just above the left end of its measurement line. */
+.traffic-decision-visual .leader-distance-value{fill:#317fac;font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;paint-order:stroke;stroke:#f7fafc;stroke-width:3px;stroke-linejoin:round}
