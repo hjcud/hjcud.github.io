@@ -104,20 +104,14 @@
 #i2s-flow-pause:hover{background:#eaf2f8;color:#397bad}
 .i2s-flow-display{position:relative}
 .i2s-flow-connectors{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
-.i2s-flow-connectors path.i2s-connection{fill:none;stroke:#cfdeea;stroke-width:1.5;transition:stroke .25s}
-.i2s-flow-connectors path.i2s-connection.is-passed{stroke:#7fa6c7}
+.i2s-flow-connectors path.i2s-connection{fill:none;stroke:#cfdeea;stroke-width:1.5}
 .i2s-flow-display.is-enhanced .i2s-visual-flow>li::after{display:none}
-.i2s-flow-display.is-enhanced .i2s-flow-illustration{border-radius:12px;transition:background-color .35s}
-.i2s-flow-display.is-enhanced .i2s-flow-illustration svg{opacity:.65;transition:opacity .3s}
-.i2s-flow-display.is-enhanced li:is(.is-active,.is-complete) .i2s-flow-illustration svg{opacity:1}
-.i2s-flow-display.is-enhanced li.is-active .i2s-flow-illustration{background-color:#edf4fa}
 .i2s-flow-display.is-enhanced li.is-active .i2s-flow-caption h5{color:#2468a3}
-.i2s-flow-display.is-enhanced li.is-verifying .i2s-flow-illustration{background-color:#eef6f2}
 .i2s-flow-display.is-enhanced li.is-verifying .i2s-flow-caption h5{color:#4e8975}
 .i2s-flow-caption h5{transition:color .3s}
 @media(max-width:760px){.i2s-flow-heading-actions{max-width:46%;gap:8px}.i2s-workflow-heading .i2s-flow-heading-actions>p{max-width:none}.i2s-flow-connectors path.i2s-connection{stroke-width:1.25}}
-@media(prefers-reduced-motion:reduce){.i2s-flow-connectors path.i2s-connection,.i2s-flow-display.is-enhanced .i2s-flow-illustration,.i2s-flow-display.is-enhanced .i2s-flow-illustration svg,.i2s-flow-caption h5{transition:none}}
-@media print{#i2s-flow-pause{display:none}.i2s-flow-display.is-enhanced .i2s-flow-illustration svg{opacity:1!important}.i2s-flow-display.is-enhanced .i2s-flow-illustration{background:transparent!important}}
+@media(prefers-reduced-motion:reduce){.i2s-flow-caption h5{transition:none}}
+@media print{#i2s-flow-pause{display:none}}
 
 @media(max-width:760px){
  .i2s-workflow-heading{position:relative;display:block;padding-right:40px}
