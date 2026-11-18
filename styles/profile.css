@@ -73,10 +73,12 @@
 .profile-language-score { display: flex; align-items: baseline; gap: 8px; }
 .profile-language-score > span { color: #7b8897; font-size: 12px; }
 .profile-language-score strong { color: #286c9d; font-size: 25px; font-weight: 650; line-height: 1.4; }
+.profile-language-score .opic-grade-al { color: #b65045; }
+.profile-language-score .opic-grade-ih { color: #66762d; }
 .profile-language-item .profile-entry-date { grid-column: 3; grid-row: 1; justify-self: end; text-align: right; white-space: nowrap; }
-.profile-language-project { grid-column: 1 / -1; grid-row: 2; justify-self: end; text-align: right; }
+.profile-language-project { grid-column: 1 / -1; grid-row: 2; justify-self: start; text-align: left; }
 .profile-language-project { margin-top: 8px !important; }
-.profile-language-project a { display: inline-flex; align-items: baseline; justify-content: flex-end; gap: 8px; }
+.profile-language-project a { display: inline-flex; align-items: baseline; gap: 8px; }
 .profile-language-project a:hover { color: var(--blue); }
 .profile-language-project a:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
 .profile-record .skill-exhibit {
