@@ -94,16 +94,36 @@
 .profile-record .skill-collection h3 { margin: 0 0 8px; color: #7b8897; font-size: 13px; font-weight: 500; line-height: 1.6; }
 .overview-skills .badge-shelf { gap: 4px 18px; }
 .overview-skills .tech-badge {
-  min-height: 36px; gap: 8px; padding: 5px 0; border: 0; border-bottom: 1px solid transparent;
+  min-height: 36px; gap: 8px; padding: 5px 0; border: 0;
   border-radius: 0; background: transparent; box-shadow: none; color: #334a5d;
 }
 .overview-skills .tech-name { font-size: 14px; font-weight: 500; line-height: 1.6; }
 .overview-skills .tech-badge .tech-mark { width: 21px; height: 21px; }
-.overview-skills .tech-badge::after { content: '+'; margin-left: 2px; color: #899cac; font-size: 14px; }
-.overview-skills .tech-badge:hover, .overview-skills .tech-badge[aria-pressed=true] {
-  color: #2166a4; background: transparent; border-bottom-color: #7da6ca; box-shadow: none;
+/* Match Baro's fixed hit area and elastic plus; animate only the symbol. */
+.overview-skills .tech-badge::after {
+  content: ''; display: inline-block; flex: none; width: 14px; height: 14px; margin-left: 2px;
+  color: #899cac; transform-origin: center;
+  background: linear-gradient(currentColor, currentColor) center / 10px 1.5px no-repeat,
+              linear-gradient(currentColor, currentColor) center / 1.5px 10px no-repeat;
 }
-.overview-skills .tech-badge[aria-pressed=true]::after { content: '−'; color: #2166a4; }
+.overview-skills .tech-badge:hover, .overview-skills .tech-badge[aria-pressed=true] {
+  color: #2166a4; background: transparent; box-shadow: none;
+}
+.overview-skills .tech-badge[aria-pressed=true]::after { color: #2166a4; background-size: 10px 1.5px, 0 0; }
+@keyframes skill-plus-elastic {
+  0%, 29.6%, 100% { transform: scale(1, 1); }
+  8% { transform: scale(1.18, .82); }
+  12.8% { transform: scale(.86, 1.14); }
+  18% { transform: scale(1.08, .92); }
+  22.8% { transform: scale(.97, 1.03); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .overview-skills .tech-badge:not([aria-pressed=true]):hover::after { color: #2166a4; animation: skill-plus-elastic 3s linear .35s infinite; }
+}
+.overview-skills .tech-badge:not([aria-pressed=true]):focus-visible::after { color: #2166a4; animation: skill-plus-elastic 3s linear .35s infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .overview-skills .tech-badge::after { animation: none !important; transform: none; }
+}
 .overview-skills .tech-badge:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
 .profile-record .skill-projects { grid-column: 2; margin-top: 20px; }
 #skill-project-links a { font-size: 14px; line-height: 1.8; }
