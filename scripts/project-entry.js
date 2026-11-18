@@ -24,6 +24,8 @@
   const stage=document.createElement('div');stage.className='case-entry';
   const layout=document.createElement('div');layout.className='case-entry-layout';
   disclosure.insertBefore(track,summary);
+  const highlights=summary.querySelector('.project-highlights');
+  if(highlights)visual.prepend(highlights);
   layout.append(summary,copy,visual);stage.append(layout);track.append(stage);
   project.classList.add('has-case-entry');
 

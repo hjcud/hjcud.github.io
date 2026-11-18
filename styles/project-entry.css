@@ -6,7 +6,7 @@
 .case-entry-layout>.project-summary{display:block;grid-column:1;grid-row:1;padding:0;cursor:auto;border:0}
 .case-entry-layout>.project-summary .project-brand{font-size:32px;min-height:48px}
 .case-entry-layout>.project-summary .world-wordmark{width:360px}
-.case-entry-layout .project-highlights{margin-top:20px;gap:6px 14px}
+.case-entry-layout>.project-visual>.project-highlights{margin:0 0 18px;gap:6px 14px}
 .case-entry-layout .project-highlights>span{font-size:13px}
 .case-entry-layout .project-highlights>span:first-child{font-size:14px}
 .case-entry-layout>.project-copy{grid-column:1;grid-row:2;min-width:0}
@@ -25,8 +25,7 @@
 .case-entry-track.is-animated .case-entry-layout>.project-copy,
 .case-entry-track.is-animated .case-entry-layout>.project-visual,
 .case-entry-track.is-animated .project-summary .eyebrow,
-.case-entry-track.is-animated .project-summary .technology-tags,
-.case-entry-track.is-animated .project-summary .project-highlights{opacity:var(--entry-copy,0)}
+.case-entry-track.is-animated .project-summary .technology-tags{opacity:var(--entry-copy,0)}
 .case-entry-track.is-animated[data-entry-phase="settled"] .case-entry-picture,
 .case-entry-track.is-animated[data-entry-phase="settled"] .case-entry-logo{display:none}
 @media(max-width:1100px){.case-entry-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px 32px}.case-entry-layout>.project-summary .project-brand{font-size:28px}}
@@ -41,7 +40,7 @@
  .case-entry-layout>.project-copy{grid-column:1;grid-row:2}
  .case-entry-layout>.project-visual{grid-column:1;grid-row:3}
  .case-entry-layout>.project-summary .project-brand{font-size:28px}
- .case-entry-layout .project-highlights{margin-top:16px}
+ .case-entry-layout>.project-visual>.project-highlights{margin:0 0 16px}
 }
 @media(prefers-reduced-motion:reduce){.case-entry-track .case-entry{position:relative}}
 @media print{
