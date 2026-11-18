@@ -73,7 +73,7 @@
 .profile-language-score { display: flex; align-items: baseline; gap: 8px; }
 .profile-language-score > span { color: #7b8897; font-size: 12px; }
 .profile-language-score strong { color: #286c9d; font-size: 25px; font-weight: 650; line-height: 1.4; }
-.profile-language-score .opic-grade-al { color: #b65045; }
+.profile-language-score .opic-grade-al { color: #e36b4d; font-weight: 700; }
 .profile-language-score .opic-grade-ih { color: #7e9d18; font-weight: 700; }
 .profile-language-item .profile-entry-date { grid-column: 3; grid-row: 1; justify-self: end; text-align: right; white-space: nowrap; }
 .profile-language-project { grid-column: 1 / -1; grid-row: 2; justify-self: start; text-align: left; }
@@ -82,7 +82,7 @@
 .profile-language-project a:hover { color: var(--blue); }
 .profile-language-project a:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
 .profile-record .skill-exhibit {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px var(--profile-gap);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px var(--profile-gap);
 }
 .profile-record .skill-collection { min-width: 0; padding: 0; border: 0; }
 .profile-record .skill-collection:nth-child(even) {
@@ -112,12 +112,14 @@
   grid-column: 1 / -1;
   border-top: 0;
 }
+.profile-record .overview-section.overview-skills { padding-bottom: 12px; }
 .additional-skills > summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 16px 0;
+  min-height: 44px;
+  padding: 10px 0;
   color: #637182;
   font-size: 13px;
   line-height: 1.6;
@@ -160,7 +162,8 @@
   .profile-language-item { column-gap: 10px; }
   .profile-language-project { font-size: 12px; }
   .profile-record .profile-entry-date { font-size: 11px; }
-  .profile-record .skill-exhibit { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .profile-record .skill-exhibit { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .profile-record .skill-exhibit > .skill-collection + .skill-collection { margin-top: 8px; }
   .profile-record .skill-collection:nth-child(even) { padding: 0; border-left: 0; }
   .profile-record .skill-collection + .skill-collection {
     padding-top: 18px; border-top: 1px solid var(--folio-rule);
