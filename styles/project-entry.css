@@ -1,0 +1,51 @@
+/* One project entrance becomes its introduction, without a second cover page. */
+.case-entry-track{position:relative;background:#fff}
+.case-entry{position:relative;background:#fff;isolation:isolate}
+.case-entry-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);grid-template-rows:max-content 1fr;gap:24px clamp(32px,4.5vw,68px);max-width:var(--folio-width);margin-inline:auto;padding:56px var(--gutter) 36px;align-content:start}
+.case-entry-layout>.project-summary{display:block;grid-column:1;grid-row:1;padding:0;cursor:auto;border:0}
+.case-entry-layout>.project-summary .project-brand{font-size:32px;min-height:48px}
+.case-entry-layout>.project-summary .world-wordmark{width:360px}
+.case-entry-layout .project-highlights{margin-top:20px;gap:6px 14px}
+.case-entry-layout .project-highlights>span{font-size:13px}
+.case-entry-layout .project-highlights>span:first-child{font-size:14px}
+.case-entry-layout>.project-copy{grid-column:1;grid-row:2;min-width:0}
+.case-entry-layout>.project-copy>.summary{margin-top:0;font-size:14px;color:#3d4c58}
+.case-entry-layout>.project-visual{grid-column:2;grid-row:1/3;align-self:start;min-width:0;margin-top:0}
+.has-case-entry>.project-disclosure>.project-body{padding-top:0}
+.case-entry-picture,.case-entry-logo{display:none}
+.case-entry-track.is-animated .case-entry{position:sticky;top:var(--entry-top)}
+.case-entry-track.is-animated .case-entry-picture{display:block;position:absolute;left:0;top:0;z-index:2;overflow:hidden;transform-origin:0 0;pointer-events:none;background:#edf1f3}
+.case-entry-picture>img{width:100%;height:100%;max-width:none;object-fit:cover}
+.case-entry-picture::after{content:'';position:absolute;inset:0;background:#0d202f;opacity:var(--entry-shade,0)}
+.case-entry-track.is-animated .case-entry-logo{display:flex;position:absolute;left:0;top:0;z-index:3;margin:0;max-width:none;transform-origin:0 0;pointer-events:none;align-items:center}
+.case-entry-logo .world-wordmark{width:100%;max-width:none;flex:none}.case-entry-logo-light{filter:brightness(0) invert(1)}
+.case-entry-track.is-animated:not([data-entry-phase="settled"]) .project-summary .project-brand{visibility:hidden}
+.case-entry-track.is-animated:not([data-entry-phase="settled"]) .case-entry-layout{pointer-events:none}
+.case-entry-track.is-animated .case-entry-layout>.project-copy,
+.case-entry-track.is-animated .case-entry-layout>.project-visual,
+.case-entry-track.is-animated .project-summary .eyebrow,
+.case-entry-track.is-animated .project-summary .technology-tags,
+.case-entry-track.is-animated .project-summary .project-highlights{opacity:var(--entry-copy,0)}
+.case-entry-track.is-animated[data-entry-phase="settled"] .case-entry-picture,
+.case-entry-track.is-animated[data-entry-phase="settled"] .case-entry-logo{display:none}
+@media(max-width:1100px){.case-entry-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px 32px}.case-entry-layout>.project-summary .project-brand{font-size:28px}}
+@media(max-width:899px),(max-height:649px){
+ .case-entry-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;gap:24px;padding-block:32px 0}
+ .case-entry-layout>.project-summary{grid-column:1;grid-row:1}
+ .case-entry-layout>.project-visual{grid-column:1;grid-row:2}
+ .case-entry-layout>.project-copy{grid-column:1;grid-row:3}
+ .case-entry-layout>.project-summary .project-brand{font-size:28px}
+ .case-entry-layout .project-highlights{margin-top:16px}
+}
+@media(prefers-reduced-motion:reduce){.case-entry-track .case-entry{position:relative}}
+@media print{
+ .case-entry-track{width:auto!important;margin-left:0!important;height:auto!important}
+ .case-entry-track.is-animated .case-entry{position:relative;min-height:0}
+ .case-entry-layout{display:block;padding:20px 0}
+ .case-entry-layout>.project-summary{margin-bottom:20px}
+ .case-entry-layout>.project-visual{margin-bottom:20px}
+ .case-entry-track .case-entry-layout>*{opacity:1!important;visibility:visible!important}
+ .case-entry-track .project-summary .project-brand{visibility:visible!important}
+ .case-entry-track .project-summary :is(.eyebrow,.technology-tags,.project-highlights){opacity:1!important}
+ .case-entry-track.is-animated :is(.case-entry-picture,.case-entry-logo){display:none}
+}

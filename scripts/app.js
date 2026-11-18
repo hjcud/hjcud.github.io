@@ -210,7 +210,7 @@ for(const config of [
  interactionRoot.addEventListener('mouseenter',()=>hover=true);interactionRoot.addEventListener('mouseleave',()=>hover=false);
  interactionRoot.addEventListener('focusin',()=>focused=true);interactionRoot.addEventListener('focusout',e=>{if(!interactionRoot.contains(e.relatedTarget))focused=false;});
  new IntersectionObserver(e=>{visible=e[0].isIntersecting;},{threshold:.25}).observe(carousel);
- setInterval(()=>{if(visible&&!reducedMotion.matches&&!hover&&!focused&&!document.hidden&&!dialog.open)show(index+1);},5000);
+ setInterval(()=>{const entry=carousel.closest('.case-entry-track');if(visible&&!reducedMotion.matches&&!hover&&!focused&&!document.hidden&&!dialog.open&&(!entry||entry.dataset.entryPhase==='settled'))show(index+1);},5000);
 }
 
 function toast(text){$('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('#toast').classList.remove('visible'),1800);}
