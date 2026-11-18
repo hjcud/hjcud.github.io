@@ -7,6 +7,7 @@ let sim,core,background,cache,visible=false,ready=false,paused=motion.matches,fr
 let width=1,height=1,scale=1,offsetX=0,offsetY=0,ratio=1;
 let focusId=9;
 const resetControl=$('traffic-reset');
+const signalStatus=section.querySelector('.traffic-signal');
 const project=p=>({x:55+(p.x+140)*3.45,y:240-p.z*3.45});
 const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
 async function init(){
@@ -179,11 +180,19 @@ function person(p){
  ctx.beginPath();ctx.ellipse(-.3,-.95,.35,.55,-.4,0,Math.PI*2);ctx.fillStyle='#ffffff16';ctx.fill();
  ctx.restore();
 }
+function positionSignal(){
+ const lamp=project({x:62,z:17}),x=lamp.x*scale+offsetX,y=lamp.y*scale+offsetY;
+ const statusWidth=signalStatus.offsetWidth,statusHeight=signalStatus.offsetHeight;
+ const beside=x+11*scale+7,below=beside+statusWidth>width-8;
+ signalStatus.dataset.placement=below?'below':'beside';
+ signalStatus.style.left=(below?Math.max(8,Math.min(width-statusWidth-8,x-statusWidth/2)):beside)+'px';
+ signalStatus.style.top=(below?y+5*scale+5:y-statusHeight/2)+'px';
+}
 function updateUI(){
  if(!sim)return;
- $('traffic-light').className='light-'+sim.signal;
  $('traffic-signal-label').textContent=sim.signal==='green'?'차량 통행':sim.signal==='yellow'?'정지 준비':'차량 정지';
  $('traffic-countdown').textContent=Math.ceil(sim.remaining/3)+'초';
+ positionSignal();
  updateLegend();
  canvas.dataset.signal=sim.signal;canvas.dataset.walk=String(sim.walk);canvas.dataset.laneChanges=String(sim.completedChanges);canvas.dataset.time=sim.time.toFixed(1);
 }
