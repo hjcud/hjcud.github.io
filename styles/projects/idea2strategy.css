@@ -98,7 +98,7 @@
 @media(max-width:360px){.i2s-visual-flow>li{grid-template-columns:85px minmax(0,1fr);gap:9px}.i2s-flow-illustration{width:85px}.i2s-visual-flow>li:not(:last-child)::after{left:34px}}
 @media print{.i2s-visual-flow{break-inside:avoid}.i2s-implementation-details>div{display:block}}
 
-/* A single clock connects reading, sharing, implementation and verification. */
+/* Independently looping illustrations share only playback and visibility controls. */
 .i2s-flow-heading-actions{display:flex;align-items:center;gap:16px;min-width:0}
 #i2s-flow-pause{flex:none;width:28px;height:28px;padding:0;border:1px solid #d6e2eb;border-radius:50%;background:#fafcfd;color:#6b879d;font-size:11px;line-height:1}
 #i2s-flow-pause:hover{background:#eaf2f8;color:#397bad}
@@ -106,7 +106,6 @@
 .i2s-flow-connectors{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
 .i2s-flow-connectors path.i2s-connection{fill:none;stroke:#cfdeea;stroke-width:1.5}
 .i2s-flow-display.is-enhanced .i2s-visual-flow>li::after{display:none}
-.i2s-flow-display.is-enhanced li.is-active .i2s-flow-caption h5{color:#2468a3}
 .i2s-flow-display.is-enhanced li.is-verifying .i2s-flow-caption h5{color:#4e8975}
 .i2s-flow-caption h5{transition:color .3s}
 @media(max-width:760px){.i2s-flow-heading-actions{max-width:46%;gap:8px}.i2s-workflow-heading .i2s-flow-heading-actions>p{max-width:none}.i2s-flow-connectors path.i2s-connection{stroke-width:1.25}}
