@@ -5,7 +5,7 @@
  const control=document.getElementById('traffic-pause');
  let initialized=false;
  let active=null,frame=0,last=0,scrollFrame=0;
- const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],progress:svg.querySelector('.route-progress'),target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),signal:svg.querySelector('.sensor-signal'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),status:svg.querySelector('.sensor-status'),scan:svg.querySelector('.frame-scan'),blocks:[...svg.querySelectorAll('.work-block')]}))}));
+ const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],progress:svg.querySelector('.route-progress'),target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),signalRed:svg.querySelector('.signal-red'),signalGreen:svg.querySelector('.signal-green'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),scan:svg.querySelector('.frame-scan'),blocks:[...svg.querySelectorAll('.work-block')]}))}));
  function initialize(){
   if(initialized)return;
   for(const scene of scenes)for(const p of scene.panes)if(p.path){
@@ -49,24 +49,23 @@
     const phase=t%12,idle=phase>=8;
     if(p.leader){
      const x=254+(idle?0:8*Math.sin(phase*Math.PI/4)),rear=x-11;
-     move(p.leader,x,93);
-     p.distance.setAttribute('d',`M59 93H${rear.toFixed(2)}M59 89V97M${rear.toFixed(2)} 89V97`);
-     p.distanceHalo.setAttribute('d',`M59 93H${rear.toFixed(2)}`);
+     move(p.leader,x,88);
+     p.distance.setAttribute('d',`M59 88H${rear.toFixed(2)}M59 84V92M${rear.toFixed(2)} 84V92`);
+     p.distanceHalo.setAttribute('d',`M59 88H${rear.toFixed(2)}`);
     }
     if(p.person){
      const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
-     const incoming=phase<2.6,y=phase<2.6?32+61*smooth(phase/2.6):phase<4.8?93:93-61*smooth((phase-4.8)/2.4);
-     const hit=!idle&&Math.abs(y-93)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
+     const incoming=phase<2.6,y=phase<2.6?27+61*smooth(phase/2.6):phase<4.8?88:88-61*smooth((phase-4.8)/2.4);
+     const hit=!idle&&Math.abs(y-88)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
      p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(${incoming?180:0})`);
-     p.sensorRay.setAttribute('d',`M59 81H${endX.toFixed(2)}V105H59Z`);
-     p.sensorLimit.setAttribute('d',`M${endX.toFixed(2)} 81V105`);
+     p.sensorRay.setAttribute('d',`M59 76H${endX.toFixed(2)}V100H59Z`);
+     p.sensorLimit.setAttribute('d',`M${endX.toFixed(2)} 76V100`);
      const color=hit?'#cb8150':'#579680';
      p.sensorRay.style.stroke=color;p.sensorRay.style.fill=hit?'#cb815026':'#57968016';p.sensorLimit.style.stroke=color;
      p.footprint.style.opacity=idle?'0':'1';p.contact.style.opacity=hit?'1':'0';
-     p.contact.setAttribute('cx',endX.toFixed(2));p.contact.setAttribute('cy',Math.max(81,Math.min(105,y)).toFixed(2));
-     p.signal.style.fill=idle?'#ce817a':'#579680';
-     p.status.textContent=idle?'시연: 신호 대기 중 감지 끔':hit?'보행자 감지 → 정지':'주행 중: 보행자 감지 전';
-     p.status.style.fill=idle?'#8796a2':color;
+     p.contact.setAttribute('cx',endX.toFixed(2));p.contact.setAttribute('cy',Math.max(76,Math.min(100,y)).toFixed(2));
+     p.signalRed.style.fill=idle?'#e3746c':'#74838c';
+     p.signalGreen.style.fill=idle?'#74838c':'#63b69c';
      p.svg.dataset.sensorState=idle?'inactive':hit?'hit':'clear';
     }
    }else if(scene.type==='schedule'){
