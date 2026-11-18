@@ -64,7 +64,7 @@
     const personIsCloser=hit&&endX<rear,measuredEnd=personIsCloser?endX:rear;
     p.distance.setAttribute('d',`M59 88H${measuredEnd.toFixed(2)}M59 84V92M${measuredEnd.toFixed(2)} 84V92`);
     p.distanceHalo.setAttribute('d',`M59 88H${measuredEnd.toFixed(2)}`);
-    p.distanceValue.textContent=(personIsCloser?'보행자 ':'앞차 ')+((measuredEnd-59)/diagramUnitsPerMeter).toFixed(1)+' m';
+    p.distanceValue.textContent=((measuredEnd-59)/diagramUnitsPerMeter).toFixed(1)+' m';
     p.svg.dataset.distanceTarget=personIsCloser?'pedestrian':'vehicle';
     p.signalRed.style.fill=waiting?'#e3746c':'#74838c';
     p.signalGreen.style.fill=waiting?'#74838c':'#63b69c';
