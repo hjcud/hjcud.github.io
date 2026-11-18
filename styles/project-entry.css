@@ -1,4 +1,5 @@
 /* One project entrance becomes its introduction, without a second cover page. */
+.case-entry-viewport{position:fixed;left:0;top:0;width:0;height:100svh;visibility:hidden;pointer-events:none}
 .case-entry-track{position:relative;background:#fff}
 .case-entry{position:relative;background:#fff;isolation:isolate}
 .case-entry-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);grid-template-rows:max-content 1fr;gap:24px clamp(32px,4.5vw,68px);max-width:var(--folio-width);margin-inline:auto;padding:56px var(--gutter) 36px;align-content:start}
@@ -29,11 +30,16 @@
 .case-entry-track.is-animated[data-entry-phase="settled"] .case-entry-picture,
 .case-entry-track.is-animated[data-entry-phase="settled"] .case-entry-logo{display:none}
 @media(max-width:1100px){.case-entry-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:24px 32px}.case-entry-layout>.project-summary .project-brand{font-size:28px}}
-@media(max-width:899px),(max-height:649px){
+@media(min-width:761px) and (max-width:899px){
+ .case-entry-layout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 24px;padding-block:36px 28px}
+ .case-entry-layout>.project-summary .project-brand{font-size:24px;gap:8px}
+ .case-entry-layout .brand-symbol-i2s{width:40px;height:38px}
+}
+@media(max-width:760px){
  .case-entry-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;gap:24px;padding-block:32px 0}
  .case-entry-layout>.project-summary{grid-column:1;grid-row:1}
- .case-entry-layout>.project-visual{grid-column:1;grid-row:2}
- .case-entry-layout>.project-copy{grid-column:1;grid-row:3}
+ .case-entry-layout>.project-copy{grid-column:1;grid-row:2}
+ .case-entry-layout>.project-visual{grid-column:1;grid-row:3}
  .case-entry-layout>.project-summary .project-brand{font-size:28px}
  .case-entry-layout .project-highlights{margin-top:16px}
 }

@@ -1,8 +1,8 @@
 'use strict';
 (() => {
  const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
- const spacious=matchMedia('(min-width: 900px) and (min-height: 650px)');
  const header=document.querySelector('.header');
+ const viewportProbe=document.createElement('div');viewportProbe.className='case-entry-viewport';viewportProbe.setAttribute('aria-hidden','true');document.body.append(viewportProbe);
  const entries=[];
  const clamp=value=>Math.max(0,Math.min(1,value));
  const mix=(a,b,t)=>a+(b-a)*t;
@@ -24,7 +24,7 @@
   const stage=document.createElement('div');stage.className='case-entry';
   const layout=document.createElement('div');layout.className='case-entry-layout';
   disclosure.insertBefore(track,summary);
-  layout.append(summary,visual,copy);stage.append(layout);track.append(stage);
+  layout.append(summary,copy,visual);stage.append(layout);track.append(stage);
   project.classList.add('has-case-entry');
 
   const picture=document.createElement('div');picture.className='case-entry-picture';picture.setAttribute('aria-hidden','true');
@@ -48,8 +48,10 @@
  }
  function measure(){
   measureFrame=0;
-  const active=spacious.matches&&!reducedMotion.matches;
+  const active=!reducedMotion.matches;
   const viewport=document.documentElement.clientWidth;
+  const viewportHeight=viewportProbe.getBoundingClientRect().height||innerHeight;
+  const mobile=viewport<=760;
   const top=header.getBoundingClientRect().height;
   for(const entry of entries){
    const {project,track,stage,heading,logo,lightLogo,photograph}=entry;
@@ -57,12 +59,12 @@
    const left=project.getBoundingClientRect().left;
    track.style.width=viewport+'px';track.style.marginLeft=-left+'px';
    track.classList.toggle('is-animated',active);
-   entry.top=top;entry.screen=innerHeight-top;
+   entry.top=top;entry.screen=viewportHeight-top;
    track.style.setProperty('--entry-top',top+'px');track.style.setProperty('--entry-screen',entry.screen+'px');
    if(!active){entry.run=0;entry.progress=1;track.dataset.entryPhase='settled';continue;}
    // Finish the move before releasing the sticky introduction, so a wheel gesture
    // can land on readable copy without immediately pushing the heading offscreen.
-   entry.run=Math.min(440,innerHeight*.46);
+   entry.run=mobile?Math.min(320,viewportHeight*.38):Math.min(440,viewportHeight*.46);
    entry.reading=Math.max(Math.min(320,Math.max(220,entry.screen*.3)),entry.screen-stage.offsetHeight-entry.run+80);
    track.style.setProperty('--entry-travel',entry.run+'px');
    track.style.setProperty('--entry-reading',entry.reading+'px');
@@ -74,10 +76,14 @@
    const last=wordmark||heading.lastElementChild;
    const firstRect=first.getBoundingClientRect(),lastRect=last.getBoundingClientRect(),headingRect=heading.getBoundingClientRect();
    const style=getComputedStyle(heading);
-   for(const layer of [logo,lightLogo])Object.assign(layer.style,{font:style.font,letterSpacing:style.letterSpacing,gap:style.gap});
+   for(const layer of [logo,lightLogo]){
+    Object.assign(layer.style,{font:style.font,letterSpacing:style.letterSpacing,gap:style.gap});
+    const symbol=layer.querySelector('.brand-symbol');
+    if(symbol)Object.assign(symbol.style,{width:firstRect.width+'px',height:firstRect.height+'px',flex:'none'});
+   }
    entry.brand={x:firstRect.left-origin.left,y:(wordmark?firstRect.top:headingRect.top)-origin.top,width:lastRect.right-firstRect.left,height:wordmark?firstRect.height:headingRect.height};
    for(const layer of [logo,lightLogo]){layer.style.width=entry.brand.width+'px';layer.style.height=entry.brand.height+'px';}
-   const startWidth=Math.min(640,viewport*.52);
+   const startWidth=Math.min(640,viewport*(mobile?.78:.52));
    entry.logoScale=startWidth/entry.brand.width;
    entry.logoStart={x:(viewport-startWidth)/2,y:(entry.screen-entry.brand.height*entry.logoScale)/2};
    syncImage(entry);
@@ -121,7 +127,7 @@
  function scheduleMeasure(){if(!measureFrame)measureFrame=requestAnimationFrame(measure);}
  addEventListener('scroll',schedule,{passive:true});
  addEventListener('resize',scheduleMeasure);
- reducedMotion.addEventListener('change',scheduleMeasure);spacious.addEventListener('change',scheduleMeasure);
+ reducedMotion.addEventListener('change',scheduleMeasure);
  const observer=new ResizeObserver(scheduleMeasure);
  entries.forEach(entry=>observer.observe(entry.layout));
  document.fonts.ready.then(scheduleMeasure);
