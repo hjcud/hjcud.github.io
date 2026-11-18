@@ -60,8 +60,13 @@
    entry.top=top;entry.screen=innerHeight-top;
    track.style.setProperty('--entry-top',top+'px');track.style.setProperty('--entry-screen',entry.screen+'px');
    if(!active){entry.run=0;entry.progress=1;track.dataset.entryPhase='settled';continue;}
-   entry.run=Math.max(Math.min(560,innerHeight*.62),entry.screen-stage.offsetHeight+80);
-   track.style.height=(stage.offsetHeight+entry.run)+'px';
+   // Finish the move before releasing the sticky introduction, so a wheel gesture
+   // can land on readable copy without immediately pushing the heading offscreen.
+   entry.run=Math.min(440,innerHeight*.46);
+   entry.reading=Math.max(Math.min(320,Math.max(220,entry.screen*.3)),entry.screen-stage.offsetHeight-entry.run+80);
+   track.style.setProperty('--entry-travel',entry.run+'px');
+   track.style.setProperty('--entry-reading',entry.reading+'px');
+   track.style.height=(stage.offsetHeight+entry.run+entry.reading)+'px';
    const origin=stage.getBoundingClientRect(),photo=photograph.getBoundingClientRect();
    entry.photo={x:photo.left-origin.left,y:photo.top-origin.top,width:photo.width,height:photo.height};
    const wordmark=heading.querySelector('.world-wordmark');
@@ -107,7 +112,7 @@
    const insetTop=Math.max(0,(pictureTop-logoY)/scale),insetRight=Math.max(0,brand.width-(pictureRight-logoX)/scale);
    const insetBottom=Math.max(0,brand.height-(pictureBottom-logoY)/scale),insetLeft=Math.max(0,(pictureLeft-logoX)/scale);
    lightLogo.style.clipPath=`inset(${insetTop}px ${insetRight}px ${insetBottom}px ${insetLeft}px)`;
-   track.style.setProperty('--entry-copy',ease(clamp((progress-.76)/.24)));
+   track.style.setProperty('--entry-copy',ease(clamp((progress-.66)/.26)));
   }
   // The completed state uses the original live carousel and accessible text.
   for(const entry of entries)if(entry.progress>=1)entry.track.style.setProperty('--entry-copy',1);
