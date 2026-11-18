@@ -197,7 +197,7 @@ function tick(now){
 function schedule(){cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!document.hidden&&!paused&&sim)frame=requestAnimationFrame(tick);}
 function reflectPause(){pause.textContent=paused?'▷':'Ⅱ';pause.setAttribute('aria-pressed',String(paused));pause.setAttribute('aria-label',paused?'교통 시연 재생':'교통 시연 일시정지');}
 function selectVehicle(id){focusId=id;draw();updateUI();}
-function hitVehicle(event){
+function hitVehicle(event,padding=event.pointerType==='touch'?14:9){
  if(!sim)return null;
  const rect=canvas.getBoundingClientRect(),x=event.clientX-rect.left,y=event.clientY-rect.top;
  let selected=null,best=Infinity;
@@ -207,12 +207,19 @@ function hitVehicle(event){
   const along=dx*Math.cos(car.pos.angle)-dy*Math.sin(car.pos.angle),side=dx*Math.sin(car.pos.angle)+dy*Math.cos(car.pos.angle);
   const distance=Math.hypot(Math.max(0,Math.abs(along)-car.length*3.45*scale/2),Math.max(0,Math.abs(side)-3.3*scale));
   const score=distance+Math.hypot(dx,dy)*.001;
-  if(distance<=(event.pointerType==='touch'?14:9)&&score<best){selected=car;best=score;}
+  if(distance<=padding&&score<best){selected=car;best=score;}
  }
  return selected;
 }
 canvas.addEventListener('click',event=>{const car=hitVehicle(event);if(car)selectVehicle(car.id);});
-canvas.addEventListener('pointermove',event=>{canvas.style.cursor=hitVehicle(event)?'pointer':'';});
+function hoverVehicle(event){
+ if(event.pointerType==='touch'||event.buttons)return;
+ const car=hitVehicle(event,2);
+ canvas.style.cursor=car?'pointer':'';
+ if(car&&car.id!==focusId)selectVehicle(car.id);
+}
+canvas.addEventListener('pointerenter',hoverVehicle);
+canvas.addEventListener('pointermove',hoverVehicle);
 canvas.addEventListener('pointerleave',()=>{canvas.style.cursor='';});
 canvas.addEventListener('keydown',event=>{
  if(!sim||!['ArrowLeft','ArrowRight'].includes(event.key))return;
