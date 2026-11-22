@@ -1461,8 +1461,8 @@
     },
     {
       "file": "index.html",
-      "sha256": "c50ea64ce0b8116c2d428ea89ba93870e60c18b47b2891a4fd8694990ae1ea9a",
-      "bytes": 8404
+      "sha256": "65957d9a11fd1beb899ae8109db7daefc22d30d503468f568861ab34a44bfb13",
+      "bytes": 8406
     },
     {
       "file": "map-fixture-1x.png",
@@ -1972,7 +1972,7 @@
     "liveModelCalls": 0
   },
   "portfolioPresentation": {
-    "sourceCaseStudy": "https://github.com/hjcud/Pixerin/blob/main/docs/MINIWORLD_CASE_STUDY.md",
+    "sourceCaseStudy": "https://github.com/hjcud/pixel-mat/blob/main/docs/MINIWORLD_CASE_STUDY.md",
     "adaptation": "The evidence viewer methods link points to the public GitHub document from its portfolio location. Its file hash and byte count are updated here. Image data and all other evidence files are unchanged."
   }
 }
