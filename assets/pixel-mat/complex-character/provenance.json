@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "title": "Complex character: face-priority control and whole-figure 16px interpretations",
+  "date": "2026-11-22",
+  "source": "Owner-selected red-hood character reference in the supplied comparison board; original creator and license are not established here.",
+  "scope": "Source-conditioned experimental character study, separate from Miniworld. No production integration or complete source likeness approved.",
+  "methods": {
+    "faceControl": "Retained earlier face-oriented 16px control. Its complete generation history is not counted by this board.",
+    "centralMedian": "One per-channel median from the central 50% of each detected chip; edge-connected empty gray cells removed, then the retained palette applied.",
+    "regionAllocation": "Each detected chip interior mapped to a fixed 32x32 block; the existing structure converter produces the 16x16 result with the retained palette.",
+    "nativePixelRepairsForWholeFigure": 0
+  },
+  "generation": {
+    "squareBoardRequests": 1,
+    "rawWidth": 1254,
+    "rawHeight": 1254,
+    "principalComponents": 256,
+    "mixedPigmentInteriors": 50,
+    "singlePigmentContractPassed": false,
+    "underlyingModel": null,
+    "tokens": null,
+    "cost": null,
+    "newModelCallsForPortfolioPublication": 0
+  },
+  "review": {
+    "historicalSourceIdentityReview": "Whole-figure candidates did not retain the original expression or lantern construction sufficiently.",
+    "laterUserStyleReview": "Both whole-figure variants retained as liked compact style references; no preference order specified.",
+    "interpretation": "Whole-sprite proportion/style preference is distinct from complete source identity, general method validity and production acceptance."
+  },
+  "verification": {
+    "nativeProjects": 3,
+    "projectPngExactRgbaMatches": 3,
+    "samePaletteEntries": 16,
+    "binaryAlpha": true,
+    "originalInputsUnchanged": true
+  },
+  "rights": "Reference and artwork are not relicensed under the editor code MIT grant. No independent redistribution or exclusive generated-art rights are asserted.",
+  "files": [
+    {
+      "file": "reference.png",
+      "bytes": 591455,
+      "sha256": "37b639be40f5fdc5d07056f156e7e113964ad41df661dede3e405cfdd6e597fe",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "file": "face-control.png",
+      "bytes": 464,
+      "sha256": "95788b5c56e4b09026b787c79277601144c897a6f5696caaf23522af99441417",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "face-control.pixeltool",
+      "bytes": 2298,
+      "sha256": "5c256d0c24b04826cb440baec0f49f52654684fe0c942a7926511518f959bb83"
+    },
+    {
+      "file": "central-median.png",
+      "bytes": 453,
+      "sha256": "13ca5bc2533ae45f5da16cea5f97ceed57ac27687ae8c28cc20b5103a01c3350",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "central-median.pixeltool",
+      "bytes": 3411,
+      "sha256": "f378aa48b2fdfcfa2258e617bdf0ddf258d3de79b4283a2a98e2076475761250"
+    },
+    {
+      "file": "region-allocation.png",
+      "bytes": 446,
+      "sha256": "156e529380b7e749e8c25f971cac1b7b0c528b4c4e822a00e4f6632c1ae4be27",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "region-allocation.pixeltool",
+      "bytes": 3414,
+      "sha256": "1469bb8430ab96e72d6a952f7279528e7c753047c40e19a4c211da4e20ad7b0c"
+    },
+    {
+      "file": "generated-board.png",
+      "bytes": 1393004,
+      "sha256": "cb8a13b6cc88536220ecbaf3e776090cf7c4cf2ea45196645ddc036590e5f86d",
+      "width": 1254,
+      "height": 1254
+    },
+    {
+      "file": "prompt.txt",
+      "bytes": 2223,
+      "sha256": "eac9b49b724d62aa2e0fd453f8cd5ab6a968556093fd0f24e99fa08362427b1e"
+    }
+  ]
+}

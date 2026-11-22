@@ -32,4 +32,10 @@
  root.querySelectorAll('[data-pm-subject]').forEach(button=>button.addEventListener('click',()=>{current=button.dataset.pmSubject;render();}));
  root.querySelectorAll('[data-pm-scale]').forEach(button=>button.addEventListener('click',()=>{scale=Number(button.dataset.pmScale);render();}));
  render();
+ const complex=root.querySelector('#pixel-mat-complex');
+ if(complex)complex.querySelectorAll('[data-pm-complex-scale]').forEach(button=>button.addEventListener('click',()=>{
+  const scale=Number(button.dataset.pmComplexScale);
+  complex.querySelectorAll('[data-pm-complex-scale]').forEach(control=>control.setAttribute('aria-pressed',String(control===button)));
+  complex.querySelectorAll('[data-pm-complex-native]').forEach(img=>{img.width=16*scale;img.height=16*scale;});
+ }));
 })();
