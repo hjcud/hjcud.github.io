@@ -27,8 +27,8 @@
   <script src="scripts/timeline-preview.js" defer></script>
   <link rel="stylesheet" href="styles/project-entry.css?v=visual-project-highlights">
   <script src="scripts/project-entry.js?v=full-cover-reading-interval" defer></script>
-  <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=preferred-result">
-  <script src="scripts/pixel-mat.js?v=preferred-result" defer></script>
+  <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=project-content-only">
+  <script src="scripts/pixel-mat.js?v=project-content-only" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#profile">본문으로 이동</a>
@@ -343,7 +343,7 @@
       <figure><div class="pm-art-stage pm-reference"><img src="assets/pixel-mat/whole-comparison/gpt-original.png" width="128" height="128" alt="스킬 없이 16×16을 요청해 받은 1254×1254 이미지" loading="lazy"></div><figcaption><strong>일반 이미지 생성</strong><span>16×16 요청 / 실제 이미지 1254×1254</span></figcaption></figure>
       <figure><div class="pm-art-stage"><img src="assets/pixel-mat/complex-character/central-median.png" width="128" height="128" data-pm-preferred-image alt="Whole-chip central median으로 만든 빨간 후드 캐릭터의 실제 16×16 결과" loading="lazy"></div><figcaption><strong>Pixel Mat</strong><span class="pm-method-name" data-pm-preferred-name>Whole-chip central median</span><span>16×16 PNG / 16색 팔레트</span></figcaption></figure>
      </div>
-     <div class="pm-result-controls"><div class="pm-choices" role="group" aria-label="Pixel Mat 변환 방식"><button type="button" data-pm-preferred="median" aria-pressed="true">중앙 대표색</button><button type="button" data-pm-preferred="region" aria-pressed="false">영역 배정 <small>베타</small></button></div><div class="pm-file-links"><a href="assets/pixel-mat/complex-character/central-median.png" data-pm-preferred-png download>PNG</a><a href="assets/pixel-mat/complex-character/central-median.pixeltool" data-pm-preferred-project download>편집 프로젝트</a></div></div>
+     <div class="pm-result-controls"><div class="pm-choices" role="group" aria-label="Pixel Mat 변환 방식"><button type="button" data-pm-preferred="median" aria-pressed="true">중앙 대표색</button><button type="button" data-pm-preferred="region" aria-pressed="false">영역 배정 <small>베타</small></button></div></div>
      <p class="pm-comparison-condition">같은 캐릭터를 바탕으로 만들었으며, 생성 지침과 팔레트 설정은 다릅니다.</p>
      <section class="pm-process" aria-labelledby="pm-process-title">
       <h4 id="pm-process-title">중앙 대표색 방식의 변환 과정</h4>
@@ -354,42 +354,6 @@
       </ol>
      </section>
     </section>
-    <details class="pm-details" id="pm-repeat-study" name="pm-supporting-case">
-     <summary><span>같은 프롬프트로 다시 비교한 결과</span><span class="pm-disclosure-plus" aria-hidden="true">+</span></summary>
-     <div class="pm-detail-content">
-      <p>아래는 같은 참조 이미지와 기본 프롬프트로 각각 한 번씩 새로 생성한 결과입니다. 스킬 쪽에만 색칩 보드 제작 지침을 추가했습니다.</p>
-      <div class="pm-test-grid">
-       <figure><div class="pm-art-stage pm-reference"><img src="assets/pixel-mat/whole-comparison/gpt-original.png" width="128" height="128" alt="같은 프롬프트 비교에서 받은 일반 이미지 생성 원본" loading="lazy"></div><figcaption><strong>일반 이미지 생성</strong><span>1254×1254</span></figcaption></figure>
-       <figure><div class="pm-art-stage"><img src="assets/pixel-mat/whole-comparison/whole-median.png" width="128" height="128" alt="같은 프롬프트 비교에서 얼굴과 랜턴이 단순해진 16×16 스킬 결과" loading="lazy"></div><figcaption><strong>스킬 사용</strong><span>16×16 / 투명색 포함 16색</span></figcaption></figure>
-      </div>
-      <p>이번 결과는 크기와 색 수는 맞췄지만, 얼굴과 랜턴이 너무 단순해졌습니다. 같은 변환 방식을 써도 AI가 새로 그린 보드에 따라 결과가 달라졌습니다.</p>
-      <p>마음에 든 결과를 다음 작업에서도 쓸 수 있도록, 생성 보드와 팔레트, 프롬프트를 함께 보관하고 다시 변환하는 방법을 추가했습니다.</p>
-     </div>
-    </details>
-    <details class="pm-details" id="pm-prompt-study" name="pm-supporting-case">
-     <summary><span>사용한 프롬프트와 원본 이미지</span><span class="pm-disclosure-plus" aria-hidden="true">+</span></summary>
-     <div class="pm-detail-content">
-      <p>대표로 배치한 Whole-chip central median은 얼굴과 몸, 손과 랜턴의 위치를 구체적으로 지정하고 고정 팔레트로 변환한 결과입니다. 동일 프롬프트 실험과는 생성 지침과 팔레트가 다릅니다.</p>
-      <p>동일 프롬프트 실험에서는 양쪽 모두 <strong>16×16 픽셀 아트, 투명색 포함 최대 16색</strong>을 요청했습니다. 두 결과 모두 Codex의 이미지 도구로 생성했으며, 실제 입력과 원본 파일은 아래 링크에서 볼 수 있습니다.</p>
-      <div class="pm-file-links"><a href="assets/pixel-mat/complex-character/prompt.txt" target="_blank" rel="noopener noreferrer">대표 결과의 생성 지침 ↗</a><a href="assets/pixel-mat/complex-character/generated-board.png" target="_blank" rel="noopener noreferrer">대표 결과의 색칩 보드 ↗</a><a href="assets/pixel-mat/whole-comparison/common-prompt.txt" target="_blank" rel="noopener noreferrer">동일 비교의 기본 프롬프트 ↗</a><a href="assets/pixel-mat/whole-comparison/gpt-original.png" target="_blank" rel="noopener noreferrer">일반 생성 원본 ↗</a><a href="assets/pixel-mat/whole-comparison/README.md" target="_blank" rel="noopener noreferrer">실험 기록 ↗</a></div>
-     </div>
-    </details>
-    <details class="pm-details" id="pm-miniworld" name="pm-supporting-case">
-     <summary><span>게임 리소스 제작 <small>Miniworld</small></span><span class="pm-disclosure-plus" aria-hidden="true">+</span></summary>
-     <div class="pm-detail-content">
-      <p>Miniworld용 시민과 나무, 집을 제작했습니다. 게임에서 사용할 크기로 줄인 뒤 발과 건물 밑면의 위치, 색 수를 맞췄습니다.</p>
-      <div class="pm-choices" role="group" aria-label="게임 리소스 선택"><button type="button" data-pm-subject="citizen" aria-pressed="true">시민</button><button type="button" data-pm-subject="tree" aria-pressed="false">나무</button><button type="button" data-pm-subject="house" aria-pressed="false">집</button></div>
-      <div class="pm-test-grid">
-       <figure><div class="pm-art-stage pm-reference"><img src="assets/pixel-mat/citizen/draft.png" data-pm-image="draft" width="128" height="128" alt="시민의 AI로 생성한 이미지" loading="lazy"></div><figcaption><strong>AI로 생성한 이미지</strong><span data-pm-draft-size>1254×1254</span></figcaption></figure>
-       <figure><div class="pm-art-stage"><img src="assets/pixel-mat/citizen/native.png" data-pm-image="native" width="64" height="64" alt="시민의 실제 16×16 픽셀 결과, 4배 확대" loading="lazy"></div><figcaption><strong>변환한 이미지 <small>4× 확대</small></strong><span data-pm-size>16×16 / 8색과 투명</span></figcaption></figure>
-      </div>
-      <p data-pm-decision>AI가 제안한 픽셀 수정안으로 머리 위치와 양발 간격을 고치고, 게임의 8색 팔레트에 맞췄습니다.</p>
-      <p class="pm-case-note">이미지 크기와 배치를 확인한 단계이며, 아직 게임에 넣어 동작을 확인하지는 않았습니다.</p>
-      <div class="pm-file-links"><a href="assets/pixel-mat/citizen/native.png" data-pm-download="native.png" download>PNG</a><a href="assets/pixel-mat/citizen/native.pixeltool" data-pm-download="native.pixeltool" download>편집 프로젝트</a><a href="assets/pixel-mat/index.html" target="_blank" rel="noopener noreferrer">제작 과정 ↗</a></div>
-      <p class="sr-only" id="pm-comparison-status" role="status"></p>
-     </div>
-    </details>
-    <div class="pm-evidence-links"><a href="https://github.com/hjcud/Pixerin/blob/main/skills/pixel-mat/SKILL.md" target="_blank" rel="noopener noreferrer">스킬 코드 ↗</a><a href="assets/pixel-mat/whole-style-recovery/README.md" target="_blank" rel="noopener noreferrer">변환 코드와 실험 기록 ↗</a><a href="assets/pixel-mat/ASSET_NOTICE.md" target="_blank" rel="noopener noreferrer">이미지 출처 ↗</a></div>
    </section>
   </div>
  </div>
