@@ -10,14 +10,15 @@
   root.querySelectorAll('[data-pm-preferred]').forEach(control=>control.setAttribute('aria-pressed',String(control===button)));
   const image=root.querySelector('[data-pm-preferred-image]');
   image.src=base+'.png';
+  root.querySelector('[data-pm-preferred-name]').textContent=key==='median'?'Whole-chip central median':'Region allocation (베타)';
   image.alt=(key==='median'?'중앙 대표색':'영역 배정 베타')+'으로 변환한 실제 16×16 캐릭터 결과';
   root.querySelector('[data-pm-preferred-png]').href=base+'.png';
   root.querySelector('[data-pm-preferred-project]').href=base+'.pixeltool';
  }));
  const subjects={
-  citizen:{name:'시민',width:16,height:16,draft:'1254×1254',colors:'8색과 투명',decision:'머리 위치와 발 사이 간격을 호스트가 작성한 픽셀 수정안으로 조정하고, 게임의 8색 팔레트와 지면 기준에 맞췄습니다.'},
-  tree:{name:'나무',width:24,height:32,draft:'1086×1448',colors:'15색과 투명',decision:'줄기 밑면을 게임의 지면 기준에 맞췄습니다. 색을 더 줄인 안은 잎 덩어리의 구분이 사라져, 15색 결과를 선택했습니다.'},
-  house:{name:'집',width:32,height:40,draft:'1122×1402',colors:'32색과 투명',decision:'다른 벽에 나온 문을 다시 생성하도록 요청했습니다. 보정한 초안의 밑면을 정렬하고, 픽셀 형태와 투명도를 유지하며 32색으로 줄였습니다.'}
+  citizen:{name:'시민',width:16,height:16,draft:'1254×1254',colors:'8색과 투명',decision:'AI가 제안한 픽셀 수정안으로 머리 위치와 양발 간격을 고치고, 게임의 8색 팔레트에 맞췄습니다.'},
+  tree:{name:'나무',width:24,height:32,draft:'1086×1448',colors:'15색과 투명',decision:'색을 더 줄이면 잎 덩어리가 구분되지 않아 15색을 사용했습니다. 줄기 밑면은 게임의 지면 기준에 맞췄습니다.'},
+  house:{name:'집',width:32,height:40,draft:'1122×1402',colors:'32색과 투명',decision:'문이 다른 벽에 나와 다시 그리도록 요청했습니다. 수정한 이미지를 32×40으로 줄이고, 밑면 위치와 32색 팔레트를 맞췄습니다.'}
  };
  function selectSubject(key){
   const subject=subjects[key];

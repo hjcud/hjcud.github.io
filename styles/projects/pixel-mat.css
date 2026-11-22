@@ -21,9 +21,8 @@
 .pm-direct-comparison figcaption strong,.pm-test-grid figcaption strong{color:#36566f;font-size:13px;font-weight:600}
 .pm-direct-comparison figcaption b{font-weight:600;color:#526d83}
 .pm-direct-comparison small,.pm-test-grid small{margin-left:8px;font-size:11px;color:#758799;font-weight:400;white-space:nowrap}
+.pm-method-name{font-size:11px;color:#697f93}
 .pm-comparison-condition{max-width:780px;margin:14px auto 0;font-size:11px;line-height:1.8;color:#7a8997}
-.pm-outcome{max-width:780px;margin:16px auto 0;color:#637a8e;font-size:12px;line-height:1.85;word-break:keep-all;overflow-wrap:anywhere}
-.pm-outcome strong{font-weight:600;color:#42617b}
 .pm-result-controls{max-width:780px;margin:16px auto 0;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .pm-choices{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
 .pm-choices button{min-height:44px;padding:8px 12px;border-radius:3px;border:1px solid transparent;background:transparent;color:#667c8f;font:inherit;font-size:12px;cursor:pointer}
@@ -73,7 +72,6 @@
 @media(max-width:760px){
  #pixel-mat .project-problem-solving{margin-top:28px}
  .pm-context{font-size:13px}
- .pm-context br{display:none}
  .pm-direct-comparison{gap:16px}
  .pm-art-stage{height:144px}
  .pm-art-stage>img{width:112px;height:112px}
