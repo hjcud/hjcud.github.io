@@ -164,6 +164,7 @@ dialog.addEventListener('close',()=>{
  dialogTrigger?.focus({preventScroll:true});
 });
 const gallery={
+ 'pixel-mat-editor':['pixel-mat/editor.png','Pixel Mat / Windows 편집기'],
  'pixel-mat-map':['pixel-mat/miniworld-showcase/coastal-map.png','Miniworld용 리소스 / Unity 배치 테스트'],
 
  'shimanami-exhibition':['shimanami/exhibition.webp','Shimanami Ekranoplan / 무사시노미술대학 전시 현장'],
@@ -187,26 +188,18 @@ $$('[data-video]').forEach(button=>button.addEventListener('click',()=>{
 for(const config of [
  {id:'shinjuku',slides:[['shinjuku','거리 공연'],['shinjuku-community','역 앞 거리']]},
  {id:'shimanami',slides:[['shimanami','바다 위 비행'],['cockpit','조종석']]},
- {id:'i2s',slides:[['i2s-editor','조건을 블록으로 조합하는 전략 편집기','가격, RSI, 거래량 같은 조건과 매수 및 매도 비중을 설정해 투자 전략을 구성합니다.'],['i2s-backtest','과거 시세로 전략을 검증하는 백테스트','기간을 정해 전략을 시험하고, 수익 변화 차트와 거래 내역으로 결과를 확인합니다.'],['i2s-home','작성한 전략을 모아 보는 전략 목록','저장한 전략과 작성 상태를 확인하고, 전략을 선택해 다시 편집합니다.']]}
+ {id:'i2s',slides:[['i2s-editor','조건을 블록으로 조합하는 전략 편집기'],['i2s-backtest','과거 시세로 전략을 검증하는 백테스트'],['i2s-home','작성한 전략을 모아 보는 전략 목록']]}
 ]){
  const carousel=$('#'+config.id+'-carousel'),images=$$('.carousel-image',carousel);
- const interactionRoot=config.id==='i2s'?carousel.closest('.project-visual'):carousel;
- const choices=$$('[data-i2s-slide]',interactionRoot);
+ const interactionRoot=carousel;
  let index=0,visible=false,hover=false,focused=false;
  function show(next,manual=false){
   index=(next+config.slides.length)%config.slides.length;
   images.forEach((img,i)=>{img.classList.toggle('is-current',i===index);img.setAttribute('aria-hidden',String(i!==index));});
   const [key,caption]=config.slides[index],button=$('.screenshot-stage',carousel);
   button.dataset.gallery=key;button.setAttribute('aria-label',caption+' 화면 크게 보기');
-  const captionElement=$('#'+config.id+'-slide-caption');
-  if(captionElement)captionElement.textContent=caption;
-  const description=$('#'+config.id+'-slide-description'),count=$('#'+config.id+'-slide-count');
-  if(description)description.textContent=config.slides[index][2];
-  if(count)count.textContent=(index+1)+' / '+config.slides.length;
-  choices.forEach(choice=>choice.setAttribute('aria-pressed',String(Number(choice.dataset.i2sSlide)===index)));
   if(manual)$('#'+config.id+'-slide-status').textContent=caption+', '+(index+1)+' / '+config.slides.length;
  }
- choices.forEach(choice=>choice.addEventListener('click',()=>show(Number(choice.dataset.i2sSlide),true)));
  interactionRoot.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();show(index+(event.key==='ArrowRight'?1:-1),true);}});
  interactionRoot.addEventListener('mouseenter',()=>hover=true);interactionRoot.addEventListener('mouseleave',()=>hover=false);
  interactionRoot.addEventListener('focusin',()=>focused=true);interactionRoot.addEventListener('focusout',e=>{if(!interactionRoot.contains(e.relatedTarget))focused=false;});

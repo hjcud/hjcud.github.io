@@ -2,9 +2,8 @@
 #pixel-mat{--pm-ink:#28465e;--pm-rule:#dce4eb}
 #pixel-mat:focus{outline:none}
 #pixel-mat .brand-symbol{image-rendering:pixelated}
-#pixel-mat .screenshot-stage{aspect-ratio:1424/921;background:#292929}
+#pixel-mat .screenshot-stage{aspect-ratio:16/9;background:#292929}
 #pixel-mat .screenshot-stage .carousel-image,#pixel-mat .case-entry-picture>img{object-fit:contain;image-rendering:auto;background:#292929}
-.pm-hero-caption{margin-top:10px;color:#738496;font-size:12px}
 .pm-release{display:flex;width:fit-content;align-items:center;min-height:44px;margin-top:4px;color:#586e81;font-size:12px;gap:8px}
 .pm-release:hover{color:#1769ff}
 #pixel-mat .project-problem-solving{grid-column:1/-1;min-width:0;margin-top:0;border:0}
