@@ -1,0 +1,11 @@
+{
+  "date": "2026-11-22",
+  "browser": "Microsoft Edge headless",
+  "images": 22,
+  "allImagesLoaded": true,
+  "horizontalOverflow": false,
+  "mobile": {
+    "horizontalOverflow": false
+  },
+  "scope": "Static local HTML and PNG loading/layout; no app or runtime integration"
+}

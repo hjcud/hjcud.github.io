@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-22",
+  "schemaVersion": 1,
+  "checks": [
+    {
+      "name": "citizen:current-default",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "citizen:registered",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "citizen:native-edit",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "citizen:selected",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "citizen:retained-project",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "tree:current-default",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "tree:registered",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "tree:selected",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "tree:retained-project",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "house:current-default",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "house:registered",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "house:selected",
+      "exactRgbaMatch": true
+    },
+    {
+      "name": "house:retained-project",
+      "exactRgbaMatch": true
+    }
+  ],
+  "passed": 13,
+  "modelCalls": 0,
+  "modules": {
+    "scripts/pixel-mat.mjs": "77f174208e332e7025f64b9902e5488ab332a4ce81dc9c11767ba1721a586506",
+    "runtime/electron/pixel-conversion.mjs": "ad684a18fa1b29f5eff6ce0d434b6445fcfcab59f6faf4d0ddfddd3e4ca96057",
+    "runtime/electron/sprite-conversion.mjs": "f8b645da45743770f32e4d5612253727434b54deb8ee916d39015653ec1a0e9c",
+    "runtime/src/core.mjs": "abf8eb3d393dcce57be79b5c362cbe7f29f8cd464d5acf9dcd7d5e1a45feba9a"
+  }
+}

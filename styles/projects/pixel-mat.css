@@ -1,0 +1,69 @@
+/* Pixel Mat reuses the portfolio's project entry and reading architecture. */
+.header .reading-track{grid-template-columns:repeat(4,minmax(0,1fr))}
+#pixel-mat{--pm-ink:#285e78;--pm-rule:#d5e3e9;--pm-soft:#f3f8fa}
+#pixel-mat .brand-symbol{image-rendering:pixelated}
+#pixel-mat .project-copy>.summary{font-size:1rem;line-height:1.9}
+.pm-intro-line{margin:20px 0 0;color:#4e6d7f;font-size:.875rem;line-height:1.8}
+.pm-links{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:18px}
+.pm-links a{min-height:32px;color:#286985;font-size:.875rem;text-decoration:underline;text-underline-offset:4px}
+.pm-status{display:inline-flex;margin-top:20px;padding:5px 10px;border:1px solid #d5e3e9;border-radius:4px;color:#4f7080;font-size:.8125rem}
+#pixel-mat .screenshot-stage{background:#edf5f4;aspect-ratio:8/5}
+#pixel-mat .screenshot-stage .carousel-image{object-fit:contain;image-rendering:pixelated}
+#pixel-mat .case-entry-picture>img{object-fit:contain;image-rendering:pixelated;background:#edf5f4}
+.pm-hero-caption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;margin-top:12px;font-size:.8125rem;color:#536d7a;line-height:1.7}
+.pm-hero-caption strong{font-weight:600;color:#2d6178}
+.pm-case-study{grid-column:1/-1;min-width:0;margin-top:20px;color:#405765}
+.pm-section-heading{display:grid;grid-template-columns:1fr 1fr;align-items:end;gap:32px;margin:0 0 26px;padding-bottom:24px;border-bottom:1px solid var(--pm-rule)}
+.pm-overline{margin-bottom:10px;font-size:.8125rem;color:#668591;letter-spacing:.04em}
+.pm-section-heading h3{font-size:clamp(25px,2.7vw,36px);font-weight:650;line-height:1.5;letter-spacing:-.05em;color:#244e64}
+.pm-section-heading>p{font-size:1rem;line-height:1.9;color:#536b78}
+.pm-comparison{border-bottom:1px solid var(--pm-rule);padding-bottom:28px}
+.pm-comparison-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.pm-choices{display:flex;gap:6px;flex-wrap:wrap}
+.pm-choices button{padding:8px 14px;border:1px solid #cbdce4;border-radius:4px;font-size:.875rem;color:#4f6d7d;min-height:44px;background:#fff}
+.pm-choices button[aria-pressed=true]{background:#e9f3f7;border-color:#85acbf;color:#235d78;font-weight:650}
+.pm-scale{display:flex;align-items:center;gap:12px;font-size:.875rem;color:#5f7885}
+.pm-scale .pm-choices button{padding-inline:12px}
+.pm-comparison-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.pm-sample{min-width:0}
+.pm-sample-label{font-size:.8125rem;color:#6b818b;line-height:1.6;margin-bottom:4px}
+.pm-sample h4{margin:0 0 12px;color:#285e78;font-size:1.0625rem;font-weight:650}
+.pm-sample-stage{display:flex;align-items:center;justify-content:center;height:352px;min-width:0;overflow:hidden;border:1px solid #d8e5e9;background-color:#f6f9fa;background-image:conic-gradient(#e7eef1 25%,transparent 0 50%,#e7eef1 0 75%,transparent 0);background-size:16px 16px}
+.pm-sample-stage img{max-width:none;image-rendering:pixelated;flex:none}
+.pm-sample-stage.pm-draft-stage img{width:auto;height:auto;max-width:90%;max-height:90%;image-rendering:auto;object-fit:contain}
+.pm-sample-caption{margin-top:11px;font-size:.875rem;line-height:1.8;color:#607784}
+.pm-native-row{display:flex;align-items:center;gap:16px;min-height:66px;margin-top:12px;border-top:1px solid #e0e9ed;padding-top:12px;font-size:.8125rem;color:#607784}
+.pm-native-row img{image-rendering:pixelated;max-width:none;flex:none}
+.pm-native-row a{color:#286985;text-decoration:underline;text-underline-offset:3px}
+.pm-reading-note{margin-top:22px;font-size:.875rem;line-height:1.9;color:#5a7380;max-width:940px}
+.pm-method{margin-top:42px}
+.pm-method>h4,.pm-editor-copy>h4{margin:0 0 22px;font-size:1.375rem;font-weight:650;color:#315e74;letter-spacing:-.03em}
+.pm-method-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;padding:0;margin:0;list-style:none}
+.pm-method-steps li{border-top:2px solid #a5c4d3;padding-top:16px}
+.pm-method-steps small{display:block;margin-bottom:8px;color:#6b8794;font-size:.8125rem}
+.pm-method-steps h5{margin:0 0 10px;font-size:1.0625rem;color:#315e74;font-weight:650}
+.pm-method-steps p{margin:0;font-size:1rem;line-height:1.9;color:#58717f}
+.pm-details{margin-top:28px;border-block:1px solid var(--pm-rule);font-size:1rem;line-height:1.9}
+.pm-details>summary{cursor:pointer;padding:16px 0;color:#315e74;font-size:.9375rem;font-weight:600;min-height:52px}
+.pm-details>div{padding:0 0 22px}
+.pm-details p+p{margin-top:12px}
+.pm-details ul{padding-left:22px;margin:12px 0}
+.pm-details a{color:#286985;text-decoration:underline;text-underline-offset:4px}
+.pm-editor{display:grid;grid-template-columns:1.2fr 1fr;gap:38px;align-items:center;margin-top:40px}
+.pm-editor figure{min-width:0}
+.pm-editor img{width:100%;height:auto;border:1px solid #d4e1e8;border-radius:4px}
+.pm-editor figcaption{margin-top:9px;font-size:.8125rem;line-height:1.8;color:#607784}
+.pm-editor-copy p{font-size:1rem;line-height:1.9;color:#58717f}
+.pm-editor-copy p+p{margin-top:12px}
+.pm-downloads{margin-top:26px;padding:20px 0;display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1px solid var(--pm-rule)}
+.pm-downloads p{font-size:.875rem;line-height:1.8;color:#58717f}
+.pm-downloads .pm-links{margin:0;flex:none}
+@media(max-width:1100px){.pm-comparison-grid{gap:16px}.pm-method-steps{gap:22px}}
+@media(max-width:1000px){.pm-comparison-grid{grid-template-columns:1fr;gap:26px}}
+@media(max-width:760px){
+ .pm-case-study{margin-top:30px}.pm-section-heading{grid-template-columns:1fr;gap:18px}.pm-section-heading h3{font-size:27px}
+ .pm-comparison-grid{grid-template-columns:1fr;gap:26px}.pm-sample-stage{height:352px}.pm-sample h4{margin-bottom:10px}.pm-sample-caption{min-height:0}
+ .pm-method-steps{grid-template-columns:1fr;gap:26px}.pm-editor{grid-template-columns:1fr;gap:24px}.pm-downloads{align-items:flex-start;flex-direction:column}
+ .pm-hero-caption{font-size:.8125rem}.pm-native-row{min-height:62px}.pm-method{margin-top:32px}
+}
+@media print{.pm-comparison-toolbar{display:none}.pm-details>div{display:block}.pm-editor,.pm-method-steps,.pm-comparison-grid{break-inside:avoid}}

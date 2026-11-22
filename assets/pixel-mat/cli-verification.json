@@ -1,0 +1,140 @@
+{
+  "date": "2026-11-22",
+  "tool": "Built standalone Pixel Mat CLI",
+  "version": "0.22.0-beta.2",
+  "networkCalls": 0,
+  "records": [
+    {
+      "args": [
+        "prepare",
+        "--input",
+        "docs/miniworld/citizen/draft.png",
+        "--output",
+        "docs/miniworld/citizen/cli-default.pixeltool",
+        "--width",
+        "16",
+        "--height",
+        "16",
+        "--colors",
+        "16",
+        "--method",
+        "features",
+        "--fit",
+        "frame"
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "preview",
+        "--input",
+        "docs/miniworld/citizen/cli-default.pixeltool",
+        "--output",
+        "docs/miniworld/citizen/cli-default.png",
+        "--scale",
+        "1"
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "preview",
+        "--input",
+        "docs/miniworld/citizen/native.pixeltool",
+        "--output",
+        "docs/miniworld/citizen/project-reexport.png",
+        "--scale",
+        "1"
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "prepare",
+        "--input",
+        "docs/miniworld/tree/draft.png",
+        "--output",
+        "docs/miniworld/tree/cli-default.pixeltool",
+        "--width",
+        "24",
+        "--height",
+        "32",
+        "--colors",
+        "16",
+        "--method",
+        "features",
+        "--fit",
+        "frame"
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "preview",
+        "--input",
+        "docs/miniworld/tree/cli-default.pixeltool",
+        "--output",
+        "docs/miniworld/tree/cli-default.png",
+        "--scale",
+        "1"
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "preview",
+        "--input",
+        "docs/miniworld/tree/native.pixeltool",
+        "--output",
+        "docs/miniworld/tree/project-reexport.png",
+        "--scale",
+        "1"
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "prepare",
+        "--input",
+        "docs/miniworld/house/draft.png",
+        "--output",
+        "docs/miniworld/house/cli-default.pixeltool",
+        "--width",
+        "32",
+        "--height",
+        "40",
+        "--colors",
+        "64",
+        "--method",
+        "features",
+        "--fit",
+        "frame"
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "preview",
+        "--input",
+        "docs/miniworld/house/cli-default.pixeltool",
+        "--output",
+        "docs/miniworld/house/cli-default.png",
+        "--scale",
+        "1"
+      ],
+      "exitCode": 0
+    },
+    {
+      "args": [
+        "preview",
+        "--input",
+        "docs/miniworld/house/native.pixeltool",
+        "--output",
+        "docs/miniworld/house/project-reexport.png",
+        "--scale",
+        "1"
+      ],
+      "exitCode": 0
+    }
+  ]
+}
