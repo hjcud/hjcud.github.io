@@ -4,7 +4,14 @@ This portfolio case uses the exact red-hood comparison selected by the owner on
 2026-11-22. It is a source-conditioned character experiment, separate from the
 Miniworld resource study. The reference is not a plain GPT control.
 
-## Compared images
+## Portfolio comparison
+
+The core case presents the reference and the two whole-figure results, focusing
+on the discovered problem, the author's design criteria, the AI/tool division
+of work and the resulting tradeoffs. Earlier iterations are not staged as
+separate steps in the portfolio.
+
+## Retained evidence
 
 - `reference.png`: the provided full-character design.
 - `face-control.png`: an earlier retained, face-oriented 16x16 control. Its
