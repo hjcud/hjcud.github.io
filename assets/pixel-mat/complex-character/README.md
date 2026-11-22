@@ -29,7 +29,9 @@ The decoder finds 256 principal chip components, but 50 central interiors contai
 color divisions. This fails the requested one-pigment-per-chip contract. Component
 count alone therefore does not prove a correct native pixel image. Empty gray
 chips are removed only when connected to the edge. Two fixed local projections
-map the remaining material into the retained palette.
+map the remaining material into the retained palette. Chip detection/decoding
+uses an experiment-specific helper connected to Pixel Mat's existing converters;
+the board decoder is not a bundled default skill/app command.
 
 The earlier source-identity assessment found insufficient expression and lantern
 construction in the whole-figure results. A later user review liked both as
