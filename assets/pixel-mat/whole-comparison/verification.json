@@ -1,0 +1,66 @@
+{
+  "records": [
+    {
+      "strategy": "chip-median",
+      "components": 256,
+      "foregroundCells": 87,
+      "mixedPigmentCells": 16,
+      "singlePigmentContractPassed": false,
+      "workflowVersion": 1,
+      "appSkillRgbaMatch": true,
+      "rgbaSHA256": "9dbbab01a8cf0bd7fb325ec00507b157f7089e870824d6e0bb3eebe05788afe6"
+    },
+    {
+      "strategy": "chip-region",
+      "components": 256,
+      "foregroundCells": 87,
+      "mixedPigmentCells": 16,
+      "singlePigmentContractPassed": false,
+      "workflowVersion": 1,
+      "appSkillRgbaMatch": true,
+      "rgbaSHA256": "d44ac4b6452fca63aa3089304f60da48702f6880d17a0a08d60bcee983366466"
+    }
+  ],
+  "images": [
+    {
+      "file": "gpt-original.png",
+      "width": 1254,
+      "height": 1254,
+      "rgbaColors": 58266,
+      "partialAlpha": 388043,
+      "sha256": "7cee86005ede6b7211fc2ce1fcb521dd5da78d6283b6f1636ea2c7c7b880fb3b"
+    },
+    {
+      "file": "whole-board.png",
+      "width": 1254,
+      "height": 1254,
+      "rgbaColors": 127607,
+      "partialAlpha": 0,
+      "sha256": "b8ab08269b2669d81cefb6baf5cb135ae831b54e11a58c94924f008b307e7aaf"
+    },
+    {
+      "file": "whole-median.png",
+      "width": 16,
+      "height": 16,
+      "rgbaColors": 16,
+      "partialAlpha": 0,
+      "sha256": "5951ecf3cade8a3a4e1c01bcf45fe421e445cae7ba98d13a6f570ee89dc20c7e"
+    },
+    {
+      "file": "whole-region.png",
+      "width": 16,
+      "height": 16,
+      "rgbaColors": 13,
+      "partialAlpha": 0,
+      "sha256": "40e5408db9fdea0937fdd0cf50feca3d31a88c0c1641efec2d1bd3b18d71ce43"
+    }
+  ],
+  "requests": {
+    "baseline": 1,
+    "whole": 1,
+    "additional": 0
+  },
+  "model": null,
+  "tokens": null,
+  "cost": null
+}

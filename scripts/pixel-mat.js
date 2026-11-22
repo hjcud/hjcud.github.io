@@ -33,6 +33,15 @@
  root.querySelectorAll('[data-pm-scale]').forEach(button=>button.addEventListener('click',()=>{scale=Number(button.dataset.pmScale);render();}));
  render();
  const complex=root.querySelector('#pixel-mat-complex');
+ if(complex)complex.querySelectorAll('[data-pm-whole-strategy]').forEach(button=>button.addEventListener('click',()=>{
+  const region=button.dataset.pmWholeStrategy==='region',name=region?'whole-region':'whole-median',base='assets/pixel-mat/whole-comparison/';
+  complex.querySelectorAll('[data-pm-whole-strategy]').forEach(control=>control.setAttribute('aria-pressed',String(control===button)));
+  complex.querySelectorAll('[data-pm-whole-image]').forEach(img=>{img.src=base+name+'.png';if(!img.dataset.pmOriginalAlt)img.dataset.pmOriginalAlt=img.alt;img.alt=region?'영역 배정 베타 · '+img.dataset.pmOriginalAlt.replace('중앙 대표색','영역 배정'):img.dataset.pmOriginalAlt;});
+  complex.querySelector('[data-pm-whole-project]').href=base+name+'.pixeltool';
+  complex.querySelector('[data-pm-whole-png]').href=base+name+'.png';
+  complex.querySelector('[data-pm-whole-label]').textContent=region?'세부 설정 · 영역 배정 (베타)':'최신 스킬 · 중앙 대표색 (기본)';
+  complex.querySelector('[data-pm-whole-caption]').textContent=region?'같은 생성 보드를 구조 기반으로 변환한 16×16·13개 RGBA 값의 베타 결과입니다. 새 이미지 생성이나 픽셀 덧그리기는 하지 않았습니다.':'같은 사용자 요청에 스킬 지침을 추가해 생성하고, 공유 변환 코드로 16×16·16개 RGBA 값으로 확정했습니다. 얼굴과 랜턴의 세부 표현은 줄었습니다.';
+ }));
  if(complex)complex.querySelectorAll('[data-pm-complex-scale]').forEach(button=>button.addEventListener('click',()=>{
   const scale=Number(button.dataset.pmComplexScale);
   complex.querySelectorAll('[data-pm-complex-scale]').forEach(control=>control.setAttribute('aria-pressed',String(control===button)));

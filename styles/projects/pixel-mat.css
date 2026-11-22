@@ -55,7 +55,12 @@
 .pm-secondary-case{margin-top:52px;padding-top:32px;border-top:1px solid var(--pm-rule)}
 .pm-complex-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin:0 0 22px}
 .pm-complex-toolbar>p{font-size:.875rem;color:#607784;line-height:1.8}
-.pm-complex-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.pm-complex-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
+.pm-common-prompt{font-size:.9375rem;line-height:1.9;color:#315e74;padding:16px 0;margin-bottom:24px;border-bottom:1px solid var(--pm-rule)}
+.pm-common-prompt a{color:#286985;text-decoration:underline;text-underline-offset:4px}
+.pm-whole-options{margin-top:24px;padding-block:18px;border-block:1px solid var(--pm-rule)}
+.pm-whole-options>p:first-child{font-size:1rem;font-weight:600;color:#315e74;margin-bottom:12px}
+.pm-whole-options .pm-reading-note{margin-top:12px}
 .pm-complex-sample{min-width:0}
 .pm-complex-sample h4{font-size:1.0625rem;font-weight:650;color:#285e78;margin:0 0 14px}
 .pm-complex-stage{height:280px;display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid #d8e5e9;background:conic-gradient(#e7eef1 25%,#f6f9fa 0 50%,#e7eef1 0 75%,#f6f9fa 0) 0/16px 16px}

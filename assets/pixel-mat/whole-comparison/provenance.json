@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "title": "Same user brief: ordinary image generation and Pixel Mat whole-image workflow",
+  "date": "2026-11-22",
+  "productVersion": "0.23.0-beta.1",
+  "workflowVersion": 1,
+  "commonUserPrompt": "common-prompt.txt",
+  "explicitNative16InBothUserPrompts": true,
+  "sameReference": true,
+  "requested": {
+    "width": 16,
+    "height": 16,
+    "colorsIncludingTransparency": 16,
+    "finalBackground": "transparent"
+  },
+  "execution": {
+    "route": "Codex host built-in image tool using the existing host account",
+    "baselineRequests": 1,
+    "wholeRequests": 1,
+    "additionalAttempts": 0,
+    "observedChatgptWebSession": false,
+    "observedAppApiGeneration": false,
+    "appApiCalls": 0,
+    "underlyingModel": null,
+    "seed": null,
+    "tokens": null,
+    "cost": null
+  },
+  "conditions": {
+    "baseline": "Common user brief and reference only; original image tool output, no local conversion.",
+    "whole": "Identical user brief and reference plus the published whole-image chip-board policy, followed by shared local decoding.",
+    "wholeAdditionalPolicy": "whole-prompt.txt",
+    "intermediateBackgroundDifference": "The ordinary request asks for final alpha; the whole workflow requests an opaque green-gap/gray-empty chip board and creates alpha locally."
+  },
+  "selection": {
+    "defaultStrategySelectedBeforeNewSamples": "chip-median",
+    "optionalBeta": "chip-region",
+    "newSamplesSelectedFrom": 1,
+    "manualPixelRepairs": 0
+  },
+  "implementation": {
+    "policySHA256": "c4e548a93cb2c2fbcf3b0b240abb2f6eec950ff99649d26bd80a3a11a361492c",
+    "decoderModuleSHA256": "25d24a86b8ba16277e551b59a36abf9250304a7246fe9b95fda74fa3d9e8e778",
+    "appSkillExactRgbaMatch": true,
+    "realAppApiQualityVerified": false
+  },
+  "results": {
+    "records": [
+      {
+        "strategy": "chip-median",
+        "components": 256,
+        "foregroundCells": 87,
+        "mixedPigmentCells": 16,
+        "singlePigmentContractPassed": false,
+        "workflowVersion": 1,
+        "appSkillRgbaMatch": true,
+        "rgbaSHA256": "9dbbab01a8cf0bd7fb325ec00507b157f7089e870824d6e0bb3eebe05788afe6"
+      },
+      {
+        "strategy": "chip-region",
+        "components": 256,
+        "foregroundCells": 87,
+        "mixedPigmentCells": 16,
+        "singlePigmentContractPassed": false,
+        "workflowVersion": 1,
+        "appSkillRgbaMatch": true,
+        "rgbaSHA256": "d44ac4b6452fca63aa3089304f60da48702f6880d17a0a08d60bcee983366466"
+      }
+    ],
+    "images": [
+      {
+        "file": "gpt-original.png",
+        "width": 1254,
+        "height": 1254,
+        "rgbaColors": 58266,
+        "partialAlpha": 388043,
+        "sha256": "7cee86005ede6b7211fc2ce1fcb521dd5da78d6283b6f1636ea2c7c7b880fb3b"
+      },
+      {
+        "file": "whole-board.png",
+        "width": 1254,
+        "height": 1254,
+        "rgbaColors": 127607,
+        "partialAlpha": 0,
+        "sha256": "b8ab08269b2669d81cefb6baf5cb135ae831b54e11a58c94924f008b307e7aaf"
+      },
+      {
+        "file": "whole-median.png",
+        "width": 16,
+        "height": 16,
+        "rgbaColors": 16,
+        "partialAlpha": 0,
+        "sha256": "5951ecf3cade8a3a4e1c01bcf45fe421e445cae7ba98d13a6f570ee89dc20c7e"
+      },
+      {
+        "file": "whole-region.png",
+        "width": 16,
+        "height": 16,
+        "rgbaColors": 13,
+        "partialAlpha": 0,
+        "sha256": "40e5408db9fdea0937fdd0cf50feca3d31a88c0c1641efec2d1bd3b18d71ce43"
+      }
+    ],
+    "requests": {
+      "baseline": 1,
+      "whole": 1,
+      "additional": 0
+    },
+    "model": null,
+    "tokens": null,
+    "cost": null
+  },
+  "limits": [
+    "One reference-conditioned example, not a statistical or verified same-model benchmark.",
+    "The ordinary output is 1254x1254 despite an explicit native16 request.",
+    "Both native projections lose facial and lantern details; exact dimensions do not establish source likeness.",
+    "Mixed chip interiors remain in the generated board; native decoding does not prove one-pigment model compliance."
+  ],
+  "rights": "Owner-selected reference and derived artwork are not relicensed by the editor code MIT grant; no independent redistribution or exclusive generated-art rights are asserted.",
+  "files": [
+    {
+      "file": "reference.png",
+      "bytes": 591455,
+      "sha256": "37b639be40f5fdc5d07056f156e7e113964ad41df661dede3e405cfdd6e597fe"
+    },
+    {
+      "file": "gpt-original.png",
+      "bytes": 468456,
+      "sha256": "7cee86005ede6b7211fc2ce1fcb521dd5da78d6283b6f1636ea2c7c7b880fb3b"
+    },
+    {
+      "file": "whole-board.png",
+      "bytes": 1357946,
+      "sha256": "b8ab08269b2669d81cefb6baf5cb135ae831b54e11a58c94924f008b307e7aaf"
+    },
+    {
+      "file": "whole-median.png",
+      "bytes": 408,
+      "sha256": "5951ecf3cade8a3a4e1c01bcf45fe421e445cae7ba98d13a6f570ee89dc20c7e"
+    },
+    {
+      "file": "whole-region.png",
+      "bytes": 412,
+      "sha256": "40e5408db9fdea0937fdd0cf50feca3d31a88c0c1641efec2d1bd3b18d71ce43"
+    },
+    {
+      "file": "whole-median-display.png",
+      "bytes": 1201,
+      "sha256": "99ac5568c3a5706c11f7572c31c64a9251ea926a849abaf8f7ed81d5de7f070f"
+    },
+    {
+      "file": "whole-region-display.png",
+      "bytes": 1206,
+      "sha256": "af1b59030d278b567a0f9282728e88939e44258a7e7f37b1b9be824ad330aa82"
+    },
+    {
+      "file": "whole-median.pixeltool",
+      "bytes": 3403,
+      "sha256": "212dab1512843a52084e78132e2a2e350933989928a76a43070b235cf4963fb7"
+    },
+    {
+      "file": "whole-region.pixeltool",
+      "bytes": 3343,
+      "sha256": "a8475944a113d84661dcc17bae0281f07df248fa936a1d76966c78d7cefe2dbd"
+    },
+    {
+      "file": "common-prompt.txt",
+      "bytes": 731,
+      "sha256": "ccc8cc314b573233336bfca553f8570d1be2f2b7edd3378e12bc572fb85a2130"
+    },
+    {
+      "file": "whole-prompt.txt",
+      "bytes": 2278,
+      "sha256": "858f5d11a7b56b012d12f0ca69056335cff9eedd3e45dc74b383c3e54658cc81"
+    },
+    {
+      "file": "verification.json",
+      "bytes": 1704,
+      "sha256": "c593a1a22285d7cb048468d78f2961cb4a616b09fc4957d019f9362dc9defa76"
+    }
+  ]
+}
