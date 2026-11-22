@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-23",
+  "productVersion": "0.23.0-beta.2",
+  "workflowVersion": 2,
+  "showcase": "Exact replay of the earlier user-preferred whole-chip board and palette, not a fresh generation.",
+  "reference": "../whole-comparison/reference.png",
+  "acceptedPrompt": "original-prompt.txt",
+  "palette": "palette.json",
+  "records": [
+    {
+      "strategy": "chip-median",
+      "exactRgbaMatch": true,
+      "rgbaSHA256": "8bfc6faf1b70a6e8bc000f76ef64a113376c562a00276bfb4628eff47db7d55e",
+      "diagnostics": {
+        "components": 256,
+        "foregroundCells": 99,
+        "mixedPigmentCells": 50,
+        "singlePigmentContractPassed": false,
+        "strategy": "chip-median",
+        "workflowVersion": 2
+      }
+    },
+    {
+      "strategy": "chip-region",
+      "exactRgbaMatch": true,
+      "rgbaSHA256": "745425e63c195de6206a031cabf24969eaea4bd89bbffa5ca49d0ba87cfc7a76",
+      "diagnostics": {
+        "components": 256,
+        "foregroundCells": 99,
+        "mixedPigmentCells": 50,
+        "singlePigmentContractPassed": false,
+        "strategy": "chip-region",
+        "workflowVersion": 2
+      }
+    }
+  ],
+  "audit": {
+    "decoderReproducesBoth": true,
+    "alphaDifference": 16,
+    "records": [
+      {
+        "case": "retained",
+        "diagnostics": {
+          "components": 256,
+          "foregroundCells": 99,
+          "mixedPigmentCells": 50,
+          "singlePigmentContractPassed": false
+        },
+        "paletteOnlyChangedCells": 99
+      },
+      {
+        "case": "published",
+        "diagnostics": {
+          "components": 256,
+          "foregroundCells": 87,
+          "mixedPigmentCells": 16,
+          "singlePigmentContractPassed": false
+        },
+        "paletteOnlyChangedCells": 87
+      }
+    ]
+  },
+  "revisedGeneration": {
+    "route": "Codex host built-in image tool",
+    "requests": 2,
+    "rejected": [
+      {
+        "file": "rejected-01.png",
+        "prompt": "rejected-01-prompt.txt",
+        "nativeOutputAccepted": false,
+        "reason": "Chip-board component gate failed"
+      },
+      {
+        "file": "rejected-02.png",
+        "prompt": "rejected-02-prompt.txt",
+        "nativeOutputAccepted": false,
+        "reason": "Chip-board component gate failed"
+      }
+    ],
+    "selectedNewGenerations": 0,
+    "observedAppApiGeneration": false,
+    "underlyingModel": null,
+    "seed": null,
+    "tokens": null,
+    "cost": null
+  },
+  "limits": [
+    "The earlier preferred request differs from the later common-prompt experiment. They must not be labeled an identical-prompt comparison.",
+    "The accepted board still has 50 mixed-pigment interiors; native validation is not one-pigment compliance or production artwork approval.",
+    "Workflow 2 restores landmark-allocation guidance; reliable improvement across new draws is unproven.",
+    "An experimental separator-based decode was examined locally but not shipped or used for the accepted public output."
+  ],
+  "rights": "Same owner-selected reference-conditioned artwork scope as the original case; the software MIT grant does not relicense the reference or derived artwork.",
+  "files": [
+    {
+      "file": "accepted-board.png",
+      "bytes": 1393004,
+      "sha256": "cb8a13b6cc88536220ecbaf3e776090cf7c4cf2ea45196645ddc036590e5f86d"
+    },
+    {
+      "file": "accepted-median.png",
+      "bytes": 453,
+      "sha256": "13ca5bc2533ae45f5da16cea5f97ceed57ac27687ae8c28cc20b5103a01c3350"
+    },
+    {
+      "file": "accepted-region.png",
+      "bytes": 446,
+      "sha256": "156e529380b7e749e8c25f971cac1b7b0c528b4c4e822a00e4f6632c1ae4be27"
+    },
+    {
+      "file": "accepted-median.pixeltool",
+      "bytes": 3411,
+      "sha256": "f378aa48b2fdfcfa2258e617bdf0ddf258d3de79b4283a2a98e2076475761250"
+    },
+    {
+      "file": "accepted-region.pixeltool",
+      "bytes": 3414,
+      "sha256": "1469bb8430ab96e72d6a952f7279528e7c753047c40e19a4c211da4e20ad7b0c"
+    },
+    {
+      "file": "original-prompt.txt",
+      "bytes": 2223,
+      "sha256": "eac9b49b724d62aa2e0fd453f8cd5ab6a968556093fd0f24e99fa08362427b1e"
+    },
+    {
+      "file": "rejected-01.png",
+      "bytes": 1381025,
+      "sha256": "bc908cbb8cec45ef740a30c36f51fd145223aabfb8b474d1f4bcb54c437c694a"
+    },
+    {
+      "file": "rejected-02.png",
+      "bytes": 1379601,
+      "sha256": "2af97e26716917eca47b274fc68545ddeaeb419bf259eb7499ed373d2ddab350"
+    },
+    {
+      "file": "rejected-01-prompt.txt",
+      "bytes": 3679,
+      "sha256": "9b40a309bdcfcb5ec2c89e116114a9a916569a1cbe62a2a50bf196c1c184a19b"
+    },
+    {
+      "file": "rejected-02-prompt.txt",
+      "bytes": 3907,
+      "sha256": "acadfedf2899ed7181b568f719c3e9ed41fe3c3a0bd91cc12ea9d4cb35f6ed96"
+    },
+    {
+      "file": "palette.json",
+      "bytes": 243,
+      "sha256": "f25cf380e59f7ac5755309de66ec07790af70238171be58669c209a77461bcde"
+    },
+    {
+      "file": "workflow-v2-instructions.txt",
+      "bytes": 3111,
+      "sha256": "ec8af26505cddc98c507a2f7e5765f1941dfa8d0ddf315adf5371e1232ffaa25"
+    },
+    {
+      "file": "accepted-median-display.png",
+      "bytes": 1314,
+      "sha256": "b0939aca42e972440fed351b5422e9e22f395abf0b3b756be54db059ecad5a8e"
+    },
+    {
+      "file": "accepted-region-display.png",
+      "bytes": 1318,
+      "sha256": "f1505382ea9faaf87fcdd66ef5fdfdb98a3de6ad31cce88005025f43e9c8515d"
+    },
+    {
+      "file": "audit.json",
+      "bytes": 567,
+      "sha256": "1cf78a16a0133a6b4aa7b42a801a357204e98ad586145f63f86ca25a1e4bbe6c"
+    }
+  ]
+}

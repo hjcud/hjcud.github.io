@@ -1,0 +1,26 @@
+{
+  "decoderReproducesBoth": true,
+  "alphaDifference": 16,
+  "records": [
+    {
+      "case": "retained",
+      "diagnostics": {
+        "components": 256,
+        "foregroundCells": 99,
+        "mixedPigmentCells": 50,
+        "singlePigmentContractPassed": false
+      },
+      "paletteOnlyChangedCells": 99
+    },
+    {
+      "case": "published",
+      "diagnostics": {
+        "components": 256,
+        "foregroundCells": 87,
+        "mixedPigmentCells": 16,
+        "singlePigmentContractPassed": false
+      },
+      "paletteOnlyChangedCells": 87
+    }
+  ]
+}
