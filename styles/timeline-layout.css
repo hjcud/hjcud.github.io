@@ -81,7 +81,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   border-inline: 1px solid #b5c2ce;
   background: linear-gradient(#b5c2ce, #b5c2ce) center / 100% 2px no-repeat;
 }
-.timeline-key .key-featured::before { height: 5px; border: 0; border-radius: 2px; background: #5b94d5; }
+.timeline-key .key-featured::before { height: 8px; border: 0; border-radius: 2px; background: #5b94d5; }
 @media (hover: none), (pointer: coarse) {
   .timeline-instruction .pointer-tip { display: none; }
   .timeline-instruction .touch-tip { display: inline; }
@@ -264,6 +264,23 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
 }
 #project-timeline .period:focus-visible { outline: none; }
 #project-timeline .period:focus-visible > span { outline: 2px solid var(--folio-blue); outline-offset: 3px; }
+@media (min-width: 861px) {
+  #project-timeline .period.featured::before { top: 22px; height: 8px; border-radius: 2px; }
+  #project-timeline .period.ongoing::after { display: none; }
+  #project-timeline .period.featured.ongoing::before {
+    right: 0;
+    border-radius: 2px 0 0 2px;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 0 100%);
+  }
+  #project-timeline .period.ongoing:not(.featured)::before {
+    top: 24.5px;
+    right: 0;
+    height: 3px;
+    border: 0;
+    background: var(--mark);
+    clip-path: polygon(0 0, calc(100% - 3px) 0, 100% 50%, calc(100% - 3px) 100%, 0 100%);
+  }
+}
 #project-timeline .timeline-foot:empty { display: none; }
 
 /* Project titles are editorial headings. Only the controls within a case act
