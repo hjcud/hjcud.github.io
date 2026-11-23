@@ -4,7 +4,22 @@
   const comparison = design?.querySelector('.pm-comparison');
   const source = design?.querySelector('.pm-before .pm-sprite-frame > svg');
   const target = design?.querySelector('.pm-listed-step .pm-board-img');
-  if (!connector || !comparison || !source || !target) return;
+  const processTitle = design?.querySelector('#pm-process-title');
+  if (!connector || !comparison || !source || !target || !processTitle) return;
+  const smoothContinuation = points => {
+    let path = '';
+    for (let i = 0; i < points.length - 1; i++) {
+      const previous = points[Math.max(0, i - 1)];
+      const start = points[i];
+      const end = points[i + 1];
+      const next = points[Math.min(points.length - 1, i + 2)];
+      const a = [start[0] + (end[0] - previous[0]) / 6, start[1] + (end[1] - previous[1]) / 6];
+      const b = [end[0] - (next[0] - start[0]) / 6, end[1] - (next[1] - start[1]) / 6];
+      if (i === 0) { a[0] = start[0]; a[1] = start[1] + 12; }
+      path += `C${a[0]} ${a[1]} ${b[0]} ${b[1]} ${end[0]} ${end[1]}`;
+    }
+    return path;
+  };
   let frame = 0;
   const draw = () => {
     frame = 0;
@@ -24,12 +39,27 @@
       path = `M24 ${sy} C-10 ${sy + 10} ${outer} ${sy + 14} ${outer} ${sy + 54} C${outer} ${ty - 28} ${tail} ${ty} ${tx} ${ty}`;
       angle = 0;
     } else {
-      const sx = from.left - box.left - 12;
-      const sy = from.top - box.top + from.height * .82;
+      const sx = from.left - box.left + 4;
+      const sy = from.top - box.top + from.height * .32;
       const outer = -Math.min(44, Math.max(10, box.left - 28));
-      const inner = Math.min(-6, outer + 36);
-      const loop = sy + (ty - sy) * .4;
-      path = `M${sx} ${sy} C${sx - 50} ${sy - 12} ${outer - 2} ${sy - 10} ${outer} ${loop - 42} C${outer} ${loop + 10} ${inner} ${loop + 30} ${inner} ${loop + 4} C${inner} ${loop - 24} ${outer - 24} ${loop - 12} ${outer - 10} ${loop + 28} C${outer + 2} ${ty - 62} ${tx - 40} ${ty - 3} ${tx} ${ty}`;
+      const inner = Math.min(-10, outer + 34);
+      const loop = sy + (ty - sy) * .52;
+      const guardY = processTitle.getBoundingClientRect().bottom - box.top + 16;
+      const curl = [
+        [outer, loop - 44], [outer + 3, loop - 8],
+        [inner - 10, loop + 17], [inner + 3, loop + 4],
+        [inner - 7, loop - 12], [outer + 8, loop - 15],
+        [outer - 8, loop + 2], [outer - 5, loop + 35]
+      ];
+      const exit = curl.at(-1), previous = curl.at(-2);
+      path = `M${sx} ${sy} C${sx - 52} ${sy - 8} ${outer} ${sy + 24} ${outer} ${loop - 44}`;
+      if (box.left >= 72) {
+        path += smoothContinuation(curl)
+          + `C${exit[0] + (exit[0] - previous[0]) * .6} ${exit[1] + (exit[1] - previous[1]) * .6} ${outer} ${guardY - 24} ${outer} ${guardY}`;
+      } else {
+        path += `C${outer} ${loop + 8} ${outer} ${guardY - 32} ${outer} ${guardY}`;
+      }
+      path += `C${outer} ${guardY + 42} ${tx - 40} ${ty - 3} ${tx} ${ty}`;
       angle = Math.atan2(3, 40);
     }
     const length = compact ? 7 : 14;
@@ -41,12 +71,14 @@
     connector.style.height = `${ty + 20}px`;
     connector.querySelectorAll('.pm-connector-line').forEach(line => { line.setAttribute('d', path); line.setAttribute('pathLength', '1'); });
     const head = connector.querySelector('.pm-connector-head');
-    head.setAttribute('d', `M${ax} ${ay} Q${tx - length * .4} ${ty + spread * .6} ${tx} ${ty} Q${tx - length * .4} ${ty - spread * .6} ${bx} ${by}`);
+    const acx = tx - length * .4 * ux - spread * .6 * uy, acy = ty - length * .4 * uy + spread * .6 * ux;
+    const bcx = tx - length * .4 * ux + spread * .6 * uy, bcy = ty - length * .4 * uy - spread * .6 * ux;
+    head.setAttribute('d', `M${ax} ${ay} Q${acx} ${acy} ${tx} ${ty} Q${bcx} ${bcy} ${bx} ${by}`);
     head.setAttribute('pathLength', '1');
   };
   const schedule = () => { if (!frame) frame = requestAnimationFrame(draw); };
   const observer = new ResizeObserver(schedule);
-  [design, comparison, source, target].forEach(element => observer.observe(element));
+  [design, comparison, source, target, processTitle].forEach(element => observer.observe(element));
   target.addEventListener('load', schedule);
   document.fonts.ready.then(schedule);
   const reveal = new IntersectionObserver(entries => {
