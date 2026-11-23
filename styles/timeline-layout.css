@@ -370,6 +370,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
 .featured-case > .project-disclosure > .project-body {
   padding-bottom: clamp(48px, 6vw, 88px);
 }
+.featured-case:last-child > .project-disclosure > .project-body { padding-bottom: 0; }
 .featured-case .project-body > .project-copy > .summary {
   font-size: clamp(14px, 1.1vw, 16px);
   color: #3d4c58;
