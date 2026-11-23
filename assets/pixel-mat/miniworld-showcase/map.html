@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Miniworld 지도 · Pixel Mat · 손현준 포트폴리오</title>
+ <meta name="description" content="Pixel Mat으로 제작한 리소스를 Unity에 배치한 해안가 마을. 지도를 확대하고 이동하며 살펴볼 수 있습니다.">
+ <style>
+ *{box-sizing:border-box}body{margin:0;height:100vh;height:100dvh;display:flex;flex-direction:column;background:#f6f8fa;color:#28465e;font:14px/1.6 system-ui,sans-serif}header{display:flex;align-items:center;justify-content:space-between;gap:12px 24px;flex-wrap:wrap;padding:14px 24px;border-bottom:1px solid #dce4eb}h1{margin:0;font-size:17px;line-height:1.5}header p{margin:3px 0 0;color:#65798b;font-size:12px}nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}button,a{font:inherit}button{min-width:44px;min-height:40px;border:1px solid #cad8e3;border-radius:4px;background:#fff;color:#365f80;padding:5px 12px;cursor:pointer}button:hover{background:#eaf1f7}a{color:#376d97;text-underline-offset:3px}button:focus-visible,a:focus-visible,canvas:focus-visible{outline:2px solid #1769ff;outline-offset:3px}main{position:relative;flex:1;min-height:0;overflow:hidden;background:#205b73}canvas{display:block;width:100%;height:100%;touch-action:none;cursor:grab;image-rendering:pixelated}canvas:active{cursor:grabbing}#message{position:absolute;inset:0;display:grid;place-items:center;color:#e6ebdd;pointer-events:none}footer{display:flex;align-items:center;justify-content:space-between;gap:8px 20px;flex-wrap:wrap;padding:10px 24px;border-top:1px solid #dce4eb;color:#65798b;font-size:12px}footer p{margin:0}#zoom{display:inline-block;min-width:45px;font-variant-numeric:tabular-nums}@media(max-width:600px){header{padding:12px 16px;gap:10px}h1{font-size:16px}nav{gap:6px}button{min-height:40px;padding:5px 10px}footer{padding:9px 16px;font-size:11px}}
+ </style>
+</head>
+<body>
+ <header>
+  <div><h1>Miniworld · 해안가 마을</h1><p>Pixel Mat 제작 리소스를 배치한 실제 Unity 카메라 캡처</p></div>
+  <nav aria-label="지도 보기 조절"><button id="fit" type="button">전체 보기</button><button id="native" type="button">100%</button><button id="minus" type="button" aria-label="지도 축소">−</button><span id="zoom" aria-label="현재 확대 배율">100%</span><button id="plus" type="button" aria-label="지도 확대">+</button></nav>
+ </header>
+ <main><canvas id="map" tabindex="0" aria-label="Miniworld 지도. 휠로 확대하고 드래그로 이동합니다. 방향키로 이동하고 더하기와 빼기 키로 확대와 축소할 수 있습니다."></canvas><div id="message">지도를 불러오는 중…</div></main>
+ <footer><p>휠 · 두 손가락으로 확대 / 드래그 · 방향키로 이동</p><p><a href="../../../#pixel-mat">포트폴리오로 돌아가기</a> · <a href="coastal-map.png?v=20261123" target="_blank" rel="noopener noreferrer">전체 이미지</a></p></footer>
+ <script>
+ const canvas=document.querySelector('#map'),ctx=canvas.getContext('2d'),box=canvas.parentElement,mapImage=new Image(),message=document.querySelector('#message'),zoomLabel=document.querySelector('#zoom');
+ let W=0,H=0,scale=1,tx=0,ty=0,ready=false,gesture=null;const pointers=new Map();
+ function clampPan(){const w=640*scale,h=360*scale;tx=w<=W?(W-w)/2:Math.max(48-w,Math.min(W-48,tx));ty=h<=H?(H-h)/2:Math.max(48-h,Math.min(H-48,ty));}
+ function draw(){clampPan();ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);ctx.fillStyle='#205b73';ctx.fillRect(0,0,W,H);ctx.imageSmoothingEnabled=false;if(ready)ctx.drawImage(mapImage,tx,ty,640*scale,360*scale);const label=Math.round(scale*100)+'%';if(zoomLabel.textContent!==label)zoomLabel.textContent=label;}
+ function fit(){scale=Math.max(.25,Math.min((W-24)/640,(H-24)/360));tx=(W-640*scale)/2;ty=(H-360*scale)/2;draw();}
+ function zoom(x,y,factor){const next=Math.max(.25,Math.min(12,scale*factor));tx=x-(x-tx)*next/scale;ty=y-(y-ty)*next/scale;scale=next;draw();}
+ function resize(){W=box.clientWidth;H=box.clientHeight;canvas.width=Math.round(W*devicePixelRatio);canvas.height=Math.round(H*devicePixelRatio);fit();}
+ mapImage.onload=()=>{ready=true;message.hidden=true;message.style.display='none';draw();};mapImage.onerror=()=>{message.textContent='지도를 불러오지 못했습니다. 페이지를 새로고침해 주세요.';};mapImage.src='coastal-map-native.png?v=20261123';
+ canvas.addEventListener('wheel',event=>{event.preventDefault();const r=canvas.getBoundingClientRect();zoom(event.clientX-r.left,event.clientY-r.top,Math.exp(-event.deltaY*.0015));},{passive:false});
+ canvas.addEventListener('pointerdown',event=>{canvas.setPointerCapture(event.pointerId);pointers.set(event.pointerId,[event.clientX,event.clientY]);gesture=null;});
+ canvas.addEventListener('pointermove',event=>{if(!pointers.has(event.pointerId))return;const old=pointers.get(event.pointerId);pointers.set(event.pointerId,[event.clientX,event.clientY]);if(pointers.size===1){tx+=event.clientX-old[0];ty+=event.clientY-old[1];draw();}else{const p=[...pointers.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]),r=canvas.getBoundingClientRect(),x=(p[0][0]+p[1][0])/2-r.left,y=(p[0][1]+p[1][1])/2-r.top;if(gesture&&gesture.d>0){tx+=x-gesture.x;ty+=y-gesture.y;zoom(x,y,d/gesture.d);}gesture={x,y,d};}});
+ for(const name of['pointerup','pointercancel','lostpointercapture'])canvas.addEventListener(name,event=>{pointers.delete(event.pointerId);gesture=null;});
+ document.querySelector('#fit').addEventListener('click',fit);document.querySelector('#native').addEventListener('click',()=>{scale=1;tx=(W-640)/2;ty=(H-360)/2;draw();});document.querySelector('#plus').addEventListener('click',()=>zoom(W/2,H/2,1.5));document.querySelector('#minus').addEventListener('click',()=>zoom(W/2,H/2,1/1.5));
+ canvas.addEventListener('keydown',event=>{const shifts={ArrowLeft:[64,0],ArrowRight:[-64,0],ArrowUp:[0,64],ArrowDown:[0,-64]};if(shifts[event.key]){event.preventDefault();tx+=shifts[event.key][0];ty+=shifts[event.key][1];draw();}else if(['+','=','-','0'].includes(event.key)){event.preventDefault();if(event.key==='0')fit();else zoom(W/2,H/2,event.key==='-'?1/1.5:1.5);}});new ResizeObserver(resize).observe(box);resize();
+ </script>
+</body>
+</html>
