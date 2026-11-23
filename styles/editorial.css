@@ -1,0 +1,100 @@
+/* Shared reading rhythm for the four case studies. */
+.featured-case .summary,
+.featured-case .problem-solving-context,
+.featured-case .comparison-copy p,
+.featured-case .pm-listed-step p,
+.featured-case .i2s-flow-caption p,
+.featured-case .i2s-implementation-records p {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.case-entry-layout > .project-copy > .summary {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.9;
+}
+.case-entry-layout > .project-copy > .summary + .summary {
+  margin-top: 10px;
+  color: #526479;
+}
+:is(#shinjuku, #pixel-mat, #shimanami, #idea2strategy) .project-meta dt { font-size: 11px; }
+:is(#shinjuku, #pixel-mat, #shimanami, #idea2strategy) .project-meta dd { font-size: 13px; }
+.featured-case .problem-solving-heading h3 {
+  text-wrap: balance;
+  scroll-margin-top: 112px;
+}
+.featured-case .project-problem-solving h4[id] { scroll-margin-top: 112px; }
+:is(#shinjuku, #shimanami) .problem-solving-heading .problem-solving-context {
+  max-width: 960px;
+  margin: 16px 0 0;
+  color: #526479;
+  font-size: 14px;
+  line-height: 1.85;
+}
+:is(#shinjuku, #shimanami) .problem-solving-heading .problem-solving-context + .problem-solving-context {
+  margin-top: 10px;
+}
+.featured-case .problem-solving-context strong {
+  color: #345c7d;
+  font-weight: 650;
+}
+.featured-case .comparison-copy h5 { font-size: 16px; line-height: 1.6; }
+.featured-case .project-problem-solving .comparison-copy p {
+  color: #526479;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.featured-case .methods-disclaimer {
+  max-width: 960px;
+  margin-top: 14px;
+  color: #657687;
+  font-size: 12px;
+  line-height: 1.8;
+}
+#shimanami #flight-demo-note {
+  max-width: 960px;
+  margin: 14px 0 0;
+  padding: 0;
+  color: #657687;
+  font-size: 12px;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+#pixel-mat .pm-design .pm-listed-step p,
+.featured-case .i2s-flow-caption p,
+.featured-case .i2s-implementation-records p {
+  color: #526479;
+  font-size: 14px;
+  line-height: 1.85;
+}
+#pixel-mat .pm-design .pm-listed-step h5 { font-size: 15px; }
+#pixel-mat .pm-map-copy > p { font-size: 14px; line-height: 1.85; color: #526479; }
+.featured-case .i2s-workflow-heading .i2s-flow-heading-actions > p {
+  max-width: 340px;
+  color: #526479;
+  font-size: 14px;
+  line-height: 1.8;
+}
+@media (max-width: 480px) {
+  #pixel-mat .pm-design .pm-listed-step { grid-template-columns: 112px minmax(0, 1fr); row-gap: 12px; }
+  #pixel-mat .pm-design .pm-listed-visual { grid-row: 1; min-height: 104px; }
+  #pixel-mat .pm-design .pm-listed-step h5 { align-self: center; margin: 0; }
+  #pixel-mat .pm-design .pm-listed-step p { grid-column: 1 / -1; }
+}
+@media (max-width: 360px) {
+  #pixel-mat .pm-design .pm-listed-step { grid-template-columns: 96px minmax(0, 1fr); }
+}
+.featured-case .i2s-flow-caption p { margin-inline: auto; }
+.featured-case .i2s-flow-application { font-size: 13px; }
+.featured-case .case-photo-note { font-size: 11px; }
+@media (max-width: 760px) {
+  .featured-case .problem-solving-heading h3 { scroll-margin-top: 104px; }
+  :is(#shinjuku, #shimanami) .problem-solving-heading .problem-solving-context { margin-top: 14px; }
+  .featured-case .comparison-copy h5 { font-size: 15px; }
+  .featured-case .i2s-flow-caption p { max-width: none; font-size: 13px; }
+  .featured-case .i2s-flow-caption h5 { margin-bottom: 6px; }
+  .featured-case .i2s-workflow-heading .i2s-flow-heading-actions > p { max-width: none; font-size: 13px; }
+  .featured-case .i2s-flow-caption br,
+  .featured-case .i2s-flow-heading-actions > p br { display: none; }
+}
