@@ -68,7 +68,9 @@
    entry.cover=mobile?Math.min(280,Math.max(180,entry.screen*.32)):Math.min(380,Math.max(240,entry.screen*.38));
    track.style.setProperty('--entry-cover',entry.cover+'px');
    entry.run=mobile?Math.min(320,viewportHeight*.38):Math.min(440,viewportHeight*.46);
-   entry.reading=Math.max(Math.min(320,Math.max(220,entry.screen*.3)),entry.screen-stage.offsetHeight-entry.cover-entry.run+80);
+   const room=entry.screen-stage.offsetHeight;
+   // A tall introduction needs normal scrolling as soon as the entrance ends.
+   entry.reading=room<24?0:Math.max(Math.min(320,Math.max(220,entry.screen*.3)),room-entry.cover-entry.run+80);
    track.style.setProperty('--entry-travel',entry.run+'px');
    track.style.setProperty('--entry-reading',entry.reading+'px');
    track.style.height=(stage.offsetHeight+entry.cover+entry.run+entry.reading)+'px';

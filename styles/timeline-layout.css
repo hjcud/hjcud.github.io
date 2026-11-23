@@ -269,8 +269,8 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
 /* Project titles are editorial headings. Only the controls within a case act
    as buttons; the photograph, interactive demo and repository links stay live. */
 #main { min-width: 0; }
-.featured-projects { margin-top: clamp(48px, 6vw, 88px); }
-#main.featured-projects { margin-top: clamp(48px, 6vw, 88px); }
+.featured-projects { margin-top: clamp(32px, 4vw, 56px); }
+#main.featured-projects { margin-top: clamp(32px, 4vw, 56px); }
 .featured-projects.project-group {
   border: 0;
   box-shadow: none;
@@ -343,7 +343,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   display: block;
   padding: 0;
   border: 0;
-  scroll-margin-top: 0;
+  scroll-margin-top: -14px;
 }
 .featured-projects .project.featured-case + .project.featured-case { border-top: 1px solid #aebdc8; }
 .featured-case > .project-disclosure > .project-summary {
