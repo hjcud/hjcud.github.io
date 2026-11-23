@@ -23,18 +23,18 @@
   <link rel="stylesheet" href="styles/carousel-controls.css">
   <script src="scripts/carousel-controls.js" defer></script>
   <link rel="stylesheet" href="styles/project-reading.css?v=project-boundaries">
-  <link rel="stylesheet" href="styles/timeline-layout.css?v=quiet-image-edge-20261123">
+  <link rel="stylesheet" href="styles/timeline-layout.css?v=light-rising-line-20261123">
   <link rel="stylesheet" href="styles/timeline-preview.css?v=project-detail-links">
   <link rel="stylesheet" href="styles/problem-solving.css?v=consistent-case-spacing">
   <script src="scripts/timeline-preview.js" defer></script>
   <link rel="stylesheet" href="styles/project-entry.css?v=readable-project-highlights">
   <script src="scripts/project-entry.js?v=responsive-reading-release" defer></script>
-  <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=short-process-link-20261123">
+  <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=crayon-process-arrow-20261123">
 <link rel="stylesheet" href="styles/editorial.css?v=decision-emphasis-20261123">
   <link rel="stylesheet" href="styles/measurement-note.css?v=inline-heading-20261123">
   <script src="scripts/measurement-note.js?v=compact-20261123" defer></script>
   <link rel="stylesheet" href="styles/traffic-diagrams-compact.css?v=compact-20261123">
-  <script src="scripts/pixel-mat-connector.js?v=short-process-link-20261123" defer></script>
+  <script src="scripts/pixel-mat-connector.js?v=crayon-process-arrow-20261123" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#profile">본문으로 이동</a>
@@ -284,7 +284,7 @@
       <p class="problem-solving-kicker">문제 해결 과정</p>
       <h3 id="pm-complex-title">게임에서 쓸 픽셀 아트 초안 만들기</h3>
      </header>
-     <div class="pm-design"><svg class="pm-process-connector" aria-hidden="true" focusable="false"><circle class="pm-connector-origin" r="2.25"/><path class="pm-connector-line"/><path class="pm-connector-head"/></svg>
+     <div class="pm-design"><svg class="pm-process-connector" aria-hidden="true" focusable="false"><defs><filter id="pm-crayon-grain" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="3" seed="9" result="noise"/><feColorMatrix in="noise" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0"/><feComponentTransfer result="paper-grain"><feFuncA type="linear" slope=".65" intercept=".35"/></feComponentTransfer><feComposite in="SourceGraphic" in2="paper-grain" operator="in"/></filter></defs><path class="pm-connector-line pm-connector-wash"/><g filter="url(#pm-crayon-grain)"><path class="pm-connector-line pm-connector-ink"/><path class="pm-connector-head pm-connector-ink"/></g></svg>
   <div class="pm-comparison">
    <section class="pm-pane pm-before" aria-labelledby="pm-before-title">
     <header class="pm-pane-heading"><h4 id="pm-before-title">기존 생성의 한계</h4><p class="pm-file-size">생성된 파일 1254 × 1254 px</p></header>
