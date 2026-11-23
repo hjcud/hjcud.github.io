@@ -1,0 +1,13 @@
+#shinjuku .optimization-comparison { padding-block: 16px; gap: 22px; }
+#shinjuku .comparison-pane figcaption:not(.traffic-decision-result) { flex-direction: row; align-items: baseline; flex-wrap: wrap; gap: 3px 8px; min-height: 0; padding: 10px 12px 3px; font-size: 12px; line-height: 1.6; }
+#shinjuku .comparison-pane figcaption:not(.traffic-decision-result) > span { flex: none; font-size: 10px; }
+#shinjuku .comparison-pair { gap: 10px; }
+#shinjuku .comparison-pane svg { max-height: none; }
+#shinjuku .traffic-decision-visual { position: relative; }
+#shinjuku .traffic-decision-visual svg { margin-top: 0; padding-top: 8px; }
+#shinjuku .comparison-pane .traffic-decision-result { position: absolute; left: 14px; top: 12px; gap: 16px; padding: 0; border: 0; background: transparent; }
+@media (max-width: 760px) {
+  #shinjuku .optimization-comparison { grid-template-columns: minmax(0, 1fr); gap: 12px; padding-block: 18px; }
+  #shinjuku .comparison-pane figcaption:not(.traffic-decision-result) { font-size: 11px; padding-inline: 10px; }
+  #shinjuku .comparison-pane .traffic-decision-result { position: static; padding: 6px 10px 10px; }
+}
