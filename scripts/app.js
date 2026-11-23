@@ -5,7 +5,6 @@ const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const projects = $$('.featured-case');
 const header = $('.header');
-const previews = $$('template[id^="preview-"]');
 
 const readingPosition = document.createElement('a');
 readingPosition.className = 'reading-position';
@@ -111,37 +110,6 @@ document.addEventListener('click', event => {
    event.preventDefault();
    hashTarget();
  }
-});
-
-const skillButtons=$$('[data-skill]');
-let selectedSkill=null;
-function selectSkill(key) {
- selectedSkill=key;
- skillButtons.forEach(button=>{const active=button.dataset.skill===key;button.setAttribute('aria-pressed',String(active));button.setAttribute('aria-expanded',String(active));});
- const panel=$('#skill-projects');
- panel.hidden=!key;
- $('#skill-project-links').replaceChildren();
- if(!key){$('#skill-selection-status').textContent='기술 선택을 해제했습니다.';return;}
- const button=skillButtons.find(button=>button.dataset.skill===key);
- const additionalSkills=button.closest('.additional-skills');
- if(additionalSkills)additionalSkills.open=true;
- const name=$('.tech-name',button).textContent;
- const related=previews.filter(project=>project.dataset.skills.split(/\s+/).includes(key));
- $('#skill-project-title').textContent=name+' 사용 프로젝트';
- related.forEach(project=>{
-   const a=document.createElement('a');a.href='#'+project.id.slice('preview-'.length);a.textContent=project.dataset.title+' ↗';$('#skill-project-links').append(a);
- });
- $('#skill-selection-status').textContent=name+' 사용 프로젝트 '+related.length+'개';
-}
-skillButtons.forEach(button=>{button.setAttribute('aria-expanded','false');button.setAttribute('aria-label',$('.tech-name',button).textContent+' 사용 프로젝트 보기');button.addEventListener('click',()=>selectSkill(selectedSkill===button.dataset.skill?null:button.dataset.skill));});
-$$('a[data-tech]').forEach(badge=>badge.addEventListener('click',()=>selectSkill(badge.dataset.tech)));
-$('#skill-clear').addEventListener('click',()=>{
- const button=skillButtons.find(button=>button.dataset.skill===selectedSkill);selectSkill(null);button?.focus({preventScroll:true});
-});
-$('.additional-skills').addEventListener('toggle',event=>{
- if(event.target.open)return;
- const selected=skillButtons.find(button=>button.dataset.skill===selectedSkill);
- if(selected&&event.target.contains(selected))selectSkill(null);
 });
 
 // Native dialog provides focus containment, Escape dismissal and focus restoration.
