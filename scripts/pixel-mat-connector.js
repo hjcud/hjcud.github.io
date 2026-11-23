@@ -28,9 +28,9 @@
       const sy = from.top - box.top + from.height * .82;
       const outer = -Math.min(44, Math.max(10, box.left - 28));
       const inner = Math.min(-6, outer + 36);
-      const loop = sy + (ty - sy) * .43;
-      path = `M${sx} ${sy} C${sx - 50} ${sy - 12} ${outer - 4} ${sy - 8} ${outer} ${loop - 48} C${outer + 2} ${loop + 15} ${inner + 8} ${loop + 23} ${inner} ${loop - 1} C${inner - 12} ${loop - 25} ${outer - 16} ${loop - 5} ${outer - 7} ${loop + 31} C${outer + 2} ${ty - 62} ${tx - 35} ${ty + 8} ${tx} ${ty}`;
-      angle = Math.atan2(-8, 35);
+      const loop = sy + (ty - sy) * .4;
+      path = `M${sx} ${sy} C${sx - 50} ${sy - 12} ${outer - 2} ${sy - 10} ${outer} ${loop - 42} C${outer} ${loop + 10} ${inner} ${loop + 30} ${inner} ${loop + 4} C${inner} ${loop - 24} ${outer - 24} ${loop - 12} ${outer - 10} ${loop + 28} C${outer + 2} ${ty - 62} ${tx - 40} ${ty - 3} ${tx} ${ty}`;
+      angle = Math.atan2(3, 40);
     }
     const length = compact ? 7 : 14;
     const spread = compact ? 5 : 8;
@@ -39,13 +39,23 @@
     const bx = tx - length * ux + spread * uy, by = ty - length * uy - spread * ux;
     connector.setAttribute('viewBox', `0 0 ${box.width} ${ty + 20}`);
     connector.style.height = `${ty + 20}px`;
-    connector.querySelectorAll('.pm-connector-line').forEach(line => line.setAttribute('d', path));
-    connector.querySelector('.pm-connector-head').setAttribute('d', `M${ax} ${ay} L${tx} ${ty} L${bx} ${by}`);
+    connector.querySelectorAll('.pm-connector-line').forEach(line => { line.setAttribute('d', path); line.setAttribute('pathLength', '1'); });
+    const head = connector.querySelector('.pm-connector-head');
+    head.setAttribute('d', `M${ax} ${ay} Q${tx - length * .4} ${ty + spread * .6} ${tx} ${ty} Q${tx - length * .4} ${ty - spread * .6} ${bx} ${by}`);
+    head.setAttribute('pathLength', '1');
   };
   const schedule = () => { if (!frame) frame = requestAnimationFrame(draw); };
   const observer = new ResizeObserver(schedule);
   [design, comparison, source, target].forEach(element => observer.observe(element));
   target.addEventListener('load', schedule);
   document.fonts.ready.then(schedule);
+  const reveal = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      connector.classList.add('is-drawn');
+      reveal.disconnect();
+    }
+  }, { threshold: .5 });
+  reveal.observe(source);
+  reveal.observe(target);
   schedule();
 })();

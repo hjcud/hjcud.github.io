@@ -346,8 +346,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   45% { opacity: 1; }
   90%, 100% { transform: translateY(6px); opacity: 0; }
 }
-#shinjuku .case-entry-track::before,
-#shinjuku .case-entry-track::after {
+#shinjuku .case-entry-track::before {
   content: '';
   position: absolute;
   left: 0;
@@ -360,18 +359,15 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   height: 1px;
   background: #dce3e9;
 }
-#shinjuku .case-entry-track::after {
-  bottom: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #a7b7c37a 18%, #91a5b5aa 50%, #a7b7c37a 82%, transparent);
-  opacity: 0;
-  animation: featured-boundary-rise 2.1s ease-out infinite;
-}
-@keyframes featured-boundary-rise {
+.featured-boundary-wave { position: absolute; left: calc(-1 * var(--gutter)); bottom: 0; width: calc(100% + 2 * var(--gutter)); height: 1px; overflow: visible; pointer-events: none; }
+.featured-boundary-wave path { fill: none; stroke: url(#featured-wave-fade); stroke-width: 1; vector-effect: non-scaling-stroke; opacity: 0; animation: featured-wave-rise 2.1s ease-out infinite; }
+.featured-boundary-wave path:nth-of-type(1) { --wave-distance: -28px; --wave-opacity: .65; }
+.featured-boundary-wave path:nth-of-type(2) { --wave-distance: -18px; --wave-opacity: .43; }
+.featured-boundary-wave path:nth-of-type(3) { --wave-distance: -9px; --wave-opacity: .26; }
+@keyframes featured-wave-rise {
   0% { transform: translateY(0); opacity: 0; }
-  18% { opacity: .5; }
-  45% { opacity: .55; }
-  90%, 100% { transform: translateY(-22px); opacity: 0; }
+  18%, 45% { opacity: var(--wave-opacity); }
+  90%, 100% { transform: translateY(var(--wave-distance)); opacity: 0; }
 }
 .featured-section-heading h2 {
   margin: 0;
@@ -541,10 +537,10 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .featured-scroll-cue svg { animation: none; transform: none; opacity: .65; }
-  #shinjuku .case-entry-track::after { animation: none; opacity: 0; transform: none; }
+  .featured-boundary-wave { display: none; }
 }
 @media print {
-  .featured-scroll-cue, #shinjuku .case-entry-track::before, #shinjuku .case-entry-track::after { display: none; }
+  .featured-scroll-cue, .featured-boundary-wave, #shinjuku .case-entry-track::before { display: none; }
   .featured-projects, #main.featured-projects { margin-top: 20px; }
   .featured-case > .project-disclosure > .project-summary { padding: 20px 0 12px; }
   .featured-case > .project-disclosure > .project-body { padding-bottom: 22px; }
