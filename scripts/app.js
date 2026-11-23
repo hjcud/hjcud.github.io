@@ -165,7 +165,7 @@ dialog.addEventListener('close',()=>{
 });
 const gallery={
  'pixel-mat-editor':['pixel-mat/editor.png','Pixel Mat / Windows 편집기'],
- 'pixel-mat-map':['pixel-mat/miniworld-showcase/coastal-map.png?v=20261123-forest-v12','Miniworld용 리소스 / Unity 배치 테스트'],
+ 'pixel-mat-map':['pixel-mat/miniworld-showcase/coastal-map.png?v=20261123-undergrowth-blue-v13','Miniworld용 리소스 / Unity 배치 테스트'],
 
  'shimanami-exhibition':['shimanami/exhibition.webp','Shimanami Ekranoplan / 무사시노미술대학 전시 현장'],
  shinjuku:['shinjuku/street.webp','Shinjuku Live Street / 실제 플레이 화면'],
