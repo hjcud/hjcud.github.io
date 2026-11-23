@@ -22,9 +22,9 @@
 :is(#shinjuku, #pixel-mat, #shimanami, #idea2strategy) .project-meta dd { font-size: 13px; }
 .featured-case .problem-solving-heading h3 {
   text-wrap: balance;
-  scroll-margin-top: 112px;
+  scroll-margin-top: 40px;
 }
-.featured-case .project-problem-solving h4[id] { scroll-margin-top: 112px; }
+.featured-case .project-problem-solving h4[id] { scroll-margin-top: 40px; }
 :is(#shinjuku, #shimanami) .problem-solving-heading .problem-solving-context {
   max-width: 960px;
   margin: 16px 0 0;
@@ -89,7 +89,7 @@
 .featured-case .i2s-flow-application { font-size: 13px; }
 .featured-case .case-photo-note { font-size: 11px; }
 @media (max-width: 760px) {
-  .featured-case .problem-solving-heading h3 { scroll-margin-top: 104px; }
+  .featured-case .problem-solving-heading h3 { scroll-margin-top: 36px; }
   :is(#shinjuku, #shimanami) .problem-solving-heading .problem-solving-context { margin-top: 14px; }
   .featured-case .comparison-copy h5 { font-size: 15px; }
   .featured-case .i2s-flow-caption p { max-width: none; font-size: 13px; }
