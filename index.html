@@ -31,6 +31,8 @@
   <script src="scripts/project-entry.js?v=responsive-reading-release" defer></script>
   <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=pixel-mat-team">
 <link rel="stylesheet" href="styles/editorial.css?v=decision-emphasis-20261123">
+  <link rel="stylesheet" href="styles/measurement-note.css?v=compact-20261123">
+  <script src="scripts/measurement-note.js?v=compact-20261123" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#profile">본문으로 이동</a>
@@ -230,7 +232,7 @@
 <p class="problem-solving-context">VRChat 월드에서는 전용 서버에 차량 계산을 맡길 수 없어, <strong>한 참여자의 PC</strong>에서 차량 상태를 계산해 다른 사용자에게 전송했습니다. 이 PC는 <strong>화면 표시도 함께 처리</strong>해야 하므로, 차량의 이동 계산과 반복되는 주변 검사가 프레임 저하의 원인이 됐습니다.</p>
 <p class="problem-solving-context"><strong>차선 경로를 미리 저장</strong>하고, 앞차와 정지선까지의 거리는 계산으로 구했습니다. <strong>사람과 장애물만 검사</strong>하고, 차량별 검사는 <strong>프레임마다 분산</strong>해 계산 부담을 줄였습니다.</p></header>
 <div class="shinjuku-measurement">
-<div class="shinjuku-outcomes"><div class="traffic-result"><div class="result-label"><h5>평균 CPU 프레임 시간<br><strong>32.4% 감소</strong></h5></div><div class="result-bars" role="img" aria-label="평균 CPU 프레임 시간 개선 전 17.65밀리초, 개선 후 11.92밀리초"><div><span>개선 전</span><i style="--bar:100%"></i><b>17.65 <small>ms</small></b></div><div><span>개선 후</span><i style="--bar:67.535%"></i><b>11.92 <small>ms</small></b></div></div></div></div><dl class="measurement-conditions" aria-label="성능 측정 조건"><div><dt>측정 환경</dt><dd>동일 PC의 <strong>Unity Editor</strong></dd></div><div><dt>장면 규모</dt><dd>차량 <strong>10대</strong>, 가상 플레이어 <strong>80명</strong></dd></div><div><dt>측정 범위</dt><dd>개선 전후 <strong>각 300프레임</strong></dd></div></dl><p class="methods-disclaimer">여러 구조 변경을 함께 적용한 결과이며, 비교 장면은 원리 설명용 재현입니다.</p></div>
+<div class="shinjuku-outcomes"><div class="traffic-result"><div class="result-label"><h5>평균 CPU 프레임 시간<br><strong>32.4% 감소</strong></h5></div><div class="result-bars" role="img" aria-label="평균 CPU 프레임 시간 개선 전 17.65밀리초, 개선 후 11.92밀리초"><div><span>개선 전</span><i style="--bar:100%"></i><b>17.65 <small>ms</small></b></div><div><span>개선 후</span><i style="--bar:67.535%"></i><b>11.92 <small>ms</small></b></div></div></div></div><details class="measurement-note"><summary><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5"/><path d="M10 9v5M10 5.5v1"/></svg>측정 조건</summary><div class="measurement-note-panel"><dl class="measurement-conditions" aria-label="성능 측정 조건"><div><dt>측정 환경</dt><dd>동일 PC의 <strong>Unity Editor</strong></dd></div><div><dt>장면 규모</dt><dd>차량 <strong>10대</strong>, 가상 플레이어 <strong>80명</strong></dd></div><div><dt>측정 범위</dt><dd>개선 전후 <strong>각 300프레임</strong></dd></div></dl><p class="methods-disclaimer">여러 구조 변경을 함께 적용한 결과이며, 비교 장면은 원리 설명용 재현입니다.</p></div></details></div>
 <section class="traffic-exhibit" id="shinjuku-simulation" aria-labelledby="traffic-title">
 
   <p id="traffic-model-note" class="sr-only">실제 월드의 도로 좌표와 감지 및 회피 흐름을 반영한 설명용 웹 시연입니다. 보행자의 갑작스러운 진입과 교통량, 움직임은 설명을 위해 구성했으며, 시뮬레이션은 3배속으로 재생됩니다.</p>

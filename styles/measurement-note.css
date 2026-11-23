@@ -1,0 +1,16 @@
+.measurement-note { position: relative; z-index: 6; width: max-content; margin: 6px 0 0 auto; }
+.measurement-note > summary { display: flex; align-items: center; gap: 5px; min-height: 28px; padding: 2px 0 2px 8px; list-style: none; color: #7e8e9b; font-size: 11px; line-height: 1.6; cursor: pointer; }
+.measurement-note > summary::-webkit-details-marker { display: none; }
+.measurement-note > summary svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.4; }
+.measurement-note > summary:is(:hover, :focus-visible), .measurement-note[open] > summary { color: #526b7e; }
+.measurement-note > summary:focus-visible { outline: 2px solid #7596b0; outline-offset: 3px; border-radius: 2px; }
+.measurement-note-panel { position: absolute; right: 0; bottom: calc(100% + 6px); box-sizing: border-box; width: min(440px, calc(100vw - 64px)); padding: 15px 17px; border: 1px solid #dce4ea; border-radius: 6px; background: #fff; box-shadow: 0 6px 24px #20384912; }
+.measurement-note-panel::after { content: ''; position: absolute; top: 100%; right: 0; left: 0; height: 8px; }
+.measurement-note[data-placement="below"] .measurement-note-panel { top: calc(100% + 6px); bottom: auto; }
+.measurement-note[data-placement="below"] .measurement-note-panel::after { top: auto; bottom: 100%; }
+#shinjuku .measurement-note .measurement-conditions { display: grid; gap: 5px; margin: 0; }
+#shinjuku .measurement-note .measurement-conditions > div { display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 10px; }
+#shinjuku .measurement-note .measurement-conditions strong { font-weight: 500; }
+#shinjuku .measurement-note .methods-disclaimer { margin: 11px 0 0; padding: 10px 0 0; border-top: 1px solid #edf0f2; color: #7b8b98; font-size: 11px; line-height: 1.8; text-align: left; word-break: keep-all; }
+@media (max-width: 760px) { .measurement-note > summary { min-height: 40px; } }
+@media print { .measurement-note-panel { position: static; width: auto; box-shadow: none; } }
