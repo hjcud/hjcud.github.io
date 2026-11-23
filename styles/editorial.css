@@ -88,6 +88,19 @@
 .featured-case .i2s-flow-caption p { margin-inline: auto; }
 .featured-case .i2s-flow-application { font-size: 13px; }
 .featured-case .case-photo-note { font-size: 11px; }
+#shinjuku .measurement-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 28px;
+  margin: 16px 0 0;
+  padding: 0;
+}
+#shinjuku .measurement-conditions > div { display: flex; align-items: baseline; gap: 9px; min-width: 0; }
+#shinjuku .measurement-conditions dt { flex: none; color: #657687; font-size: 11px; line-height: 1.8; }
+#shinjuku .measurement-conditions dd { margin: 0; color: #526479; font-size: 12px; line-height: 1.8; }
+#shinjuku .measurement-conditions strong { color: #304c63; font-weight: 650; }
+#shinjuku .shinjuku-measurement > .methods-disclaimer { margin-top: 8px; }
+.featured-case .i2s-flow-heading-actions > p strong { color: #304c63; font-weight: 650; }
 /* Marker strokes stay inline, including when a phrase wraps onto a second line. */
 .featured-case .case-marker,
 #pixel-mat .pm-design .pm-facts :is(.pm-limitation, .pm-improvement),
@@ -117,6 +130,8 @@
   color: #225b88;
 }
 @media (max-width: 760px) {
+  #shinjuku .measurement-conditions { display: grid; gap: 5px; margin-top: 14px; }
+  #shinjuku .measurement-conditions > div { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; }
   .featured-case .problem-solving-heading h3 { scroll-margin-top: 36px; }
   :is(#shinjuku, #shimanami) .problem-solving-heading .problem-solving-context { margin-top: 14px; }
   .featured-case .comparison-copy h5 { font-size: 15px; }
