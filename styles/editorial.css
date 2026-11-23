@@ -88,6 +88,34 @@
 .featured-case .i2s-flow-caption p { margin-inline: auto; }
 .featured-case .i2s-flow-application { font-size: 13px; }
 .featured-case .case-photo-note { font-size: 11px; }
+/* Marker strokes stay inline, including when a phrase wraps onto a second line. */
+.featured-case .case-marker,
+#pixel-mat .pm-design .pm-facts :is(.pm-limitation, .pm-improvement),
+.featured-case .i2s-time-emphasis {
+  --marker-color: #f6df88a6;
+  color: inherit;
+  background: linear-gradient(transparent 43%, var(--marker-color) 43%, var(--marker-color) 92%, transparent 92%);
+  padding-inline: .06em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.featured-case .case-marker { font-weight: 650; }
+.featured-case .summary strong,
+.featured-case .comparison-copy p strong,
+.featured-case .i2s-flow-caption p strong,
+.featured-case .i2s-implementation-records p strong,
+#pixel-mat .pm-map-copy p strong {
+  color: #304c63;
+  font-weight: 650;
+}
+#pixel-mat .pm-design .pm-facts .pm-limitation {
+  --marker-color: #e9b7b780;
+  color: #a33e3e;
+}
+#pixel-mat .pm-design .pm-facts .pm-improvement {
+  --marker-color: #a5cee894;
+  color: #225b88;
+}
 @media (max-width: 760px) {
   .featured-case .problem-solving-heading h3 { scroll-margin-top: 36px; }
   :is(#shinjuku, #shimanami) .problem-solving-heading .problem-solving-context { margin-top: 14px; }
