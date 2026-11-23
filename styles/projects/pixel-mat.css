@@ -14,10 +14,9 @@
 #pixel-mat .problem-solving-heading{margin-bottom:20px}
 #pixel-mat .pm-design,#pixel-mat .problem-solving-heading{max-width:1080px;margin-inline:auto}
 #pixel-mat .pm-design{position:relative}
-#pixel-mat .pm-process-connector{position:absolute;left:0;top:0;z-index:2;display:block;width:100%;height:0;overflow:visible;pointer-events:none;fill:none;stroke-linecap:round;stroke-linejoin:round}
-#pixel-mat .pm-pencil-base{stroke:#6e91ac;stroke-width:3.3;opacity:.82}
-#pixel-mat .pm-pencil-grain{stroke:#497393;stroke-width:1.1;stroke-dasharray:2.3 1.2;opacity:.45;transform:translate(.55px,.45px)}
-@media(max-width:760px){#pixel-mat .pm-pencil-base{stroke-width:2.2}#pixel-mat .pm-pencil-grain{stroke-width:.8;opacity:.35}}
+#pixel-mat .pm-process-connector{position:absolute;left:0;top:0;z-index:2;display:block;width:100%;height:0;overflow:visible;pointer-events:none;fill:none;stroke:#819caf;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+#pixel-mat .pm-connector-line{opacity:.78}
+#pixel-mat .pm-connector-origin{fill:#f3f5f7;stroke-width:1.3}
 .case-entry-layout .project-brand .pixel-mat-app-brand{width:258px}
 @media(max-width:360px){.case-entry-layout .project-brand .pixel-mat-app-brand{width:172px}}
 #pixel-mat .pm-design .pm-comparison{display:grid;grid-template-columns:2fr 3fr;align-items:stretch}
