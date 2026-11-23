@@ -33,13 +33,13 @@
     let path;
     let angle;
     if (compact) {
-      const sy = comparison.getBoundingClientRect().bottom - box.top;
+      const sy = comparison.getBoundingClientRect().bottom - box.top + 10;
       const outer = -Math.min(20, Math.max(6, box.left - 10));
       const tail = Math.max(8 - box.left, tx - 20);
       path = `M24 ${sy} C-10 ${sy + 10} ${outer} ${sy + 14} ${outer} ${sy + 54} C${outer} ${ty - 28} ${tail} ${ty} ${tx} ${ty}`;
       angle = 0;
     } else {
-      const sx = from.left - box.left + 4;
+      const sx = from.left - box.left - 16;
       const sy = from.top - box.top + from.height * .32;
       const outer = -Math.min(44, Math.max(10, box.left - 28));
       const inner = Math.min(-10, outer + 34);
@@ -69,7 +69,12 @@
     const bx = tx - length * ux + spread * uy, by = ty - length * uy - spread * ux;
     connector.setAttribute('viewBox', `0 0 ${box.width} ${ty + 20}`);
     connector.style.height = `${ty + 20}px`;
-    connector.querySelectorAll('.pm-connector-line').forEach(line => { line.setAttribute('d', path); line.setAttribute('pathLength', '1'); });
+    connector.querySelector('.pm-connector-line').setAttribute('d', path);
+    const revealPath = connector.querySelector('.pm-connector-reveal');
+    revealPath.setAttribute('d', path);
+    const mask = connector.querySelector('mask');
+    mask.setAttribute('width', box.width + 240);
+    mask.setAttribute('height', ty + 40);
     const head = connector.querySelector('.pm-connector-head');
     const acx = tx - length * .4 * ux - spread * .6 * uy, acy = ty - length * .4 * uy + spread * .6 * ux;
     const bcx = tx - length * .4 * ux + spread * .6 * uy, bcy = ty - length * .4 * uy - spread * .6 * ux;

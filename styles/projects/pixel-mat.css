@@ -14,15 +14,16 @@
 #pixel-mat .problem-solving-heading{margin-bottom:20px}
 #pixel-mat .pm-design,#pixel-mat .problem-solving-heading{max-width:1080px;margin-inline:auto}
 #pixel-mat .pm-design{position:relative}
-#pixel-mat .pm-process-connector{position:absolute;left:0;top:0;z-index:2;display:block;width:100%;height:0;overflow:visible;pointer-events:none;fill:none;stroke:#b9794c;stroke-linecap:round;stroke-linejoin:round}
-#pixel-mat .pm-connector-ink{stroke-width:4;opacity:.95}
-#pixel-mat .pm-connector-wash{stroke-width:6;opacity:.12}
-@media(max-width:760px){#pixel-mat .pm-connector-ink{stroke-width:2.8}#pixel-mat .pm-connector-wash{stroke-width:4.5}}
-#pixel-mat .pm-process-connector :is(.pm-connector-line,.pm-connector-head){stroke-dasharray:1;stroke-dashoffset:1}
-#pixel-mat .pm-process-connector.is-drawn .pm-connector-line{animation:pm-arrow-draw 1.2s cubic-bezier(.3,.1,.25,1) both}
+#pixel-mat .pm-process-connector{position:absolute;left:0;top:0;z-index:2;display:block;width:100%;height:0;overflow:visible;pointer-events:none;fill:none;stroke:#7893a6;stroke-linecap:round;stroke-linejoin:round}
+#pixel-mat .pm-connector-ink{stroke-width:2.6;opacity:.95}
+#pixel-mat .pm-connector-line{stroke-dasharray:5 8}
+#pixel-mat .pm-connector-head{stroke-dasharray:1;stroke-dashoffset:1}
+#pixel-mat .pm-connector-reveal{stroke:#fff;stroke-width:12;stroke-dasharray:1;stroke-dashoffset:1}
+@media(max-width:760px){#pixel-mat .pm-connector-ink{stroke-width:2.2}#pixel-mat .pm-connector-line{stroke-dasharray:4 7}}
+#pixel-mat .pm-process-connector.is-drawn .pm-connector-reveal{animation:pm-arrow-draw 1.2s cubic-bezier(.3,.1,.25,1) both}
 #pixel-mat .pm-process-connector.is-drawn .pm-connector-head{animation:pm-arrow-draw .22s ease-out 1.08s both}
 @keyframes pm-arrow-draw{to{stroke-dashoffset:0}}
-@media(prefers-reduced-motion:reduce){#pixel-mat .pm-process-connector :is(.pm-connector-line,.pm-connector-head){animation:none;stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){#pixel-mat .pm-process-connector :is(.pm-connector-reveal,.pm-connector-head){animation:none;stroke-dashoffset:0}}
 .case-entry-layout .project-brand .pixel-mat-app-brand{width:258px}
 @media(max-width:360px){.case-entry-layout .project-brand .pixel-mat-app-brand{width:172px}}
 #pixel-mat .pm-design .pm-comparison{display:grid;grid-template-columns:2fr 3fr;align-items:stretch}
