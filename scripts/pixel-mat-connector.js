@@ -1,0 +1,37 @@
+(() => {
+  const design = document.querySelector('#pixel-mat .pm-design');
+  const connector = design?.querySelector('.pm-process-connector');
+  const source = design?.querySelector('.pm-before .pm-sprite-frame > svg');
+  const target = design?.querySelector('.pm-listed-step .pm-board-img');
+  if (!connector || !source || !target) return;
+  let frame = 0;
+  const draw = () => {
+    frame = 0;
+    const box = design.getBoundingClientRect();
+    const from = source.getBoundingClientRect();
+    const to = target.getBoundingClientRect();
+    if (!box.width || !from.height || !to.height) return;
+    const sx = from.left - box.left - 10;
+    const sy = from.top - box.top + from.height * .48;
+    const tx = to.left - box.left - (box.width < 600 ? 6 : 12);
+    const ty = to.top - box.top + to.height * .53;
+    const outer = -Math.min(66, Math.max(8, box.left - 12));
+    const inner = Math.min(-3, outer + 52);
+    const curl = (inner - outer) / 52;
+    const tail = Math.max(7 - box.left, Math.min(outer + 35, tx - 20));
+    const loop = sy + (ty - sy) * .43;
+    const path = `M${sx} ${sy} C${sx - 48} ${sy - 12} ${outer - 5 * curl} ${sy + 8} ${outer} ${loop - 38} C${outer + 5 * curl} ${loop + 34} ${inner + 10 * curl} ${loop + 28} ${inner} ${loop - 6} C${inner - 14 * curl} ${loop - 41} ${outer - 20 * curl} ${loop - 19} ${outer - 6 * curl} ${loop + 40} C${Math.min(outer + 15, tail)} ${ty - 86} ${tail} ${ty + 4} ${tx} ${ty}`;
+    const wing = Math.min(12, tx + box.left - 7);
+    const head = `M${tx - wing} ${ty - 7} Q${tx - 5} ${ty - 5} ${tx} ${ty} Q${tx - 5} ${ty + 3} ${tx - wing + 1} ${ty + 10}`;
+    connector.setAttribute('viewBox', `0 0 ${box.width} ${ty + 20}`);
+    connector.style.height = `${ty + 20}px`;
+    connector.querySelectorAll('.pm-pencil-line').forEach(line => line.setAttribute('d', path));
+    connector.querySelectorAll('.pm-pencil-head').forEach(line => line.setAttribute('d', head));
+  };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(draw); };
+  const observer = new ResizeObserver(schedule);
+  [design, source, target, design.querySelector('.pm-comparison')].forEach(element => observer.observe(element));
+  target.addEventListener('load', schedule);
+  document.fonts.ready.then(schedule);
+  schedule();
+})();
