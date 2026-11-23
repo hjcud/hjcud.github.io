@@ -78,6 +78,19 @@
   font: 22px/1 system-ui, sans-serif;
 }
 .timeline-preview-close:hover { background: #edf3f7; }
+.timeline-preview-copy .timeline-preview-detail {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #e0e7ed;
+  color: #185da6;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.timeline-preview-copy .timeline-preview-detail:hover { text-decoration: underline; text-underline-offset: 3px; }
 .timeline-preview:focus-visible, .timeline-preview :focus-visible { outline: 2px solid #397bcc; outline-offset: 2px; }
 .timeline-grid button.period { font-family: inherit; font-size: inherit; text-align: inherit; }
 .timeline-grid .period[aria-expanded="true"] > span { color: var(--blue, #1769ff); }

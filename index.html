@@ -21,8 +21,8 @@
   <link rel="stylesheet" href="styles/carousel-controls.css">
   <script src="scripts/carousel-controls.js" defer></script>
   <link rel="stylesheet" href="styles/project-reading.css?v=project-boundaries">
-  <link rel="stylesheet" href="styles/timeline-layout.css?v=project-context-and-lines">
-  <link rel="stylesheet" href="styles/timeline-preview.css">
+  <link rel="stylesheet" href="styles/timeline-layout.css?v=clean-timeline-and-scroll-cues">
+  <link rel="stylesheet" href="styles/timeline-preview.css?v=project-detail-links">
   <link rel="stylesheet" href="styles/problem-solving.css?v=consistent-case-spacing">
   <script src="scripts/timeline-preview.js" defer></script>
   <link rel="stylesheet" href="styles/project-entry.css?v=readable-project-highlights">
@@ -97,7 +97,7 @@
 </div>
 <header class="projects-opening" id="projects" aria-labelledby="projects-title">
   <div class="projects-opening-inner"><h2 id="projects-title">프로젝트 타임라인</h2><span class="projects-years">2023 — 2026</span></div>
-  <p class="timeline-instruction"><span class="pointer-tip">프로젝트에 마우스를 올려 미리 보세요.</span><span class="touch-tip">프로젝트를 눌러 미리 보세요.</span> 굵은 막대와 ↓ 표시는 주요 프로젝트의 상세로 이어집니다.</p>
+  <div class="timeline-overview-meta"><p class="timeline-instruction"><span class="pointer-tip">프로젝트에 마우스를 올려보세요.</span><span class="touch-tip">프로젝트를 눌러 미리 보세요.</span></p><ul class="timeline-key" aria-label="프로젝트 구분"><li class="key-featured">주요 프로젝트</li><li>그 외 프로젝트</li></ul></div>
 </header>
 <div class="timeline-stage" id="project-timeline"><aside class="timeline-dock" aria-label="프로젝트 타임라인">
   <div id="timeline-body">
@@ -147,13 +147,13 @@
     <span class="timeline-preview-meta">아티스트 협업 / 2024.04.10 — 진행 중</span>
     <h3>Shinjuku Live Street</h3>
     <p>차량이 오가는 신주쿠 거리에서 공연과 음악을 즐기는 VRChat 공간입니다. 직접 공연하거나 다른 이용자와 함께 공연을 감상할 수 있습니다.</p>
-    <a class="timeline-preview-detail" href="#shinjuku">상세 보기 <span aria-hidden="true">↓</span></a>
+    <a class="timeline-preview-detail" href="#shinjuku">프로젝트 자세히 보기</a>
   </div>
 </template>
 
 <template id="preview-pixel-mat" data-title="Pixel Mat" data-skills="ai-skills git" data-featured="true">
   <img class="timeline-preview-image" src="assets/pixel-mat/editor.png" alt="Miniworld 집 프로젝트를 연 실제 Pixel Mat Windows 앱" width="1424" height="921" decoding="async" style="object-fit:contain;background:#292929">
-  <div class="timeline-preview-copy"><p class="timeline-preview-date">2026.09.07 — 진행 중 / Windows 베타</p><h3>Pixel Mat</h3><p>게임용 픽셀 아트를 생성하는 AI 스킬과 Windows 편집기입니다.</p></div>
+  <div class="timeline-preview-copy"><span class="timeline-preview-meta">2026.09.07 — 진행 중 / Windows 베타</span><h3>Pixel Mat</h3><p>게임용 픽셀 아트를 생성하는 AI 스킬과 Windows 편집기입니다.</p><a class="timeline-preview-detail" href="#pixel-mat">프로젝트 자세히 보기</a></div>
 </template>
 
 <template id="preview-shimanami" data-title="Shimanami Ekranoplan" data-skills="unity csharp udonsharp" data-featured="true">
@@ -162,7 +162,7 @@
     <span class="timeline-preview-meta">아티스트 협업 / 2024.12.02 — 2025.01.25</span>
     <h3>Shimanami Ekranoplan</h3>
     <p>VR 손동작이나 PC 키보드로 기체를 조종하며 바다 위를 비행하는 시뮬레이터입니다. 계기판으로 비행 상태를 확인하며 다른 이용자와 함께 즐길 수 있습니다.</p>
-    <a class="timeline-preview-detail" href="#shimanami">상세 보기 <span aria-hidden="true">↓</span></a>
+    <a class="timeline-preview-detail" href="#shimanami">프로젝트 자세히 보기</a>
   </div>
 </template>
 
@@ -172,7 +172,7 @@
     <span class="timeline-preview-meta">SSAFY / 2026.07.13 — 2026.08.10</span>
     <h3>Idea2Strategy</h3>
     <p>매수와 매도 조건을 블록으로 조합하고 과거 주식 시세로 시험하는 서비스입니다. 조건과 투자 비중을 바꾸며 차트와 거래 내역으로 결과를 확인할 수 있습니다.</p>
-    <a class="timeline-preview-detail" href="#idea2strategy">상세 보기 <span aria-hidden="true">↓</span></a>
+    <a class="timeline-preview-detail" href="#idea2strategy">프로젝트 자세히 보기</a>
   </div>
 </template>
 
@@ -195,7 +195,7 @@
 </template>
 
 <main id="main" class="featured-projects">
-  <header class="featured-section-heading"><h2 id="featured-title">대표 프로젝트</h2></header>
+  <header class="featured-section-heading" id="featured-projects-heading"><div class="featured-heading-content"><span class="featured-scroll-cue" aria-hidden="true"><svg viewBox="0 0 22 28"><path d="m4 9 7 7 7-7"/></svg><svg class="featured-scroll-second" viewBox="0 0 22 28"><path d="m4 9 7 7 7-7"/></svg></span><h2 id="featured-title">주요 프로젝트</h2><span class="featured-scroll-cue" aria-hidden="true"><svg viewBox="0 0 22 28"><path d="m4 9 7 7 7-7"/></svg><svg class="featured-scroll-second" viewBox="0 0 22 28"><path d="m4 9 7 7 7-7"/></svg></span></div><a class="featured-scroll-link" href="#shinjuku" aria-label="아래 주요 프로젝트로 이동"></a></header>
 <article class="project-fold project project-showcase featured-case" id="shinjuku" tabindex="-1" aria-labelledby="shinjuku-heading" data-title="Shinjuku Live Street"><div class="project-disclosure"><header class="project-summary"><div class="project-summary-identity"><p class="eyebrow"><span class="case-index">01 / 04</span><span class="project-start-date">2024.04.10 —</span><span class="live-status">진행 중</span></p><h2 id="shinjuku-heading" class="project-brand"><span class="world-wordmark" style="--logo-aspect:2076/467;--logo-width:104.62428%;--logo-left:-2.69750%;--logo-top:-29.33619%"><img src="assets/brands/shinjuku-horizontal.png" width="2172" height="724" alt="Shinjuku Live Street"></span></h2><div class="technology-tags" aria-label="사용 기술"><span class="tech-badge" data-tech="unity"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Unity</span></span><span class="tech-badge" data-tech="csharp"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">C#</span></span><span class="tech-badge" data-tech="udonsharp"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">UdonSharp</span></span></div></div><div class="project-highlights" aria-label="주요 성과와 구현 경험"><span><i aria-hidden="true">#</i>차량 시뮬레이션 최적화</span><span><i aria-hidden="true">#</i>실시간 상태 동기화</span></div></header><div class="project-body"><div class="project-copy">
 
 
