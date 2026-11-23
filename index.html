@@ -27,7 +27,7 @@
   <script src="scripts/timeline-preview.js" defer></script>
   <link rel="stylesheet" href="styles/project-entry.css?v=readable-project-highlights">
   <script src="scripts/project-entry.js?v=full-cover-reading-interval" defer></script>
-  <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=approved-chip-process">
+  <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=responsive-comparison-fix">
 </head>
 <body>
 <a class="skip-link" href="#profile">본문으로 이동</a>
@@ -106,7 +106,7 @@
         <div class="time-axis"><span></span><div class="years"><b>2023</b><b>2024</b><b>2025</b><b>2026</b></div></div>
         <div class="time-axis month-axis"><span></span><div class="months" id="months"></div></div>
         <div class="timeline-lane" id="group-university" data-category="university"><strong>대학교</strong><div class="track triple"><button type="button" id="hinasaki" class="period short" data-project="hinasaki" style="--start:1.321429;--duration:1.978571;--row:0"><span>Hinasaki Shaders</span><small>2023.02 — 04</small></button><button type="button" id="vr-fire" class="period" data-project="vr-fire" style="--start:8;--duration:4;--row:1"><span>VR 화재 시뮬레이터</span><small>2023년 2학기</small></button><button type="button" id="propro" class="period" data-project="propro" style="--start:14;--duration:4;--row:2"><span>ProPro</span><small>2024년 1학기</small></button></div></div>
-        <div class="timeline-lane" id="group-collaboration" data-category="collaboration"><strong>개인 / 협업</strong><div class="track triple"><a href="#shinjuku" class="period ongoing featured" data-project="shinjuku" style="--start:15.3;--duration:31.2;--row:0"><span>Shinjuku Live Street</span><small>2024.04 — 진행 중</small><b class="sr-only"> 상세 보기</b></a><a href="#pixel-mat" class="period short end-label featured" data-project="pixel-mat" style="--start:46;--duration:0.7333;--row:1"><span>Pixel Mat</span><small>2026.11 · 베타</small><b class="sr-only"> 상세 보기</b></a><a href="#shimanami" class="period short featured" data-project="shimanami" style="--start:23.0323;--duration:1.774194;--row:2"><span>Shimanami Ekranoplan</span><small>2024.12 — 2025.01</small><b class="sr-only"> 상세 보기</b></a></div></div>
+        <div class="timeline-lane" id="group-collaboration" data-category="collaboration"><strong>개인 / 협업</strong><div class="track triple"><a href="#shinjuku" class="period ongoing featured" data-project="shinjuku" style="--start:15.3;--duration:31.2;--row:0"><span>Shinjuku Live Street</span><small>2024.04 — 진행 중</small><b class="sr-only"> 상세 보기</b></a><a href="#pixel-mat" class="period short end-label ongoing featured" data-project="pixel-mat" style="--start:44.2;--duration:2.5333;--row:1"><span>Pixel Mat</span><small>2026.09 — 진행 중</small><b class="sr-only"> 상세 보기</b></a><a href="#shimanami" class="period short featured" data-project="shimanami" style="--start:23.0323;--duration:1.774194;--row:2"><span>Shimanami Ekranoplan</span><small>2024.12 — 2025.01</small><b class="sr-only"> 상세 보기</b></a></div></div>
         <div class="timeline-lane" id="group-ssafy" data-category="ssafy"><strong>SSAFY</strong><div class="track triple"><a href="#idea2strategy" class="period short end-label featured" data-project="idea2strategy" style="--start:42.3871;--duration:0.935484;--row:0"><span>Idea2Strategy</span><small>2026.07 — 08</small><b class="sr-only"> 상세 보기</b></a><button type="button" id="betterbatter" class="period short end-label" data-project="betterbatter" style="--start:43.5484;--duration:1.580645;--row:1"><span>BetterBatter</span><small>2026.08 — 10</small></button><button type="button" id="baro-sales" class="period ongoing end-label" data-project="baro-sales" style="--start:45.3548;--duration:1.1452;--row:2"><span>바로영업</span><small>2026.10 — 진행 중</small></button></div></div>
       </div>
     </div>
@@ -154,7 +154,7 @@
 
 <template id="preview-pixel-mat" data-title="Pixel Mat" data-skills="ai-skills git" data-featured="true">
   <img class="timeline-preview-image" src="assets/pixel-mat/editor.png" alt="Miniworld 집 프로젝트를 연 실제 Pixel Mat Windows 앱" width="1424" height="921" decoding="async" style="object-fit:contain;background:#292929">
-  <div class="timeline-preview-copy"><p class="timeline-preview-date">2026.11 · Windows 베타</p><h3>Pixel Mat</h3><p>게임용 픽셀 아트를 생성하는 AI 스킬과 Windows 편집기입니다.</p></div>
+  <div class="timeline-preview-copy"><p class="timeline-preview-date">2026.09.07 — 진행 중 / Windows 베타</p><h3>Pixel Mat</h3><p>게임용 픽셀 아트를 생성하는 AI 스킬과 Windows 편집기입니다.</p></div>
 </template>
 
 <template id="preview-shimanami" data-title="Shimanami Ekranoplan" data-skills="unity csharp udonsharp" data-featured="true">
@@ -248,7 +248,7 @@
  <div class="project-disclosure">
   <header class="project-summary">
    <div class="project-summary-identity">
-    <p class="eyebrow"><span class="case-index">02 / 04</span><span>2026.11</span><span class="live-status">베타</span></p>
+    <p class="eyebrow"><span class="case-index">02 / 04</span><span>2026.09.07 — 현재</span><span class="live-status">베타</span></p>
     <h2 id="pixel-mat-heading" class="project-brand"><svg class="featured-project-star" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2.7 2.85 5.78 6.38.93-4.62 4.5 1.09 6.36L12 17.27l-5.7 3 1.09-6.36-4.62-4.5 6.38-.93Z"/></svg><span class="world-wordmark pixel-mat-app-brand" style="--logo-aspect:86/16;--logo-width:100%;--logo-left:0%;--logo-top:0%"><img src="assets/pixel-mat/logo.svg" width="86" height="16" alt="Pixel Mat"></span></h2>
     <div class="technology-tags" aria-label="사용 기술"><span class="tech-badge" data-tech="ai-skills"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">AI 스킬</span></span><span class="tech-badge" data-tech="git"><span class="tech-mark" aria-hidden="true"></span><span class="tech-name">Git</span></span><span class="tech-badge"><span class="tech-name">Node.js</span></span><span class="tech-badge"><span class="tech-name">Electron</span></span></div>
    </div>
