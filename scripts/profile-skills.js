@@ -4,7 +4,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const header = $('.header');
 const previews = $$('template[id^="preview-"]');
-const aliases={java:'web-backend',spring:'web-backend',react:'web-frontend',typescript:'web-frontend',kotlin:'android',compose:'android'};
+const aliases={'web-backend':'java',react:'web-frontend',typescript:'web-frontend',kotlin:'android',compose:'android'};
 const skillData={
  unity:{name:'Unity',keys:['unity'],copy:'VRChat 월드와 VR 시뮬레이터를 제작하고, Profiler로 차량 처리 비용을 확인하며 최적화했습니다.'},
  csharp:{name:'C#',keys:['csharp'],copy:'차량 주행과 비행 계산, 위치 동기화와 VR 화재 확산 로직을 구현했습니다.'},
@@ -12,7 +12,8 @@ const skillData={
  'ai-skills':{name:'AI 스킬',keys:['ai-skills'],copy:'픽셀 아트 생성과 변환, 검증 절차를 스킬로 만들고, 팀 프로젝트에 명세 확인과 테스트 규칙을 담은 스킬을 적용했습니다.'},
  harness:{name:'AI 하네스',keys:['harness'],copy:'AI 하네스 ‘Stackcord’에 명세, 작업 범위와 검증 절차를 구성하고, 작업 계획을 Jira로 옮겨 팀과 공유했습니다.'},
  git:{name:'Git',keys:['git'],copy:'브랜치와 PR로 변경 내용을 검토하고 통합했으며, 작업 범위와 병합 순서를 팀 작업 기록에 연결했습니다.'},
- 'web-backend':{name:'Java / Spring Boot',keys:['java','spring'],ratings:[['Java',80],['Spring Boot',40]],copy:'Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 로직을 개발했습니다.'},
+ java:{name:'Java',keys:['java'],copy:'Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 로직을 Java로 개발했습니다.'},
+ spring:{name:'Spring Boot',keys:['spring'],copy:'Spring Boot로 Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 기능을 개발했습니다.'},
  'web-frontend':{name:'React / TypeScript',keys:['react','typescript'],ratings:[['React',20],['TypeScript',20]],copy:'BetterBatter의 실시간 경기 중계와 경기 예측 화면, 사용자 상호작용을 개발했습니다.'},
  android:{name:'Kotlin / Jetpack Compose',keys:['kotlin','compose'],ratings:[['Kotlin',20],['Jetpack Compose',20]],copy:'바로영업 Android 앱에서 고객 정보 화면과 전화가 왔을 때 상담 정보를 확인하는 흐름을 개발했습니다.'}
 };
