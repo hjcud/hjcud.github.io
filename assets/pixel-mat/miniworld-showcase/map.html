@@ -15,7 +15,7 @@
   <nav aria-label="지도 보기 조절"><button id="fit" type="button">전체 보기</button><button id="native" type="button">100%</button><button id="minus" type="button" aria-label="지도 축소">−</button><span id="zoom" aria-label="현재 확대 배율">100%</span><button id="plus" type="button" aria-label="지도 확대">+</button></nav>
  </header>
  <main><canvas id="map" tabindex="0" aria-label="Miniworld 지도. 휠로 확대하고 드래그로 이동합니다. 방향키로 이동하고 더하기와 빼기 키로 확대와 축소할 수 있습니다."></canvas><div id="message">지도를 불러오는 중…</div></main>
- <footer><p>휠 · 두 손가락으로 확대 / 드래그 · 방향키로 이동</p><p><a href="../../../#pixel-mat">포트폴리오로 돌아가기</a> · <a href="coastal-map.png?v=20261123-undergrowth-blue-v13" target="_blank" rel="noopener noreferrer">전체 이미지</a></p></footer>
+ <footer><p>휠 · 두 손가락으로 확대 / 드래그 · 방향키로 이동</p><p><a href="../../../#pixel-mat">포트폴리오로 돌아가기</a> · <a href="coastal-map.png?v=20261123-building-lines-v14" target="_blank" rel="noopener noreferrer">전체 이미지</a></p></footer>
  <script>
  const canvas=document.querySelector('#map'),ctx=canvas.getContext('2d'),box=canvas.parentElement,mapImage=new Image(),message=document.querySelector('#message'),zoomLabel=document.querySelector('#zoom');
  let W=0,H=0,scale=1,tx=0,ty=0,ready=false,gesture=null;const pointers=new Map();
@@ -24,7 +24,7 @@
  function fit(){scale=Math.max(.25,Math.min((W-24)/640,(H-24)/360));tx=(W-640*scale)/2;ty=(H-360*scale)/2;draw();}
  function zoom(x,y,factor){const next=Math.max(.25,Math.min(12,scale*factor));tx=x-(x-tx)*next/scale;ty=y-(y-ty)*next/scale;scale=next;draw();}
  function resize(){W=box.clientWidth;H=box.clientHeight;canvas.width=Math.round(W*devicePixelRatio);canvas.height=Math.round(H*devicePixelRatio);fit();}
- mapImage.onload=()=>{ready=true;message.hidden=true;message.style.display='none';draw();};mapImage.onerror=()=>{message.textContent='지도를 불러오지 못했습니다. 페이지를 새로고침해 주세요.';};mapImage.src='coastal-map-native.png?v=20261123-undergrowth-blue-v13';
+ mapImage.onload=()=>{ready=true;message.hidden=true;message.style.display='none';draw();};mapImage.onerror=()=>{message.textContent='지도를 불러오지 못했습니다. 페이지를 새로고침해 주세요.';};mapImage.src='coastal-map-native.png?v=20261123-building-lines-v14';
  canvas.addEventListener('wheel',event=>{event.preventDefault();const r=canvas.getBoundingClientRect();zoom(event.clientX-r.left,event.clientY-r.top,Math.exp(-event.deltaY*.0015));},{passive:false});
  canvas.addEventListener('pointerdown',event=>{canvas.setPointerCapture(event.pointerId);pointers.set(event.pointerId,[event.clientX,event.clientY]);gesture=null;});
  canvas.addEventListener('pointermove',event=>{if(!pointers.has(event.pointerId))return;const old=pointers.get(event.pointerId);pointers.set(event.pointerId,[event.clientX,event.clientY]);if(pointers.size===1){tx+=event.clientX-old[0];ty+=event.clientY-old[1];draw();}else{const p=[...pointers.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]),r=canvas.getBoundingClientRect(),x=(p[0][0]+p[1][0])/2-r.left,y=(p[0][1]+p[1][1])/2-r.top;if(gesture&&gesture.d>0){tx+=x-gesture.x;ty+=y-gesture.y;zoom(x,y,d/gesture.d);}gesture={x,y,d};}});
