@@ -31,7 +31,7 @@
 
   const picture=document.createElement('div');picture.className='case-entry-picture';picture.setAttribute('aria-hidden','true');
   const image=new Image();image.alt='';image.decoding='async';image.src=visual.querySelector('.is-current').src;picture.append(image);
-  const logo=heading.cloneNode(true);logo.removeAttribute('id');logo.setAttribute('aria-hidden','true');logo.querySelector('.featured-project-star')?.remove();logo.className='case-entry-logo';
+  const logo=heading.cloneNode(true);logo.removeAttribute('id');logo.setAttribute('aria-hidden','true');logo.className='case-entry-logo';
   logo.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
   const lightLogo=logo.cloneNode(true);lightLogo.classList.add('case-entry-logo-light');
   stage.append(picture,logo,lightLogo);

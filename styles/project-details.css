@@ -114,7 +114,4 @@ html{overflow-anchor:none}
 .project-repo-link:hover>span:not(.repo-external){text-decoration:underline;text-underline-offset:4px}
 .project-repo-link:focus-visible{outline:2px solid #397bcc;outline-offset:4px;border-radius:2px}
 
-/* Featured markers belong to the project headings, not the timeline. */
-.project-brand>.featured-project-star{display:block;width:20px;height:20px;flex:none;fill:#e6a23b;stroke:#c38326;stroke-width:1;stroke-linejoin:round}
 .project-brand>.world-wordmark{min-width:0}
-@media(max-width:760px){.project-brand>.featured-project-star{width:16px;height:16px}}

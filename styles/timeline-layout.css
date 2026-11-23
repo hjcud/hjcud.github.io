@@ -189,6 +189,18 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   border-width: 5.5px 0 5.5px 5px;
   border-left-color: var(--mark);
 }
+#project-timeline .period:not(.featured)::before {
+  top: 22px;
+  height: 8px;
+  border-inline: 1px solid var(--mark);
+  border-radius: 0;
+  background: linear-gradient(var(--mark), var(--mark)) center / 100% 2px no-repeat;
+}
+#project-timeline .period.ongoing:not(.featured)::before { border-right: 0; right: 4px; }
+#project-timeline .period.ongoing:not(.featured)::after {
+  top: 22.5px;
+  border-width: 3.5px 0 3.5px 4px;
+}
 #project-timeline .period > span,
 #project-timeline .period > small {
   position: relative;
@@ -301,6 +313,13 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   color: #3d4c58;
 }
 .header .reading-track { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (min-width: 861px) and (max-width: 1100px) {
+  #project-timeline #group-collaboration {
+    --pixel-mat-row: 2;
+    height: calc(2 * var(--row-pad) + 3 * var(--row-step));
+  }
+}
+
 /* A narrow viewport gets a complete dated index in normal reading order.
    Names, dates, and categories stay visible without a horizontal gesture. */
 @media (max-width: 860px) {
@@ -346,6 +365,16 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
     transform: translateY(-50%);
   }
   #project-timeline .period.ongoing::after { display: none; }
+  #project-timeline .period:not(.featured)::before {
+    inset: auto;
+    top: 50%;
+    left: 1px;
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--mark);
+    border-radius: 50%;
+    background: #fff;
+  }
   #project-timeline .period.ongoing > small::after { content: " →"; content: " →" / ""; }
   #project-timeline .period > span,
   #project-timeline .period > small { align-self: center; line-height: 1.45; }
