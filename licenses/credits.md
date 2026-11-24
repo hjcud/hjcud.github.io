@@ -21,3 +21,7 @@
 
 - [두 데모의 라이브러리 고지](demo-runtime.txt)
 - [Idea2Strategy 편집기 원본에 동봉된 라이선스](../strategy-editor/THIRD_PARTY_LICENSES.txt)
+
+## 글꼴
+
+- 메모에는 Google Fonts에서 제공하는 **Nanum Pen Script**를 사용합니다. 필요한 글자가 포함된 웹폰트를 저장소에 함께 제공합니다. [제공처](https://fonts.google.com/specimen/Nanum+Pen+Script) / [SIL Open Font License 1.1](nanum-pen-script-OFL.txt)

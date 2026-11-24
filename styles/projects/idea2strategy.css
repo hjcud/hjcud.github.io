@@ -1,4 +1,5 @@
 /* Idea2Strategy: service screenshots above, a supporting engineering case below. */
+@font-face{font-family:'Portfolio Note';src:url('../../assets/fonts/portfolio-note.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
 #idea2strategy .i2s-meta{display:grid;grid-template-columns:minmax(0,.45fr) minmax(0,1.55fr);gap:18px;margin:24px 0 12px}
 #idea2strategy .i2s-meta>div{display:block;margin:0}
 #idea2strategy .i2s-meta dt{font-size:10px;margin-bottom:4px}
@@ -25,9 +26,9 @@
 .featured-case .i2s-case-opening h3{font-size:clamp(23px,2.2vw,30px);line-height:1.5;letter-spacing:-.8px}
 .i2s-time-emphasis{color:#2468a7}
 .i2s-delivery-scope{position:relative;padding:0 6px 0 12px}
-.i2s-scope-label{position:relative;display:table;margin:0 0 24px 20px;color:#607a90;font-size:14px;font-weight:500;line-height:1.7;transform:rotate(-4deg);transform-origin:left center}
-.i2s-scope-emphasis{padding:0 2px;color:#426782;font-weight:650;background:linear-gradient(176deg,transparent 43%,#e9d98080 45%,#e9d98080 88%,transparent 90%)}
-.i2s-scope-arrow{position:absolute;left:calc(100% + 8px);top:2px;width:76px;height:44px;fill:none;stroke:#8da6b8;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.i2s-scope-label{position:relative;display:table;margin:0 auto 32px;color:#536f86;font-family:'Portfolio Note',cursive;font-size:28px;font-weight:400;line-height:1.05;letter-spacing:-.3px;transform:rotate(-3deg);transform-origin:center}
+.i2s-scope-emphasis{padding:0 2px;color:#365f7c;font-weight:400;background:linear-gradient(176deg,transparent 43%,#e9d98080 45%,#e9d98080 88%,transparent 90%)}
+.i2s-scope-arrow{position:absolute;left:50%;top:calc(100% - 2px);width:46px;height:34px;transform:translateX(-14px);fill:none;stroke:#819bab;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 .i2s-delivery-scope ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;padding:0;list-style:none}
 .i2s-delivery-scope li{display:flex;flex-direction:column;align-items:center;gap:9px;min-width:0;padding-inline:12px;text-align:center;line-height:1.7}
 .i2s-delivery-scope li:first-child{padding-left:0}
@@ -68,7 +69,7 @@
 @media(max-width:760px){
  .i2s-case-opening{grid-template-columns:1fr;gap:20px;padding:0 0 24px}
  .featured-case .i2s-case-opening h3{font-size:25px}
- .i2s-scope-label{margin-left:4px;margin-bottom:20px;font-size:13px}
+ .i2s-scope-label{margin-bottom:30px;font-size:24px}
  .i2s-delivery-scope span{font-size:12px}
  .i2s-workflow-heading{align-items:flex-start;gap:14px;margin-bottom:18px}
  .i2s-workflow-heading h4{font-size:18px}.i2s-workflow-heading .i2s-flow-heading-actions>p{font-size:10px;line-height:1.8;max-width:44%}
