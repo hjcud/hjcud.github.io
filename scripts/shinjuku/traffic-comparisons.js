@@ -54,6 +54,14 @@
     const incoming=phase<2.6,y=phase<2.6?27+61*smooth(phase/2.6):phase<4.8?88:88-61*smooth((phase-4.8)/2.4);
     const hit=Math.abs(y-88)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
     p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(${incoming?180:0})`);
+    if(p.svg.dataset.inspection==='all'){
+     p.svg.querySelector('.legacy-front-probe').setAttribute('width',(rear-59).toFixed(2));
+     const personProbe=p.svg.querySelector('.legacy-person-probe');
+     personProbe.setAttribute('y',(y-11).toFixed(2));
+     personProbe.style.stroke=hit?'#cb8150':'#819d8e';
+     p.svg.dataset.sensorState=hit?'hit':'clear';
+     return;
+    }
     p.sensorRay.setAttribute('d',`M59 76H${endX.toFixed(2)}V100H59Z`);
     p.sensorLimit.setAttribute('d',`M${endX.toFixed(2)} 76V100`);
     const color=hit?'#cb8150':'#579680';
@@ -66,12 +74,12 @@
     p.distanceHalo.setAttribute('d',`M59 88H${measuredEnd.toFixed(2)}`);
     p.distanceValue.textContent=((measuredEnd-59)/diagramUnitsPerMeter).toFixed(1)+' m';
     p.svg.dataset.distanceTarget=personIsCloser?'pedestrian':'vehicle';
-    p.signalRed.style.fill=waiting?'#e3746c':'#74838c';
-    p.signalGreen.style.fill=waiting?'#74838c':'#63b69c';
+    if(p.signalRed)p.signalRed.style.fill=waiting?'#e3746c':'#74838c';
+    if(p.signalGreen)p.signalGreen.style.fill=waiting?'#74838c':'#63b69c';
     p.svg.dataset.sensorState=hit?'hit':'clear';
     p.svg.dataset.signalState=waiting?'red':'green';
    }else if(scene.type==='schedule'){
-    const current=Math.floor(t*1.5)%5;p.scan.setAttribute('x',String(22+current*55));
+    const current=Math.floor(t*1.5)%5;p.scan?.setAttribute('x',String(22+current*55));
     p.blocks.forEach(b=>{const selected=Number(b.dataset.frame)===current;b.style.opacity=selected?'1':'.65';});
    }
   });

@@ -1,53 +1,40 @@
-#shinjuku .optimization-methods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;padding:0}
-#shinjuku .optimization-comparison{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:12px;min-width:0;padding:0;border:0}
-#shinjuku .optimization-comparison+.optimization-comparison{border:0;padding-left:0}
-#shinjuku .optimization-comparison+.optimization-comparison::before{content:"";position:absolute;left:-16px;top:0;bottom:0;width:1px;background:#dbe4eb}
-#shinjuku .comparison-copy h5{display:flex;align-items:baseline;gap:8px;margin:0 0 10px;font-size:15px;line-height:1.6}
+#shinjuku .optimization-methods{display:grid;grid-template-columns:76px repeat(3,minmax(0,1fr));grid-template-rows:auto 190px 190px;gap:0;padding:0;border:1px solid #dbe4eb;border-radius:3px;overflow:hidden;background:#fbfcfd}
+#shinjuku .optimization-comparison{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:subgrid;grid-row:1/span 3;gap:0;min-width:0;padding:0;border:0;border-left:1px solid #dfe6ec;align-items:stretch}
+#shinjuku .optimization-comparison[data-comparison="route"]{grid-column:2}
+#shinjuku .optimization-comparison[data-comparison="physics"]{grid-column:3}
+#shinjuku .optimization-comparison[data-comparison="schedule"]{grid-column:4}
+#shinjuku .comparison-copy{min-width:0;padding:15px 16px 14px;background:#fbfcfd}
+#shinjuku .comparison-copy h5{display:flex;align-items:baseline;gap:8px;margin:0 0 6px;font-size:15px;line-height:1.6}
 #shinjuku .method-index{flex:none;color:#7893aa;font-size:11px;font-weight:400;font-variant-numeric:tabular-nums}
-#shinjuku .project-problem-solving .comparison-copy p{font-size:13px;line-height:1.8}
-#shinjuku .comparison-pair{display:grid;grid-template-columns:1fr;gap:0;min-width:0;height:auto;margin-top:0;border:1px solid #dfe7ed;border-radius:3px;overflow:hidden;background:#fafcfd}
-#shinjuku .comparison-pane{border:0;border-radius:0;background:transparent;overflow:hidden}
-#shinjuku .comparison-pane.after{border-top:1px solid #e4ebf0;background:#f5f9fc}
-#shinjuku .comparison-pane figcaption:not(.traffic-decision-result){display:flex;flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:3px 7px;min-height:0;padding:8px 10px 0;font-size:12px;line-height:1.5}
-#shinjuku .comparison-pane figcaption:not(.traffic-decision-result)>span{flex:none;color:#708494;font-size:10px}
-#shinjuku .comparison-pane svg{display:block;width:100%;height:104px;max-height:104px;padding:0 8px 6px}
-#shinjuku .traffic-decision-visual{display:flex;flex-direction:column;justify-content:center;min-height:206px;margin-top:0;border:1px solid #dfe7ed;border-radius:3px;background:#fafcfd}
-#shinjuku .traffic-decision-visual svg{flex:1 1 auto;min-height:0;height:auto;max-height:180px;margin:0;padding:8px}
-#shinjuku .comparison-pane .traffic-decision-result{position:static;display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;padding:6px 12px 10px;border:0;background:transparent}
-#shinjuku .comparison-pane .traffic-decision-result>span{font-size:11px}
-#shinjuku .traffic-decision-result>.comparison-followup{display:block;flex-basis:100%;margin:4px 0 0;padding-left:1.1em;color:#8f9da9;font-size:9.5px;font-weight:400;line-height:1.5;text-align:left;text-indent:-1.1em}
-@media(min-width:1001px){#shinjuku .comparison-pair,#shinjuku .traffic-decision-visual{height:263px}}
-#shinjuku .comparison-pane.before{color:#899eae}
-#shinjuku .comparison-pane.after figcaption:not(.traffic-decision-result)>span{color:#537da0}
+#shinjuku .project-problem-solving .comparison-copy p{margin:0;color:#657b8d;font-size:13px;line-height:1.7}
+#shinjuku .method-row-label{display:flex;align-items:center;justify-content:center;grid-column:1;margin:0;border-top:1px solid #dfe6ec;color:#768897;font-size:13px;font-weight:600;white-space:nowrap;background:#fbfcfd}
+#shinjuku .method-row-before{grid-row:2}
+#shinjuku .method-row-after{grid-row:3;background:#f3f8fc;color:#3d7eaf}
+#shinjuku .comparison-pane{position:relative;display:flex;flex-direction:column;min-width:0;min-height:0;height:auto;margin:0;padding:12px 14px 30px;border:0;border-top:1px solid #dfe6ec;border-radius:0;background:#fbfcfd;color:#899eae;overflow:hidden}
+#shinjuku .comparison-pane.after{background:#f3f8fc;color:#5f8fbd}
+#shinjuku .comparison-pane figcaption{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 8px;flex:none;min-height:0;margin:0 0 8px;padding:0;color:#526b7f;font-size:12px;font-weight:500;line-height:1.5}
+#shinjuku .method-state{display:none}
+#shinjuku .comparison-pane svg{display:block;flex:1 1 118px;width:100%;height:118px;min-height:0;max-height:128px;margin:0;padding:0}
+#shinjuku .traffic-decision-visual svg{max-width:none}
+#shinjuku .comparison-pane .comparison-followup{position:absolute;bottom:6px;left:14px;right:14px;display:block;margin:0;padding-left:1.1em;color:#8f9da9;font-size:9.5px;font-weight:400;line-height:1.5;text-align:left;text-indent:-1.1em}
 #shinjuku [data-comparison="schedule"] svg text{fill:#687f92;font-size:11.5px}
 #shinjuku .traffic-decision-visual .leader-distance-value{font-size:14px}
-#shinjuku .traffic-decision-visual .vehicle-caption{font-size:12px}
 #shinjuku .traffic-decision-visual :is(.diagram-vehicle,.lane-leader)>rect{transform:scaleY(1.3)}
-@media(max-width:1000px){
- #shinjuku .optimization-methods{grid-template-columns:1fr;gap:20px}
- #shinjuku .optimization-comparison+.optimization-comparison::before{display:none}
- #shinjuku .optimization-comparison{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;align-items:center}
- #shinjuku .optimization-comparison+.optimization-comparison{border-left:0;border-top:1px solid #dbe4eb;padding:20px 0 0}
- #shinjuku .comparison-pair,#shinjuku .traffic-decision-visual{margin-top:0}
- #shinjuku .comparison-pair{grid-template-columns:1fr 1fr;height:auto}
- #shinjuku .comparison-pane.after{border-top:0;border-left:1px solid #e4ebf0}
- #shinjuku .comparison-pane figcaption:not(.traffic-decision-result){flex-direction:column;align-items:flex-start;gap:2px}
- #shinjuku .traffic-decision-visual{min-height:155px}
-}
+#shinjuku .comparison-pane.before .diagram-vehicle{color:#899eae}
+#shinjuku .legacy-probe{fill:#739b8210;stroke:#819d8e;stroke-width:1.3}
+@media(max-width:1000px) and (min-width:761px){#shinjuku .optimization-methods{grid-template-columns:62px repeat(3,minmax(0,1fr))}#shinjuku .comparison-copy{padding-inline:12px}#shinjuku .comparison-copy h5{font-size:14px}#shinjuku .project-problem-solving .comparison-copy p{font-size:12px}#shinjuku .comparison-pane{padding-inline:10px}#shinjuku .comparison-pane figcaption{font-size:11px}}
 @media(max-width:760px){
- #shinjuku .optimization-comparison{grid-template-columns:1fr;gap:12px}
- #shinjuku .optimization-methods{gap:18px}
- #shinjuku .optimization-comparison+.optimization-comparison{padding-top:18px}
- #shinjuku .comparison-copy h5{margin-bottom:7px}
- #shinjuku .comparison-pane figcaption:not(.traffic-decision-result){font-size:11px}
- #shinjuku .comparison-pane svg{height:94px;max-height:94px;padding-inline:4px}
- #shinjuku .traffic-decision-visual{min-height:148px}
- #shinjuku .traffic-decision-visual svg{height:auto;max-height:148px}
-}
-@media(max-width:480px){
- #shinjuku .comparison-pair{grid-template-columns:1fr}
- #shinjuku .comparison-pair .comparison-pane{display:grid;grid-template-columns:76px minmax(0,1fr);align-items:center}
- #shinjuku .comparison-pair .comparison-pane.after{border-left:0;border-top:1px solid #e4ebf0}
- #shinjuku .comparison-pair .comparison-pane figcaption{align-self:center;padding:8px}
- #shinjuku .comparison-pair .comparison-pane svg{height:84px;max-height:84px;padding:2px 4px}
+ #shinjuku .optimization-methods{grid-template-columns:1fr;grid-template-rows:none;gap:18px;border:0;border-radius:0;background:transparent;overflow:visible}
+ #shinjuku .method-row-label{display:none}
+ #shinjuku .optimization-comparison[data-comparison]{grid-column:1;grid-row:auto;grid-template-rows:auto 170px 170px;border:1px solid #dbe4eb;border-radius:3px;overflow:hidden}
+ #shinjuku .optimization-comparison[data-comparison="route"]{grid-template-rows:auto 160px 160px}
+ #shinjuku .optimization-comparison[data-comparison="schedule"]{grid-template-rows:auto 140px 140px}
+ #shinjuku .comparison-copy{padding:12px 14px}
+ #shinjuku .comparison-copy h5{font-size:15px}
+ #shinjuku .project-problem-solving .comparison-copy p{font-size:12px}
+ #shinjuku .method-state{display:inline;color:#7c8e9e;font-size:10px;font-weight:400}
+ #shinjuku .after .method-state{color:#4e87b3}
+ #shinjuku .comparison-pane{padding:10px 12px 28px}
+ #shinjuku .comparison-pane figcaption{font-size:11px}
+ #shinjuku .comparison-pane .comparison-followup{left:12px;right:12px;font-size:9px}
 }
