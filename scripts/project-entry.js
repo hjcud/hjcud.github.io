@@ -8,23 +8,45 @@
  const mix=(a,b,t)=>a+(b-a)*t;
  const ease=value=>value*value*(3-2*value);
  let frame=0,measureFrame=0;
- let gate=null,inputKind=null,inputTimer=0,lastWheel=0,lastScroll=scrollY,touch=null;
  const scrollRoot=document.documentElement;
- const unlockScroll=()=>scrollRoot.classList.remove('is-entry-scroll-paused');
+ const gestureIdle=360,readingPause=450;
+ let gate=null,inputKind=null,lastInput=-Infinity,lastScroll=scrollY,touch=null;
+ let landingFrame=0,unlockTimer=0;
  const endOf=entry=>scrollY+entry.track.getBoundingClientRect().top-entry.top+entry.cover+entry.run;
- const markInput=kind=>{inputKind=kind;clearTimeout(inputTimer);inputTimer=setTimeout(()=>{inputKind=null;unlockScroll();},200);};
- const releaseGate=()=>{gate=null;inputKind=null;lastScroll=scrollY;clearTimeout(inputTimer);unlockScroll();};
+ const unlockScroll=()=>scrollRoot.classList.remove('is-entry-scroll-paused');
+ function releaseGate(){
+  cancelAnimationFrame(landingFrame);clearTimeout(unlockTimer);
+  landingFrame=0;gate=null;inputKind=null;lastScroll=scrollY;unlockScroll();
+ }
+ function markInput(kind){
+  inputKind=kind;lastInput=performance.now();
+  if(gate)scheduleUnlock();
+ }
+ function scheduleUnlock(){
+  clearTimeout(unlockTimer);
+  if(!gate||gate.landing||touch)return;
+  const delay=Math.max(gate.readyAt-performance.now(),gestureIdle-(performance.now()-lastInput),0);
+  unlockTimer=setTimeout(()=>{if(gate)unlockScroll();},delay);
+ }
  function crossing(from,to){
   if(to<=from)return null;
   return entries.find(entry=>entry.run&&!entry.gatePassed&&endOf(entry)>=from-1&&endOf(entry)<=to+1)||null;
  }
  function stopAt(entry){
-  const end=Math.ceil(endOf(entry));
-  gate=entry;entry.gatePassed=true;
-  // Stop the native gesture once; never chase scroll events back to this point.
-  scrollRoot.classList.add('is-entry-scroll-paused');
-  scrollTo({top:end,behavior:'instant'});
-  lastScroll=scrollY;update();
+  const start=scrollY,target=Math.ceil(endOf(entry)),started=performance.now();
+  const duration=Math.min(300,Math.max(160,(target-start)*.65));
+  const landing=gate={entry,landing:true,readyAt:Infinity};
+  entry.gatePassed=true;scrollRoot.classList.add('is-entry-scroll-paused');
+  // Finish the morph with a short deceleration instead of jumping to its endpoint.
+  function land(now){
+   if(gate!==landing)return;
+   const progress=clamp((now-started)/duration);
+   scrollTo({top:mix(start,target,1-Math.pow(1-progress,3)),behavior:'instant'});
+   lastScroll=scrollY;update();
+   if(progress<1){landingFrame=requestAnimationFrame(land);return;}
+   landingFrame=0;landing.landing=false;landing.readyAt=now+readingPause;scheduleUnlock();
+  }
+  landingFrame=requestAnimationFrame(land);
  }
  function nestedScroll(target,delta){
   for(let node=target;node&&node!==document.body;node=node.parentElement){
@@ -37,9 +59,9 @@
   if(event.defaultPrevented||event.ctrlKey||Math.abs(event.deltaX)>=Math.abs(event.deltaY))return;
   const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1);
   if(nestedScroll(event.target,delta))return;
-  const now=performance.now(),fresh=inputKind!=='wheel'||now-lastWheel>200;
-  lastWheel=now;
+  const now=performance.now();
   if(gate){
+   const fresh=!gate.landing&&now>=gate.readyAt&&(inputKind!=='wheel'||now-lastInput>=gestureIdle);
    if(delta<0||fresh)releaseGate();
    else{event.preventDefault();markInput('wheel');return;}
   }
@@ -48,17 +70,15 @@
   if(entry){event.preventDefault();stopAt(entry);}
  }
  function onScroll(){
-  const current=scrollY;
-  if(inputKind){
-   const kind=inputKind;
-   if(!gate){
-    const entry=crossing(lastScroll,current);
-    if(entry)stopAt(entry);
-   }
-   markInput(kind);
+  const current=scrollY,delta=current-lastScroll;
+  // Native smooth scrolling can keep moving between wheel events. Catch it
+  // just before the endpoint, without ever scrolling backwards to recover it.
+  if(!gate&&delta>0&&inputKind&&performance.now()-lastInput<gestureIdle){
+   const entry=crossing(current,current+Math.min(64,delta*2));
+   if(entry)stopAt(entry);
   }
   lastScroll=scrollY;
-  for(const entry of entries)if(entry.gatePassed&&scrollY<endOf(entry)-80)entry.gatePassed=false;
+  for(const entry of entries)if(entry!==gate?.entry&&entry.gatePassed&&scrollY<endOf(entry)-80)entry.gatePassed=false;
   schedule();
  }
 
@@ -208,13 +228,19 @@
  addEventListener('pointerdown',event=>{if(event.pointerType==='mouse')releaseGate();},{passive:true});
  addEventListener('keydown',event=>{
   if(event.defaultPrevented||event.target.closest('input,textarea,select,[contenteditable="true"]'))return;
+  if(event.key===' '&&event.target.closest('button,a,summary'))return;
   if(['Home','End','Tab','Escape'].includes(event.key)){releaseGate();return;}
   if(!['ArrowDown','PageDown',' ','ArrowUp','PageUp'].includes(event.key))return;
+  const down=!event.shiftKey&&['ArrowDown','PageDown',' '].includes(event.key);
+  if(!down)releaseGate();
   if(gate){
-   if(!event.repeat)releaseGate();
+   if(!event.repeat&&!gate.landing)releaseGate();
    else{event.preventDefault();markInput('key');return;}
   }
   markInput('key');
+  const delta=event.key==='ArrowDown'?40:innerHeight*.875;
+  const entry=down?crossing(scrollY,scrollY+delta):null;
+  if(entry){event.preventDefault();stopAt(entry);}
  });
  addEventListener('hashchange',releaseGate);
  addEventListener('resize',()=>{releaseGate();lastScroll=scrollY;scheduleMeasure();});
