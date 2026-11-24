@@ -37,6 +37,9 @@
  .case-entry-layout .brand-symbol-i2s{width:40px;height:38px}
 }
 @media(min-width:761px) and (max-height:800px){.case-entry-layout{padding-block:28px}}
+@media(min-width:761px) and (max-height:700px){
+ #shimanami .case-entry-layout .project-copy>.flight-exhibition{grid-template-columns:96px minmax(0,1fr);gap:12px;margin-top:14px;padding-top:12px}
+}
 @media(max-width:760px){
  .case-entry-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;gap:24px;padding-block:32px 0}
  .case-entry-layout>.project-summary{grid-column:1;grid-row:1}
