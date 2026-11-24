@@ -5,7 +5,7 @@
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const control=document.getElementById('traffic-pause');
  let initialized=false;
- let active=null,frame=0,last=0,scrollFrame=0;
+ let active=[],frame=0,last=0,scrollFrame=0;
  const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],progress:svg.querySelector('.route-progress'),target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),signalRed:svg.querySelector('.signal-red'),signalGreen:svg.querySelector('.signal-green'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),scan:svg.querySelector('.frame-scan'),blocks:[...svg.querySelectorAll('.work-block')]}))}));
  function initialize(){
   if(initialized)return;
@@ -78,18 +78,19 @@
  }
  const stopped=()=>reduced.matches||document.hidden||control?.getAttribute('aria-pressed')==='true';
  function tick(now){
-  frame=0;if(!active||stopped())return;
+  frame=0;if(!active.length||stopped())return;
   if(last&&now-last<32){frame=requestAnimationFrame(tick);return;}
-  active.time+=last?Math.min((now-last)/1000,.08):0;last=now;draw(active);frame=requestAnimationFrame(tick);
+  const elapsed=last?Math.min((now-last)/1000,.08):0;last=now;
+  active.forEach(scene=>{scene.time+=elapsed;draw(scene);});frame=requestAnimationFrame(tick);
  }
  function choose(){
-  scrollFrame=0;let next=null,best=Infinity;
+  scrollFrame=0;const next=[];
   initialize();
   for(const scene of scenes){const r=scene.row.getBoundingClientRect();const shown=Math.max(0,Math.min(r.bottom,innerHeight)-Math.max(r.top,180));
    if(r.height<=0||shown<Math.min(r.height*.45,100))continue;
-   const distance=Math.abs((r.top+r.bottom)/2-innerHeight*.55);if(distance<best){best=distance;next=scene;}
+   next.push(scene);
   }
-  if(next!==active||stopped()||!frame){cancelAnimationFrame(frame);frame=0;last=0;active=next;scenes.forEach(s=>s.row.dataset.playing=String(s===active&&!stopped()));if(active&&!stopped())frame=requestAnimationFrame(tick);}
+  if(next.length!==active.length||next.some((scene,index)=>scene!==active[index])||stopped()||!frame){cancelAnimationFrame(frame);frame=0;last=0;active=next;scenes.forEach(s=>s.row.dataset.playing=String(active.includes(s)&&!stopped()));if(active.length&&!stopped())frame=requestAnimationFrame(tick);}
  }
  function queue(){if(!scrollFrame)scrollFrame=requestAnimationFrame(choose);}
  const observer=new IntersectionObserver(queue,{threshold:[0,.25,.5,.75,1]});rows.forEach(row=>observer.observe(row));
