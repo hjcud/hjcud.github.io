@@ -11,7 +11,7 @@
   panel.hidden = true;
   panel.tabIndex = -1;
   panel.setAttribute('role', 'dialog');
-  panel.innerHTML = '<div class="timeline-preview-surface"><div class="timeline-preview-content"></div></div><button type="button" class="timeline-preview-close" aria-label="미리보기 닫기"><span aria-hidden="true">×</span></button>';
+  panel.innerHTML = '<div class="timeline-preview-surface"><div class="timeline-preview-content"></div></div><button type="button" class="timeline-preview-close" aria-label="미리보기 닫기"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="m3 3 10 10M13 3 3 13"/></svg></button>';
   const content = panel.querySelector('.timeline-preview-content');
   const surface = panel.querySelector('.timeline-preview-surface');
   const close = panel.querySelector('.timeline-preview-close');
