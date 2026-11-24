@@ -15,7 +15,7 @@
 #shinjuku .traffic-decision-visual svg{flex:1 1 auto;min-height:0;height:auto;max-height:180px;margin:0;padding:8px}
 #shinjuku .comparison-pane .traffic-decision-result{position:static;display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;padding:6px 12px 10px;border:0;background:transparent}
 #shinjuku .comparison-pane .traffic-decision-result>span{font-size:11px}
-#shinjuku .traffic-decision-result>.comparison-followup{flex-basis:100%;margin:3px 0 0;color:#81909c;font-size:11px;line-height:1.55;text-align:left}
+#shinjuku .traffic-decision-result>.comparison-followup{display:block;flex-basis:100%;margin:4px 0 0;padding-left:1.1em;color:#8f9da9;font-size:9.5px;font-weight:400;line-height:1.5;text-align:left;text-indent:-1.1em}
 @media(min-width:1001px){#shinjuku .comparison-pair,#shinjuku .traffic-decision-visual{height:263px}}
 #shinjuku .comparison-pane.before{color:#899eae}
 #shinjuku .comparison-pane.after figcaption:not(.traffic-decision-result)>span{color:#537da0}
