@@ -30,6 +30,7 @@
  const scan=display.querySelector('.i2s-spec-scan'),lens=display.querySelector('.i2s-read-lens');
  const planChecks=[...display.querySelectorAll('.i2s-plan-check')];
  const jiraPath=display.querySelector('.i2s-jira-path'),jiraPacket=display.querySelector('.i2s-jira-packet'),jira=display.querySelector('.i2s-jira-shared');
+ const aiSparkle=display.querySelector('.i2s-ai-sparkle');
  const code=[...display.querySelectorAll('.i2s-code-line')];
  const test=display.querySelector('.i2s-test-check'),pr=display.querySelector('.i2s-pr-check'),verification=display.querySelector('.i2s-verification');
  const strokes=[...planChecks,...code,test,pr];
@@ -46,6 +47,7 @@
   const staticView=reduced.matches||printing.matches;
   // Each illustration owns its loop: none waits for another illustration to finish.
   const [reading,sharing,implementation]=staticView?[2.2,3,4]:[time%4.8,time%5.6,time%6.8];
+  if(aiSparkle)aiSparkle.style.opacity=String(staticView?1:.76+.24*(.5-.5*Math.cos(implementation*2*Math.PI/3.4)));
   const readReset=smooth(ramp(reading,2.7,1.4));
   const row=Math.min(2,reading/.65)*(1-readReset);
   lens.setAttribute('transform',`translate(-14 ${(-64+24*row).toFixed(2)})`);
