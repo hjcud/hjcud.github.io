@@ -6,16 +6,16 @@ const header = $('.header');
 const previews = $$('template[id^="preview-"]');
 const aliases={'web-backend':'java',react:'web-frontend',typescript:'web-frontend',kotlin:'android',compose:'android'};
 const skillData={
- unity:{name:'Unity',keys:['unity'],copy:'VRChat 월드와 VR 시뮬레이터를 제작하고, Profiler로 차량 처리 비용을 확인하며 최적화했습니다.'},
- csharp:{name:'C#',keys:['csharp'],copy:'차량 주행과 비행 계산, 위치 동기화와 VR 화재 확산 로직을 구현했습니다.'},
- udonsharp:{name:'UdonSharp',keys:['udonsharp'],copy:'VRChat의 차량 주행과 스피커 제어, 비행과 상태 동기화를 구현했습니다.'},
- 'ai-skills':{name:'AI 스킬',keys:['ai-skills'],copy:'픽셀 아트 생성과 변환, 검증 절차를 스킬로 만들고, 팀 프로젝트에 명세 확인과 테스트 규칙을 담은 스킬을 적용했습니다.'},
- harness:{name:'AI 하네스',keys:['harness'],copy:'AI 하네스 ‘Stackcord’에 명세, 작업 범위와 검증 절차를 구성하고, 작업 계획을 Jira로 옮겨 팀과 공유했습니다.'},
- git:{name:'Git',keys:['git'],copy:'브랜치와 PR로 변경 내용을 검토하고 통합했으며, 작업 범위와 병합 순서를 팀 작업 기록에 연결했습니다.'},
- java:{name:'Java',keys:['java'],copy:'Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 로직을 Java로 개발했습니다.'},
- spring:{name:'Spring Boot',keys:['spring'],copy:'Spring Boot로 Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 기능을 개발했습니다.'},
- 'web-frontend':{name:'React / TypeScript',keys:['react','typescript'],ratings:[['React',20],['TypeScript',20]],copy:'BetterBatter의 실시간 경기 중계와 경기 예측 화면, 사용자 상호작용을 개발했습니다.'},
- android:{name:'Kotlin / Jetpack Compose',keys:['kotlin','compose'],ratings:[['Kotlin',20],['Jetpack Compose',20]],copy:'바로영업 Android 앱에서 고객 정보 화면과 전화가 왔을 때 상담 정보를 확인하는 흐름을 개발했습니다.'}
+ unity:{name:'Unity',keys:['unity'],copy:'VRChat 월드와 VR 시뮬레이터를 제작하고, Profiler로 차량 계산에 걸리는 시간을 확인하며 최적화하였습니다.'},
+ csharp:{name:'C#',keys:['csharp'],copy:'차량 주행과 비행 계산, 위치 동기화와 VR 화재 확산 로직을 구현하였습니다.'},
+ udonsharp:{name:'UdonSharp',keys:['udonsharp'],copy:'VRChat의 차량 주행과 스피커 제어, 비행과 상태 동기화를 구현하였습니다.'},
+ 'ai-skills':{name:'AI 스킬',keys:['ai-skills'],copy:'Pixel Mat의 픽셀 아트 생성과 변환, 검사 과정을 AI 스킬로 작성하였습니다. 팀 프로젝트에서는 명세 확인과 테스트 규칙을 담은 스킬을 사용하였습니다.'},
+ harness:{name:'AI 하네스',keys:['harness'],copy:'AI 하네스 ‘Stackcord’에 확인할 명세와 작업 범위, 테스트 절차를 정리하였습니다. 작업 계획은 Jira로 옮겨 팀과 공유하였습니다.'},
+ git:{name:'Git',keys:['git'],copy:'브랜치와 PR로 변경 내용을 검토하고 통합하였습니다. 작업 범위와 병합 순서는 팀 작업 기록에 남겼습니다.'},
+ java:{name:'Java',keys:['java'],copy:'Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 로직을 Java로 개발하였습니다.'},
+ spring:{name:'Spring Boot',keys:['spring'],copy:'Spring Boot로 Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 기능을 개발하였습니다.'},
+ 'web-frontend':{name:'React / TypeScript',keys:['react','typescript'],ratings:[['React',20],['TypeScript',20]],copy:'BetterBatter의 실시간 경기 중계와 경기 예측 화면, 사용자 상호작용을 개발하였습니다.'},
+ android:{name:'Kotlin / Jetpack Compose',keys:['kotlin','compose'],ratings:[['Kotlin',20],['Jetpack Compose',20]],copy:'바로영업 Android 앱에서 고객 정보 화면과 전화가 왔을 때 상담 정보를 보여주는 기능을 개발하였습니다.'}
 };
 const skillButtons=$$('#skills [data-skill]');
 const skillPanel=$('#skill-projects');
@@ -59,9 +59,9 @@ function changeSkillPage(next){
  skillSlides.forEach((slide,index)=>{const active=index===skillPage;slide.inert=!active;slide.setAttribute('aria-hidden',String(!active));});
  skillCarousel.dataset.page=String(skillPage);
  skillPreviousButton.hidden=!skillPage;
- const label=skillPage?'주력 기술로 돌아가기':'기타 프로젝트 사용 기술 보기';
+ const label=skillPage?'주로 사용하는 기술 보기':'기타 프로젝트 사용 기술 보기';
  skillPageButton.setAttribute('aria-label',label);skillPageButton.title=label;
- $('#skill-page-status').textContent=skillPage?'기타 프로젝트 사용 기술을 표시했습니다.':'주로 사용하는 기술을 표시했습니다.';
+ $('#skill-page-status').textContent=skillPage?'기타 프로젝트 사용 기술을 표시하였습니다.':'주로 사용하는 기술을 표시하였습니다.';
 }
 skillPageButton.addEventListener('click',()=>changeSkillPage(skillPage?0:1));
 skillPreviousButton.addEventListener('click',()=>changeSkillPage(0));
@@ -83,7 +83,7 @@ function selectSkill(request,keyboard=false){
  related.slice(0,2).forEach(project=>{const a=document.createElement('a');a.href='#'+project.id.slice(8);a.textContent=project.dataset.title+' ↗';links.append(a);});
  if(!skillPanel.matches(':popover-open'))skillPanel.showPopover();positionSkillPanel();
  if(keyboard)skillPanel.focus({preventScroll:true});
- $('#skill-selection-status').textContent=data.name+' 활용 경험을 표시했습니다.';
+ $('#skill-selection-status').textContent=data.name+' 활용 경험을 표시하였습니다.';
 }
 skillButtons.forEach(button=>{button.setAttribute('aria-haspopup','dialog');button.addEventListener('click',event=>selectSkill(button.dataset.skill,event.detail===0));});
 $('#skill-detail-close').addEventListener('click',()=>closeSkill(true));

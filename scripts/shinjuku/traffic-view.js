@@ -16,7 +16,7 @@ async function init(){
   core=await import('./traffic-core.js?v=signal-wait-repeat');resetSimulation();
   background=new Image();background.src='assets/shinjuku/road.svg?v=compact-road';await background.decode();
   resize();updateUI();schedule();
- }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못했습니다. 페이지를 새로고침해 주세요.';console.error(error);}
+ }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못하였습니다. 페이지를 새로고침해 주세요.';console.error(error);}
 }
 function resize(){
  if(!background||!sim)return;

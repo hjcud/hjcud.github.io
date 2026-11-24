@@ -1,6 +1,5 @@
 /* One project entrance becomes its introduction, without a second cover page. */
 html{scrollbar-gutter:stable}
-html.is-entry-scroll-paused{overflow-y:hidden}
 .case-entry-viewport{position:fixed;left:0;top:0;width:0;height:100svh;visibility:hidden;pointer-events:none}
 .case-entry-track{position:relative;background:#fff}
 .case-entry{position:relative;background:#fff;isolation:isolate}

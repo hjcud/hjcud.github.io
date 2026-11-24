@@ -8,79 +8,6 @@
  const mix=(a,b,t)=>a+(b-a)*t;
  const ease=value=>value*value*(3-2*value);
  let frame=0,measureFrame=0;
- const scrollRoot=document.documentElement;
- const gestureIdle=360,readingPause=450;
- let gate=null,inputKind=null,lastInput=-Infinity,lastScroll=scrollY,touch=null;
- let landingFrame=0,unlockTimer=0;
- const endOf=entry=>scrollY+entry.track.getBoundingClientRect().top-entry.top+entry.cover+entry.run;
- const unlockScroll=()=>scrollRoot.classList.remove('is-entry-scroll-paused');
- function releaseGate(){
-  cancelAnimationFrame(landingFrame);clearTimeout(unlockTimer);
-  landingFrame=0;gate=null;inputKind=null;lastScroll=scrollY;unlockScroll();
- }
- function markInput(kind){
-  inputKind=kind;lastInput=performance.now();
-  if(gate)scheduleUnlock();
- }
- function scheduleUnlock(){
-  clearTimeout(unlockTimer);
-  if(!gate||gate.landing||touch)return;
-  const delay=Math.max(gate.readyAt-performance.now(),gestureIdle-(performance.now()-lastInput),0);
-  unlockTimer=setTimeout(()=>{if(gate)unlockScroll();},delay);
- }
- function crossing(from,to){
-  if(to<=from)return null;
-  return entries.find(entry=>entry.run&&!entry.gatePassed&&endOf(entry)>=from-1&&endOf(entry)<=to+1)||null;
- }
- function stopAt(entry){
-  const start=scrollY,target=Math.ceil(endOf(entry)),started=performance.now();
-  const duration=Math.min(300,Math.max(160,(target-start)*.65));
-  const landing=gate={entry,landing:true,readyAt:Infinity};
-  entry.gatePassed=true;scrollRoot.classList.add('is-entry-scroll-paused');
-  // Finish the morph with a short deceleration instead of jumping to its endpoint.
-  function land(now){
-   if(gate!==landing)return;
-   const progress=clamp((now-started)/duration);
-   scrollTo({top:mix(start,target,1-Math.pow(1-progress,3)),behavior:'instant'});
-   lastScroll=scrollY;update();
-   if(progress<1){landingFrame=requestAnimationFrame(land);return;}
-   landingFrame=0;landing.landing=false;landing.readyAt=now+readingPause;scheduleUnlock();
-  }
-  landingFrame=requestAnimationFrame(land);
- }
- function nestedScroll(target,delta){
-  for(let node=target;node&&node!==document.body;node=node.parentElement){
-   if(node.scrollHeight<=node.clientHeight+1||!/(auto|scroll)/.test(getComputedStyle(node).overflowY))continue;
-   if(delta>0?node.scrollTop+node.clientHeight<node.scrollHeight-1:node.scrollTop>0)return true;
-  }
-  return false;
- }
- function onWheel(event){
-  if(event.defaultPrevented||event.ctrlKey||Math.abs(event.deltaX)>=Math.abs(event.deltaY))return;
-  const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?innerHeight:1);
-  if(nestedScroll(event.target,delta))return;
-  const now=performance.now();
-  if(gate){
-   const fresh=!gate.landing&&now>=gate.readyAt&&(inputKind!=='wheel'||now-lastInput>=gestureIdle);
-   if(delta<0||fresh)releaseGate();
-   else{event.preventDefault();markInput('wheel');return;}
-  }
-  markInput('wheel');
-  const entry=crossing(scrollY,scrollY+delta);
-  if(entry){event.preventDefault();stopAt(entry);}
- }
- function onScroll(){
-  const current=scrollY,delta=current-lastScroll;
-  // Native smooth scrolling can keep moving between wheel events. Catch it
-  // just before the endpoint, without ever scrolling backwards to recover it.
-  if(!gate&&delta>0&&inputKind&&performance.now()-lastInput<gestureIdle){
-   const entry=crossing(current,current+Math.min(64,delta*2));
-   if(entry)stopAt(entry);
-  }
-  lastScroll=scrollY;
-  for(const entry of entries)if(entry!==gate?.entry&&entry.gatePassed&&scrollY<endOf(entry)-80)entry.gatePassed=false;
-  schedule();
- }
 
  for(const project of document.querySelectorAll('.featured-case')){
   const disclosure=project.querySelector('.project-disclosure');
@@ -124,7 +51,7 @@
  function measure(){
   measureFrame=0;
   const active=!reducedMotion.matches;
-  const viewport=scrollRoot.getBoundingClientRect().width;
+  const viewport=document.documentElement.clientWidth;
   const viewportHeight=viewportProbe.getBoundingClientRect().height||innerHeight;
   const mobile=viewport<=760;
   const top=header.getBoundingClientRect().height;
@@ -137,14 +64,16 @@
    entry.top=top;entry.screen=viewportHeight-top;
    track.style.setProperty('--entry-top',top+'px');track.style.setProperty('--entry-screen',entry.screen+'px');
    if(!active){entry.cover=entry.run=0;entry.progress=1;track.style.setProperty('--entry-cover','0px');track.dataset.entryPhase='settled';continue;}
-   // Retain the original full-screen cover before the morph begins.
+   // Give the full-screen cover and the final introduction separate reading intervals.
    entry.cover=mobile?Math.min(280,Math.max(180,entry.screen*.32)):Math.min(380,Math.max(240,entry.screen*.38));
    track.style.setProperty('--entry-cover',entry.cover+'px');
    // Shorten only the morph; keep the full-screen cover interval unchanged.
    const originalRun=mobile?Math.min(320,viewportHeight*.38):Math.min(440,viewportHeight*.46);
    entry.run=originalRun/2;
-   // The input gate supplies the pause; only retain a two-pixel rounding buffer.
-   entry.reading=2;
+   const fitsIntroduction=entry.layout.offsetHeight<=entry.screen;
+   // Keep desktop introductions in place through a stable reading interval.
+   // Taller mobile layouts continue normally so their lower content stays reachable.
+   entry.reading=(!mobile||fitsIntroduction)?Math.max(520,Math.min(840,entry.screen*.9)):0;
    track.style.setProperty('--entry-travel',entry.run+'px');
    track.style.setProperty('--entry-reading',entry.reading+'px');
    track.style.height=(stage.offsetHeight+entry.cover+entry.run+entry.reading)+'px';
@@ -172,7 +101,7 @@
  function update(){
   frame=0;
   const positions=entries.map(entry=>entry.track.getBoundingClientRect().top);
-  const viewport=scrollRoot.getBoundingClientRect().width;
+  const viewport=document.documentElement.clientWidth;
   for(const [index,entry] of entries.entries()){
    if(!entry.run)continue;
    const {track,picture,logo,lightLogo,photo,brand}=entry;
@@ -204,47 +133,9 @@
  }
  function schedule(){if(!frame)frame=requestAnimationFrame(update);}
  function scheduleMeasure(){if(!measureFrame)measureFrame=requestAnimationFrame(measure);}
- addEventListener('scroll',onScroll,{passive:true});
- addEventListener('wheel',onWheel,{passive:false});
- addEventListener('touchstart',event=>{
-  releaseGate();
-  touch=event.touches.length===1?{x:event.touches[0].clientX,y:event.touches[0].clientY}:null;
-  if(touch)markInput('touch');
- },{passive:true});
- addEventListener('touchmove',event=>{
-  if(!touch||event.touches.length!==1)return;
-  const point=event.touches[0],delta=touch.y-point.clientY,horizontal=touch.x-point.clientX;
-  touch={x:point.clientX,y:point.clientY};
-  if(Math.abs(horizontal)>=Math.abs(delta)||nestedScroll(event.target,delta))return;
-  if(delta<0)releaseGate();
-  markInput('touch');
-  if(gate){event.preventDefault();return;}
-  const entry=crossing(scrollY,scrollY+delta);
-  if(entry){event.preventDefault();stopAt(entry);}
- },{passive:false});
- const endTouch=()=>{touch=null;if(inputKind==='touch')markInput('touch');};
- addEventListener('touchend',endTouch,{passive:true});
- addEventListener('touchcancel',endTouch,{passive:true});
- addEventListener('pointerdown',event=>{if(event.pointerType==='mouse')releaseGate();},{passive:true});
- addEventListener('keydown',event=>{
-  if(event.defaultPrevented||event.target.closest('input,textarea,select,[contenteditable="true"]'))return;
-  if(event.key===' '&&event.target.closest('button,a,summary'))return;
-  if(['Home','End','Tab','Escape'].includes(event.key)){releaseGate();return;}
-  if(!['ArrowDown','PageDown',' ','ArrowUp','PageUp'].includes(event.key))return;
-  const down=!event.shiftKey&&['ArrowDown','PageDown',' '].includes(event.key);
-  if(!down)releaseGate();
-  if(gate){
-   if(!event.repeat&&!gate.landing)releaseGate();
-   else{event.preventDefault();markInput('key');return;}
-  }
-  markInput('key');
-  const delta=event.key==='ArrowDown'?40:innerHeight*.875;
-  const entry=down?crossing(scrollY,scrollY+delta):null;
-  if(entry){event.preventDefault();stopAt(entry);}
- });
- addEventListener('hashchange',releaseGate);
- addEventListener('resize',()=>{releaseGate();lastScroll=scrollY;scheduleMeasure();});
- reducedMotion.addEventListener('change',()=>{releaseGate();scheduleMeasure();});
+ addEventListener('scroll',schedule,{passive:true});
+ addEventListener('resize',scheduleMeasure);
+ reducedMotion.addEventListener('change',scheduleMeasure);
  const observer=new ResizeObserver(scheduleMeasure);
  entries.forEach(entry=>observer.observe(entry.layout));
  document.fonts.ready.then(scheduleMeasure);
