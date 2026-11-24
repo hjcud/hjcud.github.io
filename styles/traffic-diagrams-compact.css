@@ -1,10 +1,10 @@
-#shinjuku .optimization-methods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding:0}
-#shinjuku .optimization-comparison{display:flex;flex-direction:column;align-items:stretch;gap:12px;min-width:0;padding:0;border:0}
-#shinjuku .optimization-comparison+.optimization-comparison{border-left:1px solid #dbe4eb;padding-left:24px}
+#shinjuku .optimization-methods{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;padding:0}
+#shinjuku .optimization-comparison{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:12px;min-width:0;padding:0;border:0}
+#shinjuku .optimization-comparison+.optimization-comparison{border:0;padding-left:0}
+#shinjuku .optimization-comparison+.optimization-comparison::before{content:"";position:absolute;left:-16px;top:0;bottom:0;width:1px;background:#dbe4eb}
 #shinjuku .comparison-copy h5{display:flex;align-items:baseline;gap:8px;margin:0 0 10px;font-size:15px;line-height:1.6}
 #shinjuku .method-index{flex:none;color:#7893aa;font-size:11px;font-weight:400;font-variant-numeric:tabular-nums}
 #shinjuku .project-problem-solving .comparison-copy p{font-size:13px;line-height:1.8}
-#shinjuku .optimization-comparison>.comparison-followup{margin:0;color:#657687;font-size:12px;line-height:1.7}
 #shinjuku .comparison-pair{display:grid;grid-template-columns:1fr;gap:0;min-width:0;height:auto;margin-top:0;border:1px solid #dfe7ed;border-radius:3px;overflow:hidden;background:#fafcfd}
 #shinjuku .comparison-pane{border:0;border-radius:0;background:transparent;overflow:hidden}
 #shinjuku .comparison-pane.after{border-top:1px solid #e4ebf0;background:#f5f9fc}
@@ -12,9 +12,11 @@
 #shinjuku .comparison-pane figcaption:not(.traffic-decision-result)>span{flex:none;color:#708494;font-size:10px}
 #shinjuku .comparison-pane svg{display:block;width:100%;height:104px;max-height:104px;padding:0 8px 6px}
 #shinjuku .traffic-decision-visual{display:flex;flex-direction:column;justify-content:center;min-height:206px;margin-top:0;border:1px solid #dfe7ed;border-radius:3px;background:#fafcfd}
-#shinjuku .traffic-decision-visual svg{height:auto;max-height:180px;margin:0;padding:8px}
-#shinjuku .comparison-pane .traffic-decision-result{position:static;display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding:6px 8px 10px;border:0;background:transparent}
+#shinjuku .traffic-decision-visual svg{flex:1 1 auto;min-height:0;height:auto;max-height:180px;margin:0;padding:8px}
+#shinjuku .comparison-pane .traffic-decision-result{position:static;display:flex;flex-wrap:wrap;gap:4px 12px;justify-content:center;padding:6px 12px 10px;border:0;background:transparent}
 #shinjuku .comparison-pane .traffic-decision-result>span{font-size:11px}
+#shinjuku .traffic-decision-result>.comparison-followup{flex-basis:100%;margin:3px 0 0;color:#81909c;font-size:11px;line-height:1.55;text-align:left}
+@media(min-width:1001px){#shinjuku .comparison-pair,#shinjuku .traffic-decision-visual{height:263px}}
 #shinjuku .comparison-pane.before{color:#899eae}
 #shinjuku .comparison-pane.after figcaption:not(.traffic-decision-result)>span{color:#537da0}
 #shinjuku [data-comparison="schedule"] svg text{fill:#687f92;font-size:11.5px}
@@ -23,10 +25,10 @@
 #shinjuku .traffic-decision-visual :is(.diagram-vehicle,.lane-leader)>rect{transform:scaleY(1.3)}
 @media(max-width:1000px){
  #shinjuku .optimization-methods{grid-template-columns:1fr;gap:20px}
+ #shinjuku .optimization-comparison+.optimization-comparison::before{display:none}
  #shinjuku .optimization-comparison{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:24px;align-items:center}
  #shinjuku .optimization-comparison+.optimization-comparison{border-left:0;border-top:1px solid #dbe4eb;padding:20px 0 0}
  #shinjuku .comparison-pair,#shinjuku .traffic-decision-visual{margin-top:0}
- #shinjuku .optimization-comparison>.comparison-followup{grid-column:2;margin-top:-16px}
  #shinjuku .comparison-pair{grid-template-columns:1fr 1fr;height:auto}
  #shinjuku .comparison-pane.after{border-top:0;border-left:1px solid #e4ebf0}
  #shinjuku .comparison-pane figcaption:not(.traffic-decision-result){flex-direction:column;align-items:flex-start;gap:2px}
@@ -39,7 +41,6 @@
  #shinjuku .comparison-copy h5{margin-bottom:7px}
  #shinjuku .comparison-pane figcaption:not(.traffic-decision-result){font-size:11px}
  #shinjuku .comparison-pane svg{height:94px;max-height:94px;padding-inline:4px}
- #shinjuku .optimization-comparison>.comparison-followup{grid-column:1;margin-top:0}
  #shinjuku .traffic-decision-visual{min-height:148px}
  #shinjuku .traffic-decision-visual svg{height:auto;max-height:148px}
 }
