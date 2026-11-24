@@ -1,5 +1,5 @@
 /* Idea2Strategy: service screenshots above, a supporting engineering case below. */
-@font-face{font-family:'Portfolio Note';src:url('../../assets/fonts/portfolio-note.woff2?v=scope-brace-20261124') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Portfolio Note';src:url('../../assets/fonts/portfolio-note.woff2?v=right-note-plus-20261124') format('woff2');font-weight:400;font-style:normal;font-display:swap}
 #idea2strategy .i2s-meta{display:grid;grid-template-columns:minmax(0,.45fr) minmax(0,1.55fr);gap:18px;margin:24px 0 12px}
 #idea2strategy .i2s-meta>div{display:block;margin:0}
 #idea2strategy .i2s-meta dt{font-size:10px;margin-bottom:4px}
@@ -26,7 +26,7 @@
 .featured-case .i2s-case-opening h3{font-size:clamp(23px,2.2vw,30px);line-height:1.5;letter-spacing:-.8px}
 .i2s-title-range{display:inline-block;max-width:100%}
 .i2s-time-emphasis{color:#2468a7}
-.i2s-delivery-scope{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:18px;align-items:center;min-width:0}
+.i2s-delivery-scope{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:18px;align-items:center;min-width:0;width:min(100%,500px);justify-self:end}
 .i2s-scope-label{margin:0;color:#536f86;font-family:'Portfolio Note',cursive;font-size:28px;font-weight:400;line-height:1.05;letter-spacing:-.3px;text-align:right;white-space:nowrap;transform:rotate(-4deg);transform-origin:center}
 .i2s-scope-emphasis{padding:0 2px;color:#365f7c;font-weight:400;background:linear-gradient(176deg,transparent 43%,#e9d98080 45%,#e9d98080 88%,transparent 90%)}
 .i2s-delivery-scope ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;padding:0;list-style:none}
@@ -35,7 +35,8 @@
 .i2s-delivery-scope li:last-child{padding-right:0}
 .i2s-delivery-scope li>svg{flex:none;width:28px;height:28px;fill:none;stroke:#789bb8;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .i2s-delivery-scope span{color:#4e718b;font-size:13px;font-weight:500}
-.i2s-delivery-scope .i2s-scope-plus{position:absolute;left:0;top:4px;transform:translateX(-50%);color:#8fa6b9;font-size:18px;font-weight:400;line-height:1}
+.i2s-delivery-scope .i2s-scope-plus{position:absolute;left:0;top:0;transform:translateX(-50%) rotate(-8deg);color:#7b93a7;font-family:'Portfolio Note',cursive;font-size:28px;font-weight:400;line-height:1}
+.i2s-delivery-scope li:nth-child(3)>.i2s-scope-plus{transform:translateX(-50%) rotate(7deg)}
 .i2s-workflow{margin-top:26px}
 .i2s-workflow-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:20px}
 .i2s-workflow-heading>div>p{margin:0 0 6px;color:#8096a8;font-size:11px;line-height:1.6}
