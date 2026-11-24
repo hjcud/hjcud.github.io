@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="styles/projects/shinjuku.css?v=attached-signal-status">
   <link rel="stylesheet" href="styles/projects/shimanami.css?v=compact-tile-coordinates">
   <link rel="stylesheet" href="styles/project-details.css?v=plain-project-headings">
-  <link rel="stylesheet" href="styles/projects/idea2strategy.css?v=attached-scope-20261124">
+  <link rel="stylesheet" href="styles/projects/idea2strategy.css?v=grouped-scope-20261124">
   <script src="scripts/app.js?v=skills-slider-20261123" defer></script>
   <script src="scripts/idea2strategy/harness-flow.js?v=parallel-harness-flow" defer></script>
   <script type="module" src="scripts/shinjuku/traffic-view.js?v=formal-copy-20261124"></script>
@@ -390,7 +390,8 @@
 </div>
 <section class="project-problem-solving i2s-case-study" aria-labelledby="i2s-problem-title">
 <div class="i2s-case-opening">
-<header class="problem-solving-heading"><p class="problem-solving-kicker">문제 해결 과정</p><h3 id="i2s-problem-title"><span class="i2s-time-emphasis">약 4주</span> 안에 <span class="i2s-scope-title">데이터 수집부터 웹 구현까지</span></h3><div class="i2s-delivery-scope"><ul aria-label="구현한 기능"><li><span>주식 데이터 수집</span></li><li><span>백테스트 엔진</span></li><li><span>웹 화면과 API</span></li></ul></div></header>
+<header class="problem-solving-heading"><p class="problem-solving-kicker">문제 해결 과정</p><h3 id="i2s-problem-title"><span class="i2s-time-emphasis">약 4주</span> 안에<br>데이터 수집부터 웹 구현까지</h3></header>
+<div class="i2s-delivery-scope" role="group" aria-labelledby="i2s-scope-label"><p class="i2s-scope-label" id="i2s-scope-label"><strong>모두 구현해야 했던</strong> 기능</p><ul><li><svg viewBox="0 0 32 32" aria-hidden="true"><ellipse cx="16" cy="8" rx="10" ry="4"/><path d="M6 8v8c0 5 20 5 20 0V8M6 16v8c0 5 20 5 20 0v-8"/></svg><span>주식 데이터 수집</span></li><li><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 5v22h23M9 21l6-7 5 3 7-11M22 6h5v5"/></svg><span>백테스트 엔진</span></li><li><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="5" width="24" height="22" rx="2"/><path d="M4 11h24M9 17h5M9 22h12"/></svg><span>웹 화면과 API</span></li></ul></div>
 </div>
 <section class="i2s-workflow" aria-labelledby="i2s-methods-title"><header class="i2s-workflow-heading"><div><p>AI 개발 파이프라인 설계</p><h4 id="i2s-methods-title">AI 하네스 <strong>‘Stackcord’</strong></h4></div><div class="i2s-flow-heading-actions"><p>팀원들이 각자 AI로 개발해도 <strong>같은 명세를 기준으로 작업</strong>할 수 있게 통합 지침을 작성하였습니다.</p><button type="button" id="i2s-flow-pause" aria-controls="i2s-flow-diagram" aria-pressed="false" aria-label="AI 개발 흐름 애니메이션 일시정지" hidden>Ⅱ</button></div></header>
 <div class="i2s-flow-display" id="i2s-flow-diagram"><ol class="i2s-visual-flow" aria-describedby="i2s-flow-motion-help" aria-label="명세 확인, Jira 계획 공유, AI 구현과 테스트 과정">

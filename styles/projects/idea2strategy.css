@@ -20,17 +20,20 @@
 .i2s-instruction-example a{display:inline-flex;align-items:center;gap:5px;min-height:28px;color:#426b8c;font-size:11px;text-decoration:underline;text-underline-offset:3px}
 @media(hover:hover) and (pointer:fine){.i2s-instruction-example>summary:hover,.i2s-instruction-example a:hover{color:#205f95}}
 /* A visual explanation first; implementation detail remains available below it. */
-.i2s-case-opening{display:block;padding:4px 0 26px;border-bottom:1px solid #d7e0e8}
+.i2s-case-opening{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:center;padding:4px 0 28px;border-bottom:1px solid #d7e0e8}
 .i2s-case-opening>.problem-solving-heading{margin:0}
 .featured-case .i2s-case-opening h3{font-size:clamp(23px,2.2vw,30px);line-height:1.5;letter-spacing:-.8px}
 .i2s-time-emphasis{color:#2468a7}
-.i2s-scope-title{display:inline-block;max-width:100%}
-.i2s-delivery-scope{margin-top:14px}
-.i2s-delivery-scope ul{display:flex;align-items:center;gap:0;margin:0;padding:0;list-style:none}
-.i2s-delivery-scope li{min-width:0;padding-inline:18px;line-height:1.7}
+.i2s-delivery-scope{padding:16px 20px;border:1px solid #d2dee8;border-radius:4px;background:#f8fafc}
+.i2s-scope-label{margin:0 0 14px;color:#60788d;font-size:12px;font-weight:500;line-height:1.6}
+.i2s-scope-label strong{color:#356789;font-weight:650}
+.i2s-delivery-scope ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;padding:0;list-style:none}
+.i2s-delivery-scope li{display:flex;flex-direction:column;align-items:center;gap:9px;min-width:0;padding-inline:12px;text-align:center;line-height:1.7}
 .i2s-delivery-scope li:first-child{padding-left:0}
-.i2s-delivery-scope li+li{border-left:1px solid #cbd8e2}
-.i2s-delivery-scope span{color:#607a90;font-size:14px;font-weight:500}
+.i2s-delivery-scope li:last-child{padding-right:0}
+.i2s-delivery-scope li+li{border-left:1px solid #e0e7ed}
+.i2s-delivery-scope svg{flex:none;width:28px;height:28px;fill:none;stroke:#789bb8;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.i2s-delivery-scope span{color:#4e718b;font-size:13px;font-weight:500}
 .i2s-workflow{margin-top:26px}
 .i2s-workflow-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:20px}
 .i2s-workflow-heading>div>p{margin:0 0 6px;color:#8096a8;font-size:11px;line-height:1.6}
@@ -61,13 +64,11 @@
 .i2s-rule-excerpt p{margin:0;font-size:11px;line-height:1.8;color:#7d91a1}
 .i2s-record-links{margin-top:20px}
 .i2s-record-links>p{color:#7d91a1;font-size:11px}
-@media(max-width:1000px){.i2s-visual-flow{gap:26px;padding-inline:16px}.i2s-visual-flow>li:not(:last-child)::after{right:-24px;top:70px;font-size:20px}.i2s-flow-caption h5{font-size:14px}.i2s-flow-caption p{font-size:11px}}
+@media(max-width:1000px){.i2s-case-opening{gap:28px}.i2s-delivery-scope{padding-inline:16px}.i2s-delivery-scope li{padding-inline:8px}.i2s-delivery-scope span{font-size:12px}.i2s-visual-flow{gap:26px;padding-inline:16px}.i2s-visual-flow>li:not(:last-child)::after{right:-24px;top:70px;font-size:20px}.i2s-flow-caption h5{font-size:14px}.i2s-flow-caption p{font-size:11px}}
 @media(max-width:760px){
- .i2s-case-opening{padding:0 0 24px}
+ .i2s-case-opening{grid-template-columns:1fr;gap:20px;padding:0 0 24px}
  .featured-case .i2s-case-opening h3{font-size:25px}
- .i2s-delivery-scope ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
- .i2s-delivery-scope li{display:flex;align-items:center;padding-inline:12px}
- .i2s-delivery-scope li:last-child{padding-right:0}
+ .i2s-delivery-scope{padding:14px}
  .i2s-delivery-scope span{font-size:12px}
  .i2s-workflow-heading{align-items:flex-start;gap:14px;margin-bottom:18px}
  .i2s-workflow-heading h4{font-size:18px}.i2s-workflow-heading .i2s-flow-heading-actions>p{font-size:10px;line-height:1.8;max-width:44%}
