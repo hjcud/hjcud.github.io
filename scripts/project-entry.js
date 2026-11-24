@@ -9,16 +9,21 @@
  const ease=value=>value*value*(3-2*value);
  let frame=0,measureFrame=0;
  let gate=null,inputKind=null,inputTimer=0,lastWheel=0,lastScroll=scrollY,touch=null;
+ const scrollRoot=document.documentElement;
+ const unlockScroll=()=>scrollRoot.classList.remove('is-entry-scroll-paused');
  const endOf=entry=>scrollY+entry.track.getBoundingClientRect().top-entry.top+entry.cover+entry.run;
- const markInput=kind=>{inputKind=kind;clearTimeout(inputTimer);inputTimer=setTimeout(()=>{inputKind=null;},200);};
- const releaseGate=()=>{gate=null;inputKind=null;lastScroll=scrollY;clearTimeout(inputTimer);};
+ const markInput=kind=>{inputKind=kind;clearTimeout(inputTimer);inputTimer=setTimeout(()=>{inputKind=null;unlockScroll();},200);};
+ const releaseGate=()=>{gate=null;inputKind=null;lastScroll=scrollY;clearTimeout(inputTimer);unlockScroll();};
  function crossing(from,to){
   if(to<=from)return null;
   return entries.find(entry=>entry.run&&!entry.gatePassed&&endOf(entry)>=from-1&&endOf(entry)<=to+1)||null;
  }
  function stopAt(entry){
+  const end=Math.ceil(endOf(entry));
   gate=entry;entry.gatePassed=true;
-  scrollTo({top:Math.ceil(endOf(entry)),behavior:'instant'});
+  // Stop the native gesture once; never chase scroll events back to this point.
+  scrollRoot.classList.add('is-entry-scroll-paused');
+  scrollTo({top:end,behavior:'instant'});
   lastScroll=scrollY;update();
  }
  function nestedScroll(target,delta){
@@ -46,10 +51,7 @@
   const current=scrollY;
   if(inputKind){
    const kind=inputKind;
-   if(gate){
-    const end=Math.ceil(endOf(gate));
-    if(Math.abs(current-end)>1)scrollTo({top:end,behavior:'instant'});
-   }else{
+   if(!gate){
     const entry=crossing(lastScroll,current);
     if(entry)stopAt(entry);
    }
@@ -102,7 +104,7 @@
  function measure(){
   measureFrame=0;
   const active=!reducedMotion.matches;
-  const viewport=document.documentElement.clientWidth;
+  const viewport=scrollRoot.getBoundingClientRect().width;
   const viewportHeight=viewportProbe.getBoundingClientRect().height||innerHeight;
   const mobile=viewport<=760;
   const top=header.getBoundingClientRect().height;
@@ -150,7 +152,7 @@
  function update(){
   frame=0;
   const positions=entries.map(entry=>entry.track.getBoundingClientRect().top);
-  const viewport=document.documentElement.clientWidth;
+  const viewport=scrollRoot.getBoundingClientRect().width;
   for(const [index,entry] of entries.entries()){
    if(!entry.run)continue;
    const {track,picture,logo,lightLogo,photo,brand}=entry;
@@ -216,7 +218,7 @@
  });
  addEventListener('hashchange',releaseGate);
  addEventListener('resize',()=>{releaseGate();lastScroll=scrollY;scheduleMeasure();});
- reducedMotion.addEventListener('change',scheduleMeasure);
+ reducedMotion.addEventListener('change',()=>{releaseGate();scheduleMeasure();});
  const observer=new ResizeObserver(scheduleMeasure);
  entries.forEach(entry=>observer.observe(entry.layout));
  document.fonts.ready.then(scheduleMeasure);
