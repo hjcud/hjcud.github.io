@@ -1,0 +1,17 @@
+@font-face{font-family:'Portfolio Note';src:url('../assets/fonts/portfolio-note.woff2?v=reading-notes-20261124') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+.case-hand-note{color:#56758c;font-family:'Portfolio Note',cursive;font-size:24px;font-weight:400;line-height:1.15;letter-spacing:0;word-break:keep-all}
+.case-hand-note svg{flex:none;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.75}
+.timeline-overview-meta .timeline-instruction.case-hand-note{display:flex;align-items:center;gap:10px;margin:0;color:#56758c;font-size:23px;line-height:1.15}
+.timeline-instruction.case-hand-note svg{width:36px;height:24px}
+.timeline-instruction.case-hand-note>span{transform:rotate(-1deg)}
+.traffic-exhibit{position:relative}
+.traffic-hand-note{position:absolute;left:50%;bottom:10px;display:flex;align-items:center;gap:8px;width:max-content;max-width:calc(100% - 48px);margin:0;transform:translateX(-50%) rotate(-1.5deg);pointer-events:none}
+.traffic-hand-note svg{width:34px;height:28px}
+.traffic-hand-note .note-pointer{display:none}
+@media(hover:hover) and (pointer:fine){.traffic-hand-note .note-pointer{display:inline}.traffic-hand-note .note-touch{display:none}}
+#pixel-mat .pm-design .pm-listed-process>h4{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:20px;row-gap:4px}
+#pixel-mat .pm-design .pm-grid-note{display:inline-block;font-size:24px;white-space:nowrap;transform:rotate(-2deg)}
+#pixel-mat .pm-grid-note mark{font-weight:400}
+@media(max-width:760px){.timeline-overview-meta .timeline-instruction.case-hand-note{font-size:21px}.timeline-instruction.case-hand-note svg{width:28px;height:20px}#pixel-mat .pm-design .pm-listed-process>h4{column-gap:12px}#pixel-mat .pm-design .pm-grid-note{font-size:22px}}
+@media(max-width:600px){.traffic-hand-note{position:static;justify-content:flex-end;max-width:none;width:auto;margin:7px 14px 9px;font-size:22px;transform:none}.traffic-hand-note svg{width:28px;height:24px}}
+@media print{.traffic-hand-note,.timeline-instruction.case-hand-note{display:none}}

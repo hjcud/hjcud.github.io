@@ -1,5 +1,4 @@
 /* Idea2Strategy: service screenshots above, a supporting engineering case below. */
-@font-face{font-family:'Portfolio Note';src:url('../../assets/fonts/portfolio-note.woff2?v=right-note-plus-20261124') format('woff2');font-weight:400;font-style:normal;font-display:swap}
 #idea2strategy .i2s-meta{display:grid;grid-template-columns:minmax(0,.45fr) minmax(0,1.55fr);gap:18px;margin:24px 0 12px}
 #idea2strategy .i2s-meta>div{display:block;margin:0}
 #idea2strategy .i2s-meta dt{font-size:10px;margin-bottom:4px}
