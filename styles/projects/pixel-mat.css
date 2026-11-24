@@ -106,6 +106,9 @@
 #pixel-mat .pm-design .pm-listed-editor-note{display:flex;align-items:center;justify-content:center;gap:9px;margin:22px 0 0;padding:16px 0 0;border-top:1px solid #dce5ed;color:#6a8295;font-size:13px;line-height:1.8;text-align:center;word-break:keep-all}
 #pixel-mat .pm-design .pm-listed-editor-note img{display:block;flex:none;width:20px;height:20px;image-rendering:pixelated}
 #pixel-mat .pm-design .pm-listed-editor-note strong{color:#376d97;font-weight:600}
+#pixel-mat .pm-design .pm-editor-download{display:inline-flex;align-items:center;gap:5px;min-height:32px;margin-left:12px;color:#376d97;font-size:12px;white-space:nowrap;text-decoration:underline;text-decoration-color:#a9bdcf;text-underline-offset:4px}
+#pixel-mat .pm-design .pm-editor-download:hover{color:#1769ff;text-decoration-color:currentColor}
+#pixel-mat .pm-design .pm-editor-download:focus-visible{outline:2px solid #1769ff;outline-offset:3px;border-radius:2px}
 @media(min-width:761px) and (max-width:1050px){#pixel-mat .pm-design .pm-listed-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:25px 30px}
 #pixel-mat .pm-design .pm-listed-step:nth-child(3)::before{content:none}
 #pixel-mat .pm-design .pm-listed-visual{height:144px}
@@ -142,7 +145,7 @@
 #pixel-mat .pm-design .pm-listed-step h5{font-size:13px}
 }
 
- .pm-map-example{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:32px;align-items:center;margin-top:32px;padding-top:28px;border-top:1px solid #d6e0e8}
+ .pm-map-example{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:32px;align-items:center;margin-top:28px}
 .pm-map-copy{min-width:0}
 .pm-map-copy>h4{margin:0 0 12px;color:#36566f;font-size:16px;font-weight:600}
 .pm-map-copy>p{margin:0;color:#65798b;font-size:12px;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere}
