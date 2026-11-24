@@ -6,7 +6,7 @@
  const control=document.getElementById('traffic-pause');
  let initialized=false;
  let active=[],frame=0,last=0,scrollFrame=0;
- const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],progress:svg.querySelector('.route-progress'),target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),signalRed:svg.querySelector('.signal-red'),signalGreen:svg.querySelector('.signal-green'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),scan:svg.querySelector('.frame-scan'),blocks:[...svg.querySelectorAll('.work-block')]}))}));
+ const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],progress:svg.querySelector('.route-progress'),target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),cursor:svg.querySelector('.frame-cursor'),columns:[...svg.querySelectorAll('.frame-column')],blocks:[...svg.querySelectorAll('.work-block')]}))}));
  function initialize(){
   if(initialized)return;
   for(const scene of scenes)for(const p of scene.panes)if(p.path){
@@ -33,27 +33,31 @@
   const t=scene.time;
   scene.panes.forEach((p,index)=>{
    if(scene.type==='route'){
-    const progress=t%8/8,d=progress*p.length,a=p.path.getPointAtLength(d),b=p.path.getPointAtLength(Math.min(p.length,d+1));
+    const travel=t%6,progress=travel/6,d=progress*p.length,a=p.path.getPointAtLength(d),b=p.path.getPointAtLength(Math.min(p.length,d+1));
+    const visibility=Math.min(1,travel/.14,(6-travel)/.14);
     move(p.car,a.x,a.y,Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI);
-    p.car.style.opacity=String(Math.min(1,progress*15,(1-progress)*15));
+    p.car.style.opacity=String(visibility);
     if(!index){
      const found=p.waypoints.findIndex(point=>point.distance>d);
      const next=found<0?p.waypoints.length-1:Math.max(1,found);
      const target=p.waypoints[next];
      p.target.setAttribute('cx',target.x);p.target.setAttribute('cy',target.y);
      p.targetLine.setAttribute('d',`M${a.x.toFixed(2)} ${a.y.toFixed(2)}L${target.x} ${target.y}`);
+     p.target.style.opacity=String(visibility);p.targetLine.style.opacity=String(visibility);
      p.nodes.forEach((node,i)=>node.classList.toggle('is-target',i===next));
     }else{
-     p.progress.style.strokeDasharray=`${d.toFixed(2)} ${p.length.toFixed(2)}`;
+     const trail=Math.min(54,p.length*.2);
+     p.progress.style.strokeDasharray=`${trail.toFixed(2)} ${p.length.toFixed(2)}`;
+     p.progress.style.strokeDashoffset=(trail-d).toFixed(2);
+     p.progress.style.opacity=String(visibility);
     }
     }else if(scene.type==='physics'){
-    const phase=t%12,waiting=phase>=8;
-    const leaderX=254+(waiting?0:8*Math.sin(phase*Math.PI/4)),rear=leaderX-11;
+    const phase=(t%5.6)/5.6;
+    const leaderX=254+7*Math.sin(t*Math.PI*2/7.2),rear=leaderX-11;
     move(p.leader,leaderX,88);
-    const smooth=x=>{x=Math.max(0,Math.min(1,x));return x*x*(3-2*x);};
-    const incoming=phase<2.6,y=phase<2.6?27+61*smooth(phase/2.6):phase<4.8?88:88-61*smooth((phase-4.8)/2.4);
+    const y=-10+172*phase;
     const hit=Math.abs(y-88)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
-    p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(${incoming?180:0})`);
+    p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(180)`);
     if(p.svg.dataset.inspection==='all'){
      p.svg.querySelector('.legacy-front-probe').setAttribute('width',(rear-59).toFixed(2));
      const personProbe=p.svg.querySelector('.legacy-person-probe');
@@ -74,13 +78,14 @@
     p.distanceHalo.setAttribute('d',`M59 88H${measuredEnd.toFixed(2)}`);
     p.distanceValue.textContent=((measuredEnd-59)/diagramUnitsPerMeter).toFixed(1)+' m';
     p.svg.dataset.distanceTarget=personIsCloser?'pedestrian':'vehicle';
-    if(p.signalRed)p.signalRed.style.fill=waiting?'#e3746c':'#74838c';
-    if(p.signalGreen)p.signalGreen.style.fill=waiting?'#74838c':'#63b69c';
     p.svg.dataset.sensorState=hit?'hit':'clear';
-    p.svg.dataset.signalState=waiting?'red':'green';
    }else if(scene.type==='schedule'){
-    const current=Math.floor(t*1.5)%5;p.scan?.setAttribute('x',String(22+current*55));
-    p.blocks.forEach(b=>{const selected=Number(b.dataset.frame)===current;b.style.opacity=selected?'1':'.65';});
+    const cursor=-4+312*(t%2.8)/2.8;
+    const activity=index=>{const v=Math.max(0,1-Math.abs(cursor-(42+index*55))/32);return v*v*(3-2*v);};
+    p.svg.dataset.activeFrame=String(Math.max(1,Math.min(5,Math.round((cursor-42)/55)+1)));
+    if(p.cursor)p.cursor.setAttribute('x',(cursor-12).toFixed(2));
+    p.blocks.forEach(block=>{const pulse=activity(Number(block.dataset.frame));block.style.opacity=String(.55+.45*pulse);block.style.transform=`translateY(${(-1.5*pulse).toFixed(2)}px)`;});
+    p.columns.forEach((column,index)=>{const pulse=activity(index),end=p.svg.closest('.after')?[218,232,243]:[219,228,235];column.style.fill=`rgb(${[240,243,246].map((start,i)=>Math.round(start+(end[i]-start)*pulse)).join(',')})`;});
    }
   });
  }
