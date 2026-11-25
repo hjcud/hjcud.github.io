@@ -7,14 +7,14 @@ const previews = $$('template[id^="preview-"]');
 const aliases={'web-backend':'java',react:'web-frontend',typescript:'web-frontend',kotlin:'android',compose:'android'};
 const skillData={
  unity:{name:'Unity',keys:['unity'],copy:'VRChat 월드와 VR 시뮬레이터를 제작하고, Profiler로 차량 계산에 걸리는 시간을 확인하며 최적화하였습니다.'},
- csharp:{name:'C#',keys:['csharp'],copy:'차량 주행과 비행 계산, 위치 동기화와 VR 화재 확산 로직을 구현하였습니다.'},
+ csharp:{name:'C#',keys:['csharp'],copy:'차량 주행과 비행기의 움직임, 위치 동기화와 화재가 번지는 로직을 구현하였습니다.'},
  udonsharp:{name:'UdonSharp',keys:['udonsharp'],copy:'VRChat의 차량 주행과 스피커 제어, 비행과 상태 동기화를 구현하였습니다.'},
- 'ai-skills':{name:'AI 스킬',keys:['ai-skills'],copy:'Pixel Mat의 픽셀 아트 생성과 변환, 검사 과정을 AI 스킬로 작성하였습니다. 팀 프로젝트에서는 명세 확인과 테스트 규칙을 담은 스킬을 사용하였습니다.'},
- harness:{name:'AI 하네스',keys:['harness'],copy:'AI 하네스 ‘Stackcord’에 확인할 명세와 작업 범위, 테스트 절차를 정리하였습니다. 작업 계획은 Jira로 옮겨 팀과 공유하였습니다.'},
- git:{name:'Git',keys:['git'],copy:'브랜치와 PR로 변경 내용을 검토하고 통합하였습니다. 작업 범위와 병합 순서는 팀 작업 기록에 남겼습니다.'},
+ 'ai-skills':{name:'AI 스킬',keys:['ai-skills'],copy:'이미지 생성부터 픽셀 변환과 검사까지 수행하도록 Pixel Mat 스킬을 작성하였습니다. 팀 프로젝트에서는 명세 확인과 테스트 규칙을 담은 스킬을 사용하였습니다.'},
+ harness:{name:'AI 하네스',keys:['harness'],copy:'AI 하네스 ‘Stackcord’의 지침에 작업 전에 확인할 명세와 수정할 부분, 테스트 절차를 정리하였습니다. 작업 계획은 Jira로 옮겨 팀과 공유하였습니다.'},
+ git:{name:'Git',keys:['git'],copy:'브랜치에서 작업하고, PR에서 변경 내용을 검토한 뒤 병합하였습니다. 수정할 부분과 병합 순서를 팀 작업 문서에 기록하였습니다.'},
  java:{name:'Java',keys:['java'],copy:'Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 로직을 Java로 개발하였습니다.'},
  spring:{name:'Spring Boot',keys:['spring'],copy:'Spring Boot로 Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 기능을 개발하였습니다.'},
- 'web-frontend':{name:'React / TypeScript',keys:['react','typescript'],ratings:[['React',20],['TypeScript',20]],copy:'BetterBatter의 실시간 경기 중계와 경기 예측 화면, 사용자 상호작용을 개발하였습니다.'},
+ 'web-frontend':{name:'React / TypeScript',keys:['react','typescript'],ratings:[['React',20],['TypeScript',20]],copy:'BetterBatter의 실시간 경기 중계와 경기 예측 화면을 개발하고, 사용자 입력에 따라 화면이 동작하도록 구현하였습니다.'},
  android:{name:'Kotlin / Jetpack Compose',keys:['kotlin','compose'],ratings:[['Kotlin',20],['Jetpack Compose',20]],copy:'바로영업 Android 앱에서 고객 정보 화면과 전화가 왔을 때 상담 정보를 보여주는 기능을 개발하였습니다.'}
 };
 const skillButtons=$$('#skills [data-skill]');
