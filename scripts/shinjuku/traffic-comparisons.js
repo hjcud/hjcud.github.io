@@ -6,7 +6,7 @@
  const control=document.getElementById('traffic-pause');
  let initialized=false;
  let active=[],frame=0,last=0,scrollFrame=0;
- const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),cursor:svg.querySelector('.frame-cursor'),columns:[...svg.querySelectorAll('.frame-column')],blocks:[...svg.querySelectorAll('.work-block')]}))}));
+ const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),operations:[...svg.closest('figure').querySelectorAll('.route-operation')],path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),cursor:svg.querySelector('.frame-cursor'),columns:[...svg.querySelectorAll('.frame-column')],blocks:[...svg.querySelectorAll('.work-block')]}))}));
  function initialize(){
   if(initialized)return;
   for(const scene of scenes)for(const p of scene.panes)if(p.path){
@@ -17,6 +17,15 @@
    });
    if(p.nodes.length)p.path.setAttribute('d',p.nodes.map((node,i)=>`${i?'L':'M'}${node.getAttribute('cx')} ${node.getAttribute('cy')}`).join(' '));
    p.length=p.path.getTotalLength();
+   p.samples.forEach((dot,i)=>{
+    const d=p.length*i/Math.max(1,p.samples.length-1),point=p.path.getPointAtLength(d),ahead=p.path.getPointAtLength(Math.min(p.length,d+1)),behind=p.path.getPointAtLength(Math.max(0,d-1));
+    const angle=Math.atan2(ahead.y-behind.y,ahead.x-behind.x)*180/Math.PI;
+    const direction=document.createElementNS('http://www.w3.org/2000/svg','path');
+    direction.setAttribute('class','route-stored-direction');
+    direction.setAttribute('d','M-2.5-2L1 0L-2.5 2');
+    direction.setAttribute('transform',`translate(${point.x.toFixed(2)} ${point.y.toFixed(2)}) rotate(${angle.toFixed(2)})`);
+    dot.after(direction);
+   });
    p.waypoints=p.nodes.map(node=>({x:Number(node.getAttribute('cx')),y:Number(node.getAttribute('cy'))}));
    let distance=0;
    p.waypoints.forEach((point,i)=>{if(i)distance+=Math.hypot(point.x-p.waypoints[i-1].x,point.y-p.waypoints[i-1].y);point.distance=distance;});
@@ -37,6 +46,9 @@
     const visibility=Math.min(1,travel/.14,(6-travel)/.14);
     move(p.car,a.x,a.y,Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI);
     p.car.style.opacity=String(visibility);
+    const operation=Math.floor((t%2.4)/.8);
+    p.svg.dataset.operation=String(operation);
+    p.operations.forEach((element,i)=>element.classList.toggle('is-current',i===operation));
     if(!index){
      const found=p.waypoints.findIndex(point=>point.distance>d);
      const next=found<0?p.waypoints.length-1:Math.max(1,found);
@@ -45,6 +57,15 @@
      p.targetLine.setAttribute('d',`M${a.x.toFixed(2)} ${a.y.toFixed(2)}L${target.x} ${target.y}`);
      p.target.style.opacity=String(visibility);p.targetLine.style.opacity=String(visibility);
      p.nodes.forEach((node,i)=>node.classList.toggle('is-target',i===next));
+    }else{
+     const sampleIndex=Math.min(p.samples.length-2,Math.floor(progress*(p.samples.length-1)));
+     p.svg.dataset.samplePair=String(sampleIndex);
+     p.samples.forEach((dot,i)=>{
+      const selected=i===sampleIndex||i===sampleIndex+1;
+      dot.classList.toggle('is-read',selected);
+      dot.setAttribute('r',selected?'3.5':'2');
+      dot.nextElementSibling.classList.toggle('is-read',selected);
+     });
     }
     }else if(scene.type==='physics'){
     const phase=(t%5.6)/5.6;

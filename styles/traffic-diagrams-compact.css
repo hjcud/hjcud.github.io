@@ -38,3 +38,18 @@
  #shinjuku .comparison-pane figcaption{font-size:11px}
  #shinjuku .comparison-pane .comparison-followup{left:12px;right:12px;font-size:9px}
 }
+
+#shinjuku [data-comparison="route"] .comparison-pane{padding-bottom:12px}
+#shinjuku [data-comparison="route"] .comparison-pane svg{flex:1 1 90px;height:90px;max-height:100px}
+#shinjuku .route-workflow{display:flex;align-items:center;gap:5px;flex:none;min-height:27px;margin-top:7px;color:#718395;font-size:11px;line-height:1.5;white-space:nowrap}
+#shinjuku .route-operation{flex:1;min-width:0;padding:4px 2px;border-radius:3px;text-align:center;background:#edf1f4;transition:background-color .15s,color .15s}
+#shinjuku .route-workflow i{flex:none;font-style:normal;color:#9aabb8}
+#shinjuku .before .route-operation.is-current{color:#855c34;background:#f3e7d8}
+#shinjuku .after .route-operation.is-current{color:#285f90;background:#dceaf6}
+#shinjuku .route-stored-direction{fill:none;stroke:#92afca;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
+#shinjuku .route-sample{transition:fill .15s}
+#shinjuku .route-sample.is-read{fill:#397eaf}
+#shinjuku .route-stored-direction.is-read{stroke:#397eaf;stroke-width:2}
+@media(max-width:1000px) and (min-width:761px){#shinjuku .route-workflow{font-size:9px;gap:2px}}
+@media(max-width:760px){#shinjuku [data-comparison="route"] .comparison-pane{padding-bottom:10px}#shinjuku .route-workflow{font-size:10px;gap:3px;margin-top:4px;min-height:24px}#shinjuku .route-operation{padding:3px 1px}}
+@media(prefers-reduced-motion:reduce){#shinjuku .route-operation,#shinjuku .route-sample{transition:none}}
