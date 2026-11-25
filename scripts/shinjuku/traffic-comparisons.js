@@ -31,6 +31,8 @@
    p.waypoints.forEach((point,i)=>{if(i)distance+=Math.hypot(point.x-p.waypoints[i-1].x,point.y-p.waypoints[i-1].y);point.distance=distance;});
   }
   for(const scene of scenes)for(const p of scene.panes)if(p.person){
+   p.description=p.svg.querySelector('desc');
+   p.originalDescription=p.description?.textContent;
    const bounds=p.person.getBBox();
    p.personHalfWidth=Math.max(Math.abs(bounds.x),Math.abs(bounds.x+bounds.width))+.9;
    p.personHalfHeight=Math.max(Math.abs(bounds.y),Math.abs(bounds.y+bounds.height))+.9;
@@ -39,7 +41,9 @@
  }
  function move(car,x,y,angle=0){car.setAttribute('transform',`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${angle.toFixed(2)})`);}
  function draw(scene){
-  const t=scene.time;
+  const staticView=reduced.matches;
+  const t=staticView?(scene.type==='physics'?3.2:2.1):scene.time;
+  scene.row.dataset.motion=staticView?'static':'animated';
   scene.panes.forEach((p,index)=>{
    if(scene.type==='route'){
     const travel=t%6,progress=travel/6,d=progress*p.length,a=p.path.getPointAtLength(d),b=p.path.getPointAtLength(Math.min(p.length,d+1));
@@ -48,7 +52,7 @@
     p.car.style.opacity=String(visibility);
     const operation=Math.floor((t%2.4)/.8);
     p.svg.dataset.operation=String(operation);
-    p.operations.forEach((element,i)=>element.classList.toggle('is-current',i===operation));
+    p.operations.forEach((element,i)=>element.classList.toggle('is-current',staticView?(!index?i>0:i===1):i===operation));
     if(!index){
      const found=p.waypoints.findIndex(point=>point.distance>d);
      const next=found<0?p.waypoints.length-1:Math.max(1,found);
@@ -95,13 +99,26 @@
     p.distanceValue.textContent=((measuredEnd-59)/diagramUnitsPerMeter).toFixed(1)+' m';
     p.svg.dataset.distanceTarget=personIsCloser?'pedestrian':'vehicle';
     p.svg.dataset.sensorState=hit?'hit':'clear';
+    if(staticView){
+     if(p.description)p.description.textContent='파란 선과 수치는 앞차까지 계산한 거리입니다. 주황색 영역과 수치는 보행자를 감지한 범위와 거리입니다. 앞차와의 거리는 차선 정보로 계산하고, 사람과 장애물만 BoxCast로 검사합니다.';
+     let reference=p.svg.querySelector('.static-leader-reference');
+     if(!reference){
+      reference=document.createElementNS('http://www.w3.org/2000/svg','g');
+      reference.setAttribute('class','static-leader-reference');
+      reference.setAttribute('aria-hidden','true');
+      reference.innerHTML='<path fill="none" stroke="#3d84b4" stroke-width="1.5"/><text x="66" y="54" fill="#3d84b4" font-size="12" font-weight="600"/>';
+      p.svg.append(reference);
+     }
+     reference.querySelector('path').setAttribute('d',`M59 58H${rear.toFixed(2)}M59 55V61M${rear.toFixed(2)} 55V61`);
+     reference.querySelector('text').textContent=((rear-59)/diagramUnitsPerMeter).toFixed(1)+' m';
+    }else if(p.description)p.description.textContent=p.originalDescription;
    }else if(scene.type==='schedule'){
     const cursor=-4+312*(t%2.8)/2.8;
     const activity=index=>{const v=Math.max(0,1-Math.abs(cursor-(42+index*55))/32);return v*v*(3-2*v);};
     p.svg.dataset.activeFrame=String(Math.max(1,Math.min(5,Math.round((cursor-42)/55)+1)));
-    if(p.cursor)p.cursor.setAttribute('x',(cursor-12).toFixed(2));
-    p.blocks.forEach(block=>{const pulse=activity(Number(block.dataset.frame));block.style.opacity=String(.55+.45*pulse);block.style.transform=`translateY(${(-1.5*pulse).toFixed(2)}px)`;});
-    p.columns.forEach((column,index)=>{const pulse=activity(index),end=p.svg.closest('.after')?[218,232,243]:[219,228,235];column.style.fill=`rgb(${[240,243,246].map((start,i)=>Math.round(start+(end[i]-start)*pulse)).join(',')})`;});
+    if(p.cursor){p.cursor.setAttribute('x',(cursor-12).toFixed(2));p.cursor.style.display=staticView?'none':'';}
+    p.blocks.forEach(block=>{const pulse=staticView?1:activity(Number(block.dataset.frame));block.style.opacity=String(.55+.45*pulse);block.style.transform=`translateY(${(staticView?0:-1.5*pulse).toFixed(2)}px)`;});
+    p.columns.forEach((column,index)=>{const pulse=staticView?1:activity(index),end=p.svg.closest('.after')?[218,232,243]:[219,228,235];column.style.fill=`rgb(${[240,243,246].map((start,i)=>Math.round(start+(end[i]-start)*pulse)).join(',')})`;});
    }
   });
  }
@@ -124,7 +141,7 @@
  function queue(){if(!scrollFrame)scrollFrame=requestAnimationFrame(choose);}
  const observer=new IntersectionObserver(queue,{threshold:[0,.25,.5,.75,1]});rows.forEach(row=>observer.observe(row));
  addEventListener('scroll',queue,{passive:true});addEventListener('resize',queue);
- document.addEventListener('visibilitychange',choose);reduced.addEventListener('change',choose);
+ document.addEventListener('visibilitychange',choose);reduced.addEventListener('change',()=>{initialize();scenes.forEach(draw);choose();});
  if(control)new MutationObserver(choose).observe(control,{attributes:true,attributeFilter:['aria-pressed']});
  choose();
 })();

@@ -1,0 +1,15 @@
+.flight-static-comparison,.static-leader-reference{display:none}
+@media(prefers-reduced-motion:reduce){
+ #traffic-pause,#traffic-reset,#traffic-countdown,#flight-pause{display:none}
+ .static-leader-reference{display:inline}
+ #shinjuku .static-leader-reference text{font-size:14px;fill:#3d84b4;font-weight:600}
+ .flight-static-comparison{display:flex;align-items:center;justify-content:center;gap:22px;padding:16px 20px;background:#f5f8fa;border-top:1px solid #dbe4eb;color:#496b86;font-size:12px;line-height:1.8}
+ .flight-static-comparison>div{display:grid;gap:2px}
+ .flight-static-comparison small{color:#71899c;font-size:10px}
+ .flight-static-comparison strong{margin-left:12px;font-variant-numeric:tabular-nums;color:#285e87}
+ .flight-static-comparison>span{color:#7f9ab0;font-size:20px}
+ @media(max-width:540px){
+  .flight-static-comparison{gap:12px;padding:12px 10px;font-size:10px}
+  .flight-static-comparison strong{display:block;margin-left:0}
+ }
+}

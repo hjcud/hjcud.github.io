@@ -15,9 +15,9 @@
   <link rel="stylesheet" href="styles/projects/idea2strategy.css?v=shared-handwriting-font-20261124">
   <script src="scripts/app.js?v=skills-slider-20261123" defer></script>
   <script src="scripts/idea2strategy/harness-flow.js?v=ai-sparkle-20261124" defer></script>
-  <script type="module" src="scripts/shinjuku/traffic-view.js?v=formal-copy-20261124"></script>
-  <script src="scripts/shinjuku/traffic-comparisons.js?v=route-calculation-contrast-20261125" defer></script>
-  <script type="module" src="scripts/shimanami/flight-view.js?v=compact-tile-coordinates"></script>
+  <script type="module" src="scripts/shinjuku/traffic-view.js?v=representative-static-20261125"></script>
+  <script src="scripts/shinjuku/traffic-comparisons.js?v=representative-static-20261125" defer></script>
+  <script type="module" src="scripts/shimanami/flight-view.js?v=representative-static-20261125"></script>
   <link rel="stylesheet" href="styles/profile.css?v=elastic-skill-plus">
   <link rel="stylesheet" href="styles/skills.css?v=refined-skill-cells-20261123">
   <script src="scripts/profile-skills.js?v=natural-wording-20261125" defer></script>
@@ -37,6 +37,7 @@
   <link rel="stylesheet" href="styles/traffic-diagrams-compact.css?v=route-calculation-contrast-20261125">
   <script src="scripts/pixel-mat-connector.js?v=dashed-process-arrow-20261124" defer></script>
   <link rel="stylesheet" href="styles/annotations.css?v=reading-notes-20261124">
+  <link rel="stylesheet" href="styles/reduced-motion.css?v=representative-static-20261125">
 </head>
 <body>
 <a class="skip-link" href="#profile">본문으로 이동</a>
@@ -385,6 +386,7 @@
 <div><span>타일 안의 X 좌표</span><b id="flight-local" data-sign="positive" aria-label="타일 안의 X 좌표, 양수 0"><span class="flight-local-axis" aria-hidden="true">X</span><span class="flight-local-number" aria-hidden="true"><span class="flight-local-sign">+</span><span class="flight-local-value">0</span></span></b></div>
 </div>
 </div>
+<div class="flight-static-comparison" aria-label="타일 경계 통과 전후 좌표 예시"><div><small>경계 통과 전</small><span>타일 (0, 0)<strong>X +4,900</strong></span></div><span aria-hidden="true">→</span><div><small>경계 통과 후</small><span>타일 (1, 0)<strong>X −4,900</strong></span></div></div>
 <p id="flight-demo-note" class="sr-only">좌표가 바뀌는 과정을 보여주기 위해 X축 이동만 표현한 시연입니다. 기체의 위치는 원점을 기준으로, 지도의 위치는 타일 번호와 타일 안의 좌표로 표시합니다. 타일 하나의 크기는 10,000이며, 이동 속도와 높이 변화는 설명을 위해 조정하였습니다. 경계를 지나도 이동은 계속됩니다. 오른쪽 위 버튼으로 시연을 멈추거나 다시 시작할 수 있습니다.</p>
 </section>
 </section>

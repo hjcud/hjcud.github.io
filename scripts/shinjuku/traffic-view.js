@@ -36,6 +36,11 @@ function resetSimulation(){
  for(let step=0;step<1320;step++)sim.step(.05);
  sim.enableIncidents=true;sim.observedId=9;
  focusId=9;clock=0;last=0;
+ if(motion.matches){
+  for(let step=0;step<230;step++)sim.step(.05);
+  focusId=sim.cars.find(car=>car.active&&car.sensor.hit)?.id??9;
+  sim.observedId=focusId;
+ }
  resetControl.disabled=false;
 }
 function inFrame(car){
@@ -156,6 +161,7 @@ function draw(){
  canvas.dataset.sensorEnabled=String(!!focus&&focus.sensor.enabled!==false);canvas.dataset.sensorHit=String(!!focus?.sensor.hit);canvas.dataset.sensorReach=String(focus?.sensor.reach??0);canvas.dataset.sensorRange=String(focus?.sensor.castReach??0);canvas.dataset.sensorPerson=String(focus?.sensor.personId??'');
  canvas.dataset.leaderGap=String(focus?sim.observe(focus).leaderGap??'':'');canvas.dataset.recovery=focus?.recovery?.phase||(focus?.change?.recovery?'change':'');
  canvas.dataset.recoveries=String(sim.completedRecoveries);canvas.dataset.incidents=String(sim.incidentCount);
+ canvas.dataset.motion=motion.matches?'static':'animated';
 }
 function person(p){
  const q=project(p),swing=p.moving?Math.sin(sim.time*4.2+p.id*.7):0;
@@ -197,13 +203,13 @@ function updateUI(){
  canvas.dataset.signal=sim.signal;canvas.dataset.walk=String(sim.walk);canvas.dataset.laneChanges=String(sim.completedChanges);canvas.dataset.time=sim.time.toFixed(1);
 }
 function tick(now){
- frame=0;if(!visible||document.hidden||paused||!sim)return;
+ frame=0;if(!visible||document.hidden||paused||motion.matches||!sim)return;
  if(last&&now-last<32){frame=requestAnimationFrame(tick);return;}
  const elapsed=last?Math.min((now-last)/1000,.08):0;last=now;clock+=elapsed*3;
  while(clock>=.05){sim.step(.05);clock-=.05;}
  draw();if(now-uiTime>200){updateUI();uiTime=now;}frame=requestAnimationFrame(tick);
 }
-function schedule(){cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!document.hidden&&!paused&&sim)frame=requestAnimationFrame(tick);}
+function schedule(){cancelAnimationFrame(frame);frame=0;last=0;if(visible&&!document.hidden&&!paused&&!motion.matches&&sim)frame=requestAnimationFrame(tick);}
 function reflectPause(){pause.textContent=paused?'▷':'Ⅱ';pause.setAttribute('aria-pressed',String(paused));pause.setAttribute('aria-label',paused?'교통 시연 재생':'교통 시연 일시정지');}
 function selectVehicle(id){focusId=id;draw();updateUI();}
 function hitVehicle(event,padding=event.pointerType==='touch'?14:9){
@@ -239,7 +245,7 @@ canvas.addEventListener('keydown',event=>{
 });
 resetControl.addEventListener('click',()=>{if(!core)return;resetSimulation();draw();updateUI();schedule();});
 pause.addEventListener('click',()=>{paused=!paused;reflectPause();if(sim)updateUI();schedule();});
-motion.addEventListener('change',()=>{paused=motion.matches;reflectPause();if(sim)updateUI();schedule();});
+motion.addEventListener('change',()=>{paused=motion.matches;reflectPause();if(sim){if(motion.matches)resetSimulation();resize();updateUI();}schedule();});
 document.addEventListener('visibilitychange',schedule);
 new ResizeObserver(resize).observe(canvas);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)init();schedule();},{threshold:.05}).observe(canvas);

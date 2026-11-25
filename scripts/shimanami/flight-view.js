@@ -86,7 +86,8 @@ function drawGroundLabels(project,shoreAt,basis,scale,from,to,reach){
  ctx.restore();
 }
 function draw(){
- const state=coordinateFrame(time),scale=terrainScale(width);
+ const state=coordinateFrame(reduced.matches?6:time),scale=terrainScale(width);
+ if(reduced.matches){state.world=5100;state.tile=1;state.local=-4900;}
  const center=width/2,groundY=height*.45+(state.altitude-8)*3.8,aircraftY=height*.34;
  cacheAircraft();
  const tilt=state.pitch*1.8,c=Math.cos(tilt),s=Math.sin(tilt);
@@ -163,6 +164,12 @@ function draw(){
  ctx.strokeStyle='#3476a6';ctx.lineWidth=width<600?2:2.5;ctx.stroke();ctx.lineJoin='miter';
  drawGroundLabels(project,shoreAt,basis,scale,from,to,reach);
  ctx.drawImage(aircraftLayer,center-aircraftPadding,aircraftY-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
+ if(reduced.matches){
+  const x=width*.22,y=height*.57;
+  ctx.save();ctx.strokeStyle='#477e9f';ctx.fillStyle='#477e9f';ctx.lineWidth=2;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(x+28,y+14);ctx.lineTo(x-28,y-14);ctx.lineTo(x-16,y-15);ctx.moveTo(x-28,y-14);ctx.lineTo(x-21,y-3);ctx.stroke();
+  ctx.font='600 12px system-ui,sans-serif';ctx.textAlign='center';ctx.fillText('지형 이동',x,y+34);ctx.restore();
+ }
  exhibit.dataset.step=String(state.step);
  if(previousTile!==null&&state.tile!==previousTile){
   basisChangedAt=time;
@@ -181,13 +188,14 @@ function draw(){
  canvas.dataset.local=state.local.toFixed(3);canvas.dataset.world=state.world.toFixed(3);
  canvas.dataset.altitude=state.altitude.toFixed(3);canvas.dataset.pitch=state.pitch.toFixed(4);
  canvas.dataset.terrainPitch=(-tilt).toFixed(4);
+ canvas.dataset.motion=reduced.matches?'static':'animated';
 }
 function resize(){
  const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return;
  width=r.width;height=r.height;dpr=Math.min(devicePixelRatio||1,1.5);
  canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);draw();
 }
-function stopped(){return !visible||paused||document.hidden;}
+function stopped(){return !visible||paused||reduced.matches||document.hidden;}
 function tick(now){
  frame=0;if(stopped())return;
  if(last&&now-last<32){frame=requestAnimationFrame(tick);return;}
@@ -200,7 +208,7 @@ function pauseState(){
  pause.setAttribute('aria-label',paused?'비행 좌표 시연 재생':'비행 좌표 시연 일시정지');
 }
 pause.addEventListener('click',()=>{paused=!paused;pauseState();schedule();});
-reduced.addEventListener('change',()=>{paused=reduced.matches;pauseState();schedule();});
+reduced.addEventListener('change',()=>{paused=reduced.matches;previousTile=null;pauseState();draw();schedule();});
 document.addEventListener('visibilitychange',schedule);
 new ResizeObserver(resize).observe(canvas);
 new IntersectionObserver(e=>{visible=e[0].isIntersecting;schedule();},{threshold:.05}).observe(exhibit);
