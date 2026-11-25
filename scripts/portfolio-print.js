@@ -110,7 +110,7 @@
  notice.id='portfolio-pdf-dialog';
  notice.setAttribute('aria-labelledby','portfolio-pdf-dialog-title');
  notice.setAttribute('aria-describedby','portfolio-pdf-dialog-description');
- notice.innerHTML='<h2 id="portfolio-pdf-dialog-title">PDF로 저장하기</h2><div id="portfolio-pdf-dialog-description"><p>PDF에는 애니메이션이 정지된 장면으로 담깁니다.</p><p>움직임과 조작 과정으로 설명한 내용은 웹에서 보시면 더 쉽게 이해하실 수 있습니다.</p></div><form method="dialog" class="pdf-dialog-actions"><button type="submit" value="cancel" autofocus>취소</button><button type="submit" value="download" class="pdf-dialog-download">다운로드</button></form>';
+ notice.innerHTML='<h2 id="portfolio-pdf-dialog-title">PDF 다운로드</h2><div id="portfolio-pdf-dialog-description"><p class="pdf-dialog-lead">애니메이션은 <strong>정지 화면</strong>으로 저장됩니다.</p><p>프로젝트의 실제 동작은 웹에서 확인해 주세요.</p></div><form method="dialog" class="pdf-dialog-actions"><button type="submit" value="cancel" autofocus>취소</button><button type="submit" value="download" class="pdf-dialog-download">다운로드</button></form>';
  document.body.append(notice);
  async function download(){
   button.disabled=true;button.setAttribute('aria-busy','true');status.textContent='PDF 인쇄 화면을 준비하고 있습니다.';
