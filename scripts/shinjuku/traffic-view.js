@@ -9,6 +9,7 @@ let focusId=9,printSnapshot=false,initialization;
 const staticView=()=>motion.matches||printSnapshot;
 const resetControl=$('traffic-reset');
 const signalStatus=section.querySelector('.traffic-signal');
+const trafficLegend=section.querySelector('.traffic-legend');
 const project=p=>({x:55+(p.x+140)*3.45,y:240-p.z*3.45});
 const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
 function init(){
@@ -111,7 +112,7 @@ function sensorDisplay(car){
  return {path:clipped,point:sensor.point};
 }
 function drawSensor(car){
- const sensor=car.sensor;if(sensor.enabled===false||!sensor.path?.length||sensor.path.length<2)return;
+ const sensor=car.sensor;if(car.change||sensor.enabled===false||!sensor.path?.length||sensor.path.length<2)return;
  const {path,point}=sensorDisplay(car);
  const left=[],right=[];
  path.forEach((p,i)=>{
@@ -126,21 +127,23 @@ function drawSensor(car){
 }
 function drawGuidance(car){
  if(!car)return;
+ if(car.change){
+  const ch=car.change,remaining=Math.max(0,ch.length-ch.travel);ctx.beginPath();
+  for(let i=0;i<=24;i++){const p=project(core.changePoint(car.lane,car.s,ch,remaining*i/24));if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);}
+  ctx.strokeStyle='#719ab5c0';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.stroke();ctx.setLineDash([]);
+  return;
+ }
  const reading=sim.observe(car),points=core.lanes[car.lane].points;
  ctx.beginPath();points.forEach((point,i)=>{const p=project({x:point[0],z:point[1]});if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);});
  ctx.strokeStyle='#7ca7c133';ctx.lineWidth=.6;ctx.stroke();ctx.fillStyle='#6999b477';
  for(let i=0;i<points.length;i+=4){const p=project({x:points[i][0],z:points[i][1]});ctx.beginPath();ctx.arc(p.x,p.y,.65,0,Math.PI*2);ctx.fill();}
  drawSensor(car);
  if(reading.stopS!==null&&sim.signal!=='green')drawDistance(reading.lane,reading.frontS,reading.stopS,1.2,true);
- if(car.change){
-  const ch=car.change,remaining=Math.max(0,ch.length-ch.travel);ctx.beginPath();
-  for(let i=0;i<=24;i++){const p=project(core.changePoint(car.lane,car.s,ch,remaining*i/24));if(i)ctx.lineTo(p.x,p.y);else ctx.moveTo(p.x,p.y);}
-  ctx.strokeStyle='#719ab5c0';ctx.lineWidth=1;ctx.setLineDash([3,3]);ctx.stroke();ctx.setLineDash([]);
- }
+
 }
 function drawFocusState(car){
  if(!car)return;
- if(car.sensor.hit){const hit=sim.people.find(p=>p.id===car.sensor.personId);if(hit){const p=project(hit);ctx.beginPath();ctx.arc(p.x,p.y,3.6,0,Math.PI*2);ctx.strokeStyle='#c17c46';ctx.lineWidth=1;ctx.stroke();}}
+ if(!car.change&&car.sensor.hit){const hit=sim.people.find(p=>p.id===car.sensor.personId);if(hit){const p=project(hit);ctx.beginPath();ctx.arc(p.x,p.y,3.6,0,Math.PI*2);ctx.strokeStyle='#c17c46';ctx.lineWidth=1;ctx.stroke();}}
  const state=car.reason==='reverse'?'후진':car.change?.recovery?'차선 변경':car.sensor.hit&&Math.abs(car.v)<.2?'정지':null;
  if(state){
   const p=project(car.pos);ctx.save();ctx.font=`600 ${10/scale}px system-ui,sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';
@@ -150,6 +153,7 @@ function drawFocusState(car){
 }
 function updateLegend(){
  const car=sim.cars.find(car=>car.id===focusId),hit=inFrame(car)&&car.sensor.hit,inactive=inFrame(car)&&car.sensor.enabled===false;
+ trafficLegend.style.visibility=car?.change?'hidden':'';
  $('traffic-detection').classList.toggle('is-hit',hit);
  $('traffic-detection').classList.toggle('is-inactive',inactive);
  $('traffic-detection-label').textContent=inactive?'신호 대기: 감지 끔':hit?'보행자 감지':'BoxCast 감지';
@@ -181,9 +185,11 @@ function draw(){
   }
   ctx.restore();
  }
- if(focus){const reading=sim.observe(focus);if(reading.leaderRearS!==null&&reading.leaderGap>.1){const leader=sim.cars.find(c=>c.id===reading.leaderId);drawDistance(reading.leaderLane,reading.leaderFromS,reading.leaderRearS,0,false,focus,leader,reading.leaderGap);}}
+ if(focus&&!focus.change){const reading=sim.observe(focus);if(reading.leaderRearS!==null&&reading.leaderGap>.1){const leader=sim.cars.find(c=>c.id===reading.leaderId);drawDistance(reading.leaderLane,reading.leaderFromS,reading.leaderRearS,0,false,focus,leader,reading.leaderGap);}}
  drawFocusState(focus);updateLegend();
  canvas.dataset.focus=String(focusId);canvas.dataset.focusState=focus?.reason||'outside';
+ canvas.dataset.guidance=focus?.change?'lane-change':'inspection';
+ canvas.dataset.sensorVisible=String(!!focus&&!focus.change&&focus.sensor.enabled!==false&&focus.sensor.path?.length>1);
  canvas.dataset.sensorEnabled=String(!!focus&&focus.sensor.enabled!==false);canvas.dataset.sensorHit=String(!!focus?.sensor.hit);canvas.dataset.sensorReach=String(focus?.sensor.reach??0);canvas.dataset.sensorRange=String(focus?.sensor.castReach??0);canvas.dataset.sensorPerson=String(focus?.sensor.personId??'');
  canvas.dataset.leaderGap=String(focus?sim.observe(focus).leaderGap??'':'');canvas.dataset.recovery=focus?.recovery?.phase||(focus?.change?.recovery?'change':'');
  canvas.dataset.recoveries=String(sim.completedRecoveries);canvas.dataset.incidents=String(sim.incidentCount);
