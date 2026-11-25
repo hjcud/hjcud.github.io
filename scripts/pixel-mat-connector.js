@@ -21,13 +21,19 @@
     return path;
   };
   let frame = 0;
-  const draw = () => {
-    frame = 0;
+  const draw = (root = document) => {
+    if (root === document) frame = 0;
+    const design = root.querySelector('#pixel-mat .pm-design');
+    const connector = design.querySelector('.pm-process-connector');
+    const comparison = design.querySelector('.pm-comparison');
+    const source = design.querySelector('.pm-before .pm-sprite-frame > svg');
+    const target = design.querySelector('.pm-listed-step .pm-board-img');
+    const processTitle = design.querySelector('#pm-process-title');
     const box = design.getBoundingClientRect();
     const from = source.getBoundingClientRect();
     const to = target.getBoundingClientRect();
     if (!box.width || !from.height || !to.height) return;
-    const compact = matchMedia('(max-width: 760px)').matches;
+    const compact = root === document && matchMedia('(max-width: 760px)').matches;
     const tx = to.left - box.left - (compact ? 8 : 12);
     const ty = to.top - box.top + to.height * .5;
     let path;
@@ -81,7 +87,7 @@
     head.setAttribute('d', `M${ax} ${ay} Q${acx} ${acy} ${tx} ${ty} Q${bcx} ${bcy} ${bx} ${by}`);
     head.setAttribute('pathLength', '1');
   };
-  const schedule = () => { if (!frame) frame = requestAnimationFrame(draw); };
+  const schedule = () => { if (!frame) frame = requestAnimationFrame(() => draw()); };
   const observer = new ResizeObserver(schedule);
   [design, comparison, source, target, processTitle].forEach(element => observer.observe(element));
   target.addEventListener('load', schedule);
@@ -94,5 +100,6 @@
   }, { threshold: .5 });
   reveal.observe(source);
   reveal.observe(target);
+  (window.portfolioPrintSnapshots ??= {}).pixelConnector = root => draw(root);
   schedule();
 })();

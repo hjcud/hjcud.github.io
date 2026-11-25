@@ -254,9 +254,13 @@ document.addEventListener('visibilitychange',schedule);
 new ResizeObserver(resize).observe(canvas);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)init();schedule();},{threshold:.05}).observe(canvas);
 reflectPause();
-(window.portfolioPrintSnapshots??={}).traffic=async()=>{
+(window.portfolioPrintSnapshots??={}).traffic=async({includeScene=false}={})=>{
  await init();
  const previous={sim,focusId,clock,last};
- try{printSnapshot=true;resetSimulation();resize({width:1100,height:350});return canvas.toDataURL('image/png');}
- finally{printSnapshot=false;({sim,focusId,clock,last}=previous);resize();schedule();}
+ try{
+  printSnapshot=true;resetSimulation();resize({width:1040,height:320});updateUI();
+  const image=canvas.toDataURL('image/png');
+  return includeScene?{image,scene:window.portfolioPrintClone(section)}:image;
+ }
+ finally{printSnapshot=false;({sim,focusId,clock,last}=previous);resize();updateUI();schedule();}
 };
