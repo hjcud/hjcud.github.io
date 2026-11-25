@@ -6,7 +6,7 @@
  const control=document.getElementById('traffic-pause');
  let initialized=false,capturing=false;
  let active=[],frame=0,last=0,scrollFrame=0;
- const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),operations:[...svg.closest('figure').querySelectorAll('.route-operation')],path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),cursor:svg.querySelector('.frame-cursor'),columns:[...svg.querySelectorAll('.frame-column')],blocks:[...svg.querySelectorAll('.work-block')]}))}));
+ const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),operations:[...svg.closest('figure').querySelectorAll('.route-operation')],path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),person:svg.querySelector('.sensor-person'),personOutline:svg.querySelector('.person-detection-outline'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),cursor:svg.querySelector('.frame-cursor'),columns:[...svg.querySelectorAll('.frame-column')],blocks:[...svg.querySelectorAll('.work-block')]}))}));
  function initialize(){
   if(initialized)return;
   for(const scene of scenes)for(const p of scene.panes)if(p.path){
@@ -78,15 +78,14 @@
     const y=-10+172*phase;
     const hit=Math.abs(y-88)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
     p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(180)`);
+    p.personOutline.setAttribute('cy',y.toFixed(2));
+    p.personOutline.style.stroke=hit?'#cb8150':p.svg.dataset.inspection==='all'?'#819d8e':'#579680';
     if(p.svg.dataset.inspection==='all'){
      const frontProbe=p.svg.querySelector('.legacy-front-probe');
      const detectedEnd=hit?Math.min(endX,rear):rear;
      frontProbe.setAttribute('width',(detectedEnd-59).toFixed(2));
      frontProbe.style.stroke=hit?'#cb8150':'#819d8e';
      frontProbe.style.fill=hit?'#cb815026':'#739b8210';
-     const personProbe=p.svg.querySelector('.legacy-person-probe');
-     personProbe.setAttribute('y',(y-11).toFixed(2));
-     personProbe.style.stroke=hit?'#cb8150':'#819d8e';
      p.svg.dataset.sensorState=hit?'hit':'clear';
      return;
     }
