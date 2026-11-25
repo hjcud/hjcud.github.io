@@ -59,6 +59,13 @@
   const traffic=await snapshots.traffic({includeScene:true}),flight=snapshots.flight({includeScene:true});
   const body=clone(document.body);
   body.querySelectorAll('script,iframe,dialog,#timeline-preview,#skill-projects,#toast,.case-entry-viewport,.case-entry-picture,.case-entry-logo').forEach(node=>node.remove());
+  const timelineInstruction=$('#projects .timeline-instruction',body);
+  if(timelineInstruction){
+   const webLink=element('a');
+   webLink.href='https://hjcud.github.io/#projects';
+   webLink.textContent='웹 포트폴리오에서 프로젝트별 상세 내용을 확인하실 수 있습니다. ↗';
+   timelineInstruction.replaceChildren(webLink);
+  }
   body.querySelector('.header')?.classList.remove('is-reading-projects');
   body.querySelectorAll('.nav-link').forEach(link=>{link.classList.toggle('is-current',link.hash==='#profile');link.removeAttribute('aria-current');});
   body.querySelectorAll('.case-entry-track').forEach(track=>{
