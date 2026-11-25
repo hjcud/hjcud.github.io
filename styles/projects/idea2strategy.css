@@ -58,16 +58,21 @@
 .i2s-implementation-details>summary::after{flex:none;margin-left:auto}
 @media(hover:hover) and (pointer:fine){.i2s-implementation-details>summary:hover{background:#edf3f7}.i2s-implementation-details>summary:hover .i2s-details-label{color:#205f95}}
 .i2s-implementation-details>div{padding-top:8px}
-.i2s-harness-rules{margin:0;border-top:1px solid #dbe4ec}
-.i2s-harness-rules>div{display:grid;grid-template-columns:160px minmax(0,1fr) 130px;align-items:baseline;gap:24px;padding:20px 0;border-bottom:1px solid #e0e7ed}
-.i2s-harness-rules>div:last-child{border-bottom:0;padding-bottom:6px}
-.i2s-harness-rules dt{color:#365f80;font-size:14px;font-weight:650;line-height:1.8}
-.i2s-harness-rules dd{min-width:0;margin:0}
-.i2s-case-study .i2s-harness-rules p{margin:0;color:#526479;font-size:14px;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere;text-wrap:pretty}
-.i2s-harness-rules strong{color:#304c63;font-weight:650}
-.i2s-harness-rules .i2s-rule-source{text-align:right;white-space:nowrap}
-.i2s-harness-rules .i2s-rule-source a{min-height:32px;font-size:11px;text-decoration:none}
-.i2s-harness-rules .i2s-rule-source a:hover{text-decoration:underline;text-underline-offset:3px}
+.i2s-harness-setup{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:36px;padding:22px 0 4px;border-top:1px solid #dbe4ec}
+.i2s-harness-setup>section{min-width:0}
+.i2s-harness-setup h5{margin:0 0 16px;color:#365f80;font-size:14px;font-weight:650;line-height:1.7}
+.i2s-harness-files dl{margin:0}
+.i2s-harness-files dl>div{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);align-items:center;gap:16px;padding:10px 0;border-bottom:1px solid #e0e7ed}
+.i2s-harness-files dl>div:first-child{padding-top:0}
+.i2s-harness-files dt{display:flex;flex-wrap:wrap;gap:4px 10px;min-width:0}
+.i2s-harness-files code{color:#4f6c82;font:12px/1.8 Consolas,monospace;overflow-wrap:anywhere}
+.i2s-harness-files dd{margin:0;color:#526479;font-size:12px;line-height:1.8;word-break:keep-all}
+.i2s-harness-files .i2s-local-files{border-bottom:0}
+.i2s-local-files dd span{display:inline-block;margin-left:5px;color:#7a8d9d;font-size:10px;white-space:nowrap}
+.i2s-case-study .i2s-team-setup p{margin:0;color:#526479;font-size:14px;line-height:1.9;word-break:keep-all;overflow-wrap:anywhere;text-wrap:pretty}
+.i2s-case-study .i2s-team-setup p+p{margin-top:16px}
+.i2s-team-setup strong{color:#304c63;font-weight:650}
+.i2s-team-setup p a{display:inline;min-height:0;color:#365f80;font-size:inherit;text-decoration:underline;text-decoration-color:#a8bdcc;text-underline-offset:3px}
 @media(max-width:1000px){.i2s-case-opening{gap:24px}.i2s-delivery-scope{gap:12px}.i2s-scope-label{font-size:25px}.i2s-delivery-scope li{padding-inline:8px}.i2s-delivery-scope span{font-size:12px}.i2s-visual-flow{gap:26px;padding-inline:16px}.i2s-visual-flow>li:not(:last-child)::after{right:-24px;top:70px;font-size:20px}.i2s-flow-caption h5{font-size:14px}.i2s-flow-caption p{font-size:12px}}
 @media(max-width:760px){
  .i2s-case-opening{grid-template-columns:1fr;gap:16px;padding:0 0 20px}
@@ -83,14 +88,15 @@
  .i2s-visual-flow>li:not(:last-child)::after{content:'↓';right:auto;left:43px;top:auto;bottom:-19px;width:auto;font-size:17px}
  .i2s-implementation-details>summary{gap:12px}
  .i2s-implementation-details>summary::after{margin-left:auto}
- .i2s-harness-rules>div{grid-template-columns:minmax(0,1fr);gap:8px;padding:18px 0}
- .i2s-case-study .i2s-harness-rules p{font-size:13px}
- .i2s-harness-rules .i2s-rule-source{text-align:left}
+ .i2s-harness-setup{grid-template-columns:minmax(0,1fr);gap:24px;padding-top:18px}
+ .i2s-harness-setup h5{margin-bottom:12px}
+ .i2s-harness-files dl>div{gap:12px}
+ .i2s-case-study .i2s-team-setup p{font-size:13px}
  .i2s-instruction-example>summary{min-height:44px}
  .i2s-instruction-example a{min-height:36px}
 }
 @media(max-width:360px){.i2s-visual-flow>li{grid-template-columns:85px minmax(0,1fr);gap:9px}.i2s-flow-illustration{width:85px}.i2s-visual-flow>li:not(:last-child)::after{left:34px}}
-@media print{.i2s-visual-flow,.i2s-harness-rules>div{break-inside:avoid}.i2s-implementation-details>div{display:block}}
+@media print{.i2s-visual-flow,.i2s-harness-setup>section{break-inside:avoid}.i2s-implementation-details>div{display:block}}
 
 /* Independently looping illustrations share only playback and visibility controls. */
 .i2s-flow-heading-actions{display:flex;align-items:center;gap:16px;min-width:0}
