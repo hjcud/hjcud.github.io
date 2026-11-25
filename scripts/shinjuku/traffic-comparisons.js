@@ -79,7 +79,11 @@
     const hit=Math.abs(y-88)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
     p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(180)`);
     if(p.svg.dataset.inspection==='all'){
-     p.svg.querySelector('.legacy-front-probe').setAttribute('width',(rear-59).toFixed(2));
+     const frontProbe=p.svg.querySelector('.legacy-front-probe');
+     const detectedEnd=hit?Math.min(endX,rear):rear;
+     frontProbe.setAttribute('width',(detectedEnd-59).toFixed(2));
+     frontProbe.style.stroke=hit?'#cb8150':'#819d8e';
+     frontProbe.style.fill=hit?'#cb815026':'#739b8210';
      const personProbe=p.svg.querySelector('.legacy-person-probe');
      personProbe.setAttribute('y',(y-11).toFixed(2));
      personProbe.style.stroke=hit?'#cb8150':'#819d8e';
