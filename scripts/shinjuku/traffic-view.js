@@ -17,7 +17,7 @@ function init(){
  ready=true;
  try{
   core=await import('./traffic-core.js?v=signal-wait-repeat');resetSimulation();
-  background=new Image();background.src='assets/shinjuku/road.svg?v=compact-road';await background.decode();
+  background=new Image();background.src='assets/shinjuku/road.svg?v=clean-crosswalk-20261125';await background.decode();
   resize();updateUI();schedule();
  }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못하였습니다. 페이지를 새로고침해 주세요.';console.error(error);throw error;}
  })();return initialization;
