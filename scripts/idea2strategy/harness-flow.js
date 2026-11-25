@@ -13,7 +13,7 @@
  const clamp=value=>Math.max(0,Math.min(1,value));
  const ramp=(time,start,duration)=>clamp((time-start)/duration);
  const smooth=value=>value*value*(3-2*value);
- let time=0,visible=false,paused=false,frame=0,last=0,measureFrame=0;
+ let capturing=false,time=0,visible=false,paused=false,frame=0,last=0,measureFrame=0;
 
  function svg(tag,attributes={}){
   const element=document.createElementNS(ns,tag);
@@ -44,7 +44,7 @@
   path.style.strokeDashoffset=String(length*(1-progress));
  }
  function draw(){
-  const staticView=reduced.matches||printing.matches;
+  const staticView=reduced.matches||printing.matches||capturing;
   // Each illustration owns its loop: none waits for another illustration to finish.
   const [reading,sharing,implementation]=staticView?[2.2,3,4]:[time%4.8,time%5.6,time%6.8];
   if(aiSparkle)aiSparkle.style.opacity=String(staticView?1:.76+.24*(.5-.5*Math.cos(implementation*2*Math.PI/3.4)));
@@ -113,5 +113,6 @@
  printing.addEventListener('change',()=>{draw();schedule();});
  reduced.addEventListener('change',()=>{if(!reduced.matches)time=0;reflectControl();draw();schedule();});
  document.fonts.ready.then(queueMeasure);
+ (window.portfolioPrintSnapshots??={}).harness=()=>{try{capturing=true;draw();return stages.map(stage=>window.portfolioPrintClone(stage));}finally{capturing=false;draw();}};
  reflectControl();measure();
 })();

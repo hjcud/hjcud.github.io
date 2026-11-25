@@ -4,7 +4,7 @@
  const diagramUnitsPerMeter=5;
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const control=document.getElementById('traffic-pause');
- let initialized=false;
+ let initialized=false,capturing=false;
  let active=[],frame=0,last=0,scrollFrame=0;
  const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),operations:[...svg.closest('figure').querySelectorAll('.route-operation')],path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),person:svg.querySelector('.sensor-person'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),cursor:svg.querySelector('.frame-cursor'),columns:[...svg.querySelectorAll('.frame-column')],blocks:[...svg.querySelectorAll('.work-block')]}))}));
  function initialize(){
@@ -41,7 +41,7 @@
  }
  function move(car,x,y,angle=0){car.setAttribute('transform',`translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${angle.toFixed(2)})`);}
  function draw(scene){
-  const staticView=reduced.matches;
+  const staticView=reduced.matches||capturing;
   const t=staticView?(scene.type==='physics'?3.2:2.1):scene.time;
   scene.row.dataset.motion=staticView?'static':'animated';
   scene.panes.forEach((p,index)=>{
@@ -144,4 +144,9 @@
  document.addEventListener('visibilitychange',choose);reduced.addEventListener('change',()=>{initialize();scenes.forEach(draw);choose();});
  if(control)new MutationObserver(choose).observe(control,{attributes:true,attributeFilter:['aria-pressed']});
  choose();
+ (window.portfolioPrintSnapshots??={}).comparisons=()=>{
+  initialize();
+  try{capturing=true;scenes.forEach(draw);return rows.map(row=>window.portfolioPrintClone(row));}
+  finally{capturing=false;scenes.forEach(draw);}
+ };
 })();

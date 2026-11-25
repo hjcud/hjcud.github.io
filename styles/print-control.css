@@ -1,0 +1,7 @@
+.overview-actions{display:flex;align-items:center;gap:24px}
+#portfolio-pdf{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:7px 12px;border:1px solid #d6e1e9;border-radius:4px;color:#5d7b92;font-size:12px;white-space:nowrap;background:#fff}
+#portfolio-pdf svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+#portfolio-pdf:hover{color:#286b9e;border-color:#8eafc8;background:#f5f9fc}
+#portfolio-pdf:disabled{opacity:.6;cursor:wait}
+@media(max-width:760px){.overview-actions{width:100%;justify-content:space-between;align-items:flex-end;gap:12px}.header nav a.nav-link{display:inline-flex}#portfolio-pdf{font-size:11px;padding-inline:9px}}
+@media print{#portfolio-pdf,#portfolio-pdf-status{display:none!important}}

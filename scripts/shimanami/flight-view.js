@@ -14,7 +14,8 @@ const anchor=document.querySelector('#flight-exhibit .flight-anchor');
 const anchorLeader=document.getElementById('flight-anchor-leader');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let time=0,width=1,height=1,dpr=1,visible=false,paused=reduced.matches,frame=0,last=0;
-let previousTile=null,basisChangedAt=-Infinity;
+let previousTile=null,basisChangedAt=-Infinity,printSnapshot=false;
+const staticView=()=>reduced.matches||printSnapshot;
 
 // Keep the aircraft position and attitude fixed. Apply inverse flight pitch to the environment.
 // X travel moves the environment up-left while the aircraft stays at the origin.
@@ -86,8 +87,8 @@ function drawGroundLabels(project,shoreAt,basis,scale,from,to,reach){
  ctx.restore();
 }
 function draw(){
- const state=coordinateFrame(reduced.matches?6:time),scale=terrainScale(width);
- if(reduced.matches){state.world=5100;state.tile=1;state.local=-4900;}
+ const state=coordinateFrame(staticView()?6:time),scale=terrainScale(width);
+ if(staticView()){state.world=5100;state.tile=1;state.local=-4900;}
  const center=width/2,groundY=height*.45+(state.altitude-8)*3.8,aircraftY=height*.34;
  cacheAircraft();
  const tilt=state.pitch*1.8,c=Math.cos(tilt),s=Math.sin(tilt);
@@ -164,7 +165,7 @@ function draw(){
  ctx.strokeStyle='#3476a6';ctx.lineWidth=width<600?2:2.5;ctx.stroke();ctx.lineJoin='miter';
  drawGroundLabels(project,shoreAt,basis,scale,from,to,reach);
  ctx.drawImage(aircraftLayer,center-aircraftPadding,aircraftY-aircraftPadding,aircraftPadding*2,aircraftPadding*2);
- if(reduced.matches){
+ if(staticView()){
   const x=width*.22,y=height*.57;
   ctx.save();ctx.strokeStyle='#477e9f';ctx.fillStyle='#477e9f';ctx.lineWidth=2;ctx.lineCap='round';
   ctx.beginPath();ctx.moveTo(x+28,y+14);ctx.lineTo(x-28,y-14);ctx.lineTo(x-16,y-15);ctx.moveTo(x-28,y-14);ctx.lineTo(x-21,y-3);ctx.stroke();
@@ -190,8 +191,8 @@ function draw(){
  canvas.dataset.terrainPitch=(-tilt).toFixed(4);
  canvas.dataset.motion=reduced.matches?'static':'animated';
 }
-function resize(){
- const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return;
+function resize(size){
+ const r=size?.width?size:canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return;
  width=r.width;height=r.height;dpr=Math.min(devicePixelRatio||1,1.5);
  canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);draw();
 }
@@ -213,3 +214,8 @@ document.addEventListener('visibilitychange',schedule);
 new ResizeObserver(resize).observe(canvas);
 new IntersectionObserver(e=>{visible=e[0].isIntersecting;schedule();},{threshold:.05}).observe(exhibit);
 pauseState();resize();
+(window.portfolioPrintSnapshots??={}).flight=()=>{
+ const previous={previousTile,basisChangedAt};
+ try{printSnapshot=true;resize({width:1100,height:430});return canvas.toDataURL('image/png');}
+ finally{printSnapshot=false;({previousTile,basisChangedAt}=previous);resize();}
+};

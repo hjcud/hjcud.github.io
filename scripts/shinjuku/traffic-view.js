@@ -5,22 +5,26 @@ const pause=document.querySelector('#traffic-pause');
 const $=id=>document.getElementById(id);
 let sim,core,background,cache,visible=false,ready=false,paused=motion.matches,frame=0,last=0,clock=0,uiTime=0;
 let width=1,height=1,scale=1,offsetX=0,offsetY=0,ratio=1;
-let focusId=9;
+let focusId=9,printSnapshot=false,initialization;
+const staticView=()=>motion.matches||printSnapshot;
 const resetControl=$('traffic-reset');
 const signalStatus=section.querySelector('.traffic-signal');
 const project=p=>({x:55+(p.x+140)*3.45,y:240-p.z*3.45});
 const colors={green:'#5eaa8b',yellow:'#d2a54e',red:'#db827b'};
-async function init(){
- if(ready)return;ready=true;
+function init(){
+ if(initialization)return initialization;
+ initialization=(async()=>{
+ ready=true;
  try{
   core=await import('./traffic-core.js?v=signal-wait-repeat');resetSimulation();
   background=new Image();background.src='assets/shinjuku/road.svg?v=compact-road';await background.decode();
   resize();updateUI();schedule();
- }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못하였습니다. 페이지를 새로고침해 주세요.';console.error(error);}
+ }catch(error){const message=section.querySelector('.traffic-error');message.hidden=false;message.textContent='도로 시연을 불러오지 못하였습니다. 페이지를 새로고침해 주세요.';console.error(error);throw error;}
+ })();return initialization;
 }
-function resize(){
+function resize(size){
  if(!background||!sim)return;
- const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return;width=r.width;height=r.height;ratio=Math.min(devicePixelRatio||1,1.5);
+ const r=size?.width?size:canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return;width=r.width;height=r.height;ratio=Math.min(devicePixelRatio||1,1.5);
  canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);
  // Frame the crossing and adjacent lanes, with room for the signal and status controls.
  scale=Math.min(width<600?1.45:Math.min(2.35,width/420),(height-74)/106);
@@ -36,7 +40,7 @@ function resetSimulation(){
  for(let step=0;step<1320;step++)sim.step(.05);
  sim.enableIncidents=true;sim.observedId=9;
  focusId=9;clock=0;last=0;
- if(motion.matches){
+ if(staticView()){
   for(let step=0;step<230;step++)sim.step(.05);
   focusId=sim.cars.find(car=>car.active&&car.sensor.hit)?.id??9;
   sim.observedId=focusId;
@@ -250,3 +254,9 @@ document.addEventListener('visibilitychange',schedule);
 new ResizeObserver(resize).observe(canvas);
 new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;if(visible)init();schedule();},{threshold:.05}).observe(canvas);
 reflectPause();
+(window.portfolioPrintSnapshots??={}).traffic=async()=>{
+ await init();
+ const previous={sim,focusId,clock,last};
+ try{printSnapshot=true;resetSimulation();resize({width:1100,height:350});return canvas.toDataURL('image/png');}
+ finally{printSnapshot=false;({sim,focusId,clock,last}=previous);resize();schedule();}
+};

@@ -13,11 +13,11 @@
   <link rel="stylesheet" href="styles/projects/shimanami.css?v=compact-tile-coordinates">
   <link rel="stylesheet" href="styles/project-details.css?v=plain-project-headings">
   <link rel="stylesheet" href="styles/projects/idea2strategy.css?v=shared-handwriting-font-20261124">
-  <script src="scripts/app.js?v=skills-slider-20261123" defer></script>
-  <script src="scripts/idea2strategy/harness-flow.js?v=ai-sparkle-20261124" defer></script>
-  <script type="module" src="scripts/shinjuku/traffic-view.js?v=representative-static-20261125"></script>
-  <script src="scripts/shinjuku/traffic-comparisons.js?v=representative-static-20261125" defer></script>
-  <script type="module" src="scripts/shimanami/flight-view.js?v=representative-static-20261125"></script>
+  <script src="scripts/app.js?v=profile-project-nav-20261125" defer></script>
+  <script src="scripts/idea2strategy/harness-flow.js?v=print-snapshot-20261125" defer></script>
+  <script type="module" src="scripts/shinjuku/traffic-view.js?v=print-snapshot-20261125"></script>
+  <script src="scripts/shinjuku/traffic-comparisons.js?v=print-snapshot-20261125" defer></script>
+  <script type="module" src="scripts/shimanami/flight-view.js?v=print-snapshot-20261125"></script>
   <link rel="stylesheet" href="styles/profile.css?v=elastic-skill-plus">
   <link rel="stylesheet" href="styles/skills.css?v=refined-skill-cells-20261123">
   <script src="scripts/profile-skills.js?v=natural-wording-20261125" defer></script>
@@ -38,6 +38,8 @@
   <script src="scripts/pixel-mat-connector.js?v=dashed-process-arrow-20261124" defer></script>
   <link rel="stylesheet" href="styles/annotations.css?v=reading-notes-20261124">
   <link rel="stylesheet" href="styles/reduced-motion.css?v=representative-static-20261125">
+  <link rel="stylesheet" href="styles/print-control.css?v=a4-20261125">
+  <script src="scripts/portfolio-print.js?v=a4-20261125" defer></script>
 </head>
 <body>
 <a class="skip-link" href="#profile">본문으로 이동</a>
@@ -45,7 +47,6 @@
   <a class="home-link" href="#top" aria-label="처음으로" title="처음으로"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 10 9-7 9 7M5 9v12h5v-7h4v7h5V9"/></svg></a>
   <nav aria-label="주 메뉴">
     <a class="nav-link is-current" href="#profile">소개</a>
-    <a class="nav-link" href="#background">이력</a>
     <a class="nav-link" href="#projects">프로젝트</a>
     <a class="external-nav" href="https://github.com/hjcud" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
   </nav>
@@ -53,7 +54,7 @@
 <div id="top"></div>
 <div class="overview overview-lead">
   <section class="overview-header" id="profile" aria-labelledby="profile-title">
-    <div class="overview-person"><div class="overview-identity"><h1 id="profile-title">손현준</h1></div><div class="overview-contact"><a href="mailto:h991023@naver.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg><span>h991023@naver.com</span><span aria-hidden="true">↗</span></a><a href="https://github.com/hjcud" target="_blank" rel="noopener noreferrer"><svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .75a11.25 11.25 0 0 0-3.558 21.923c.563.104.769-.244.769-.542 0-.267-.01-.975-.015-1.913-3.13.68-3.79-1.508-3.79-1.508-.512-1.3-1.25-1.647-1.25-1.647-1.023-.7.078-.686.078-.686 1.13.08 1.724 1.16 1.724 1.16 1.005 1.723 2.637 1.225 3.28.936.103-.728.394-1.225.716-1.507-2.498-.284-5.124-1.249-5.124-5.562 0-1.229.44-2.234 1.16-3.021-.117-.285-.503-1.43.11-2.98 0 0 .945-.303 3.094 1.153A10.78 10.78 0 0 1 12 6.177c.956.004 1.918.13 2.818.38 2.148-1.456 3.09-1.153 3.09-1.153.615 1.55.23 2.695.113 2.98.722.787 1.159 1.792 1.159 3.021 0 4.324-2.63 5.275-5.135 5.554.404.35.765 1.043.765 2.102 0 1.517-.014 2.741-.014 3.113 0 .3.203.65.774.54A11.252 11.252 0 0 0 12 .75Z"/></svg><span>github.com/hjcud</span><span aria-hidden="true">↗</span></a></div>
+    <div class="overview-person"><div class="overview-identity"><h1 id="profile-title">손현준</h1></div><div class="overview-actions"><div class="overview-contact"><a href="mailto:h991023@naver.com"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 6 9 7 9-7"/></svg><span>h991023@naver.com</span><span aria-hidden="true">↗</span></a><a href="https://github.com/hjcud" target="_blank" rel="noopener noreferrer"><svg class="github-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .75a11.25 11.25 0 0 0-3.558 21.923c.563.104.769-.244.769-.542 0-.267-.01-.975-.015-1.913-3.13.68-3.79-1.508-3.79-1.508-.512-1.3-1.25-1.647-1.25-1.647-1.023-.7.078-.686.078-.686 1.13.08 1.724 1.16 1.724 1.16 1.005 1.723 2.637 1.225 3.28.936.103-.728.394-1.225.716-1.507-2.498-.284-5.124-1.249-5.124-5.562 0-1.229.44-2.234 1.16-3.021-.117-.285-.503-1.43.11-2.98 0 0 .945-.303 3.094 1.153A10.78 10.78 0 0 1 12 6.177c.956.004 1.918.13 2.818.38 2.148-1.456 3.09-1.153 3.09-1.153.615 1.55.23 2.695.113 2.98.722.787 1.159 1.792 1.159 3.021 0 4.324-2.63 5.275-5.135 5.554.404.35.765 1.043.765 2.102 0 1.517-.014 2.741-.014 3.113 0 .3.203.65.774.54A11.252 11.252 0 0 0 12 .75Z"/></svg><span>github.com/hjcud</span><span aria-hidden="true">↗</span></a></div><button type="button" id="portfolio-pdf" title="인쇄 창에서 PDF로 저장을 선택해주세요"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5"/></svg><span>PDF 저장</span></button><span id="portfolio-pdf-status" class="sr-only" role="status" aria-live="polite"></span></div>
     </div>
   </section>
 </div>
