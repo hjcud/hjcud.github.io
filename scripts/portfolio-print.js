@@ -106,10 +106,29 @@
   await new Promise(resolve=>frame.contentWindow.requestAnimationFrame(()=>frame.contentWindow.requestAnimationFrame(resolve)));
   frame.dataset.ready='true';return frame;
  }
- button.addEventListener('click',async()=>{
+ const notice=element('dialog');
+ notice.id='portfolio-pdf-dialog';
+ notice.setAttribute('aria-labelledby','portfolio-pdf-dialog-title');
+ notice.setAttribute('aria-describedby','portfolio-pdf-dialog-description');
+ notice.innerHTML='<h2 id="portfolio-pdf-dialog-title">PDF로 저장하기</h2><div id="portfolio-pdf-dialog-description"><p>PDF에는 애니메이션이 정지된 장면으로 담깁니다.</p><p>움직임과 조작 과정으로 설명한 내용은 웹에서 보시면 더 쉽게 이해하실 수 있습니다.</p></div><form method="dialog" class="pdf-dialog-actions"><button type="submit" value="cancel" autofocus>취소</button><button type="submit" value="download" class="pdf-dialog-download">다운로드</button></form>';
+ document.body.append(notice);
+ async function download(){
   button.disabled=true;button.setAttribute('aria-busy','true');status.textContent='PDF 인쇄 화면을 준비하고 있습니다.';
   try{const frame=await prepare();status.textContent='인쇄 창에서 PDF로 저장을 선택해주세요.';frame.contentWindow.focus();frame.contentWindow.print();}
   catch(error){console.error(error);status.textContent='PDF 인쇄 화면을 준비하지 못하였습니다. 다시 시도해주세요.';}
   finally{button.disabled=false;button.removeAttribute('aria-busy');}
+ }
+ button.addEventListener('click',()=>{
+  notice.returnValue='';
+  notice.showModal();
+ });
+ notice.addEventListener('close',()=>{
+  if(notice.returnValue==='download')download();
+  else button.focus({preventScroll:true});
+ });
+ notice.addEventListener('click',event=>{
+  if(event.target!==notice)return;
+  const rect=notice.getBoundingClientRect();
+  if(event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)notice.close('cancel');
  });
 })();
