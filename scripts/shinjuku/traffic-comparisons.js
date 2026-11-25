@@ -6,7 +6,7 @@
  const control=document.getElementById('traffic-pause');
  let initialized=false,capturing=false;
  let active=[],frame=0,last=0,scrollFrame=0;
- const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),operations:[...svg.closest('figure').querySelectorAll('.route-operation')],path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),person:svg.querySelector('.sensor-person'),personOutline:svg.querySelector('.person-detection-outline'),sensorRay:svg.querySelector('.sensor-ray'),sensorLimit:svg.querySelector('.sensor-limit'),cursor:svg.querySelector('.frame-cursor'),columns:[...svg.querySelectorAll('.frame-column')],blocks:[...svg.querySelectorAll('.work-block')]}))}));
+ const scenes=rows.map(row=>({row,type:row.dataset.comparison,time:1.8,panes:[...row.querySelectorAll('svg')].map(svg=>({svg,car:svg.querySelector('.compare-car'),operations:[...svg.closest('figure').querySelectorAll('.route-operation')],path:svg.querySelector('.route-path'),centerline:svg.querySelector('.route-centerline'),samples:[...svg.querySelectorAll('.route-sample')],target:svg.querySelector('.route-target'),targetLine:svg.querySelector('.route-target-line'),nodes:[...svg.querySelectorAll('.route-node')],leader:svg.querySelector('.lane-leader'),distance:svg.querySelector('.leader-distance'),distanceValue:svg.querySelector('.leader-distance-value'),distanceHalo:svg.querySelector('.leader-distance-halo'),footprint:svg.querySelector('.sensor-footprint'),contact:svg.querySelector('.sensor-contact'),person:svg.querySelector('.sensor-person'),personOutline:svg.querySelector('.person-detection-outline'),sensorRay:svg.querySelector('.sensor-ray'),cursor:svg.querySelector('.frame-cursor'),columns:[...svg.querySelectorAll('.frame-column')],blocks:[...svg.querySelectorAll('.work-block')]}))}));
  function initialize(){
   if(initialized)return;
   for(const scene of scenes)for(const p of scene.panes)if(p.path){
@@ -33,9 +33,6 @@
   for(const scene of scenes)for(const p of scene.panes)if(p.person){
    p.description=p.svg.querySelector('desc');
    p.originalDescription=p.description?.textContent;
-   const bounds=p.person.getBBox();
-   p.personHalfWidth=Math.max(Math.abs(bounds.x),Math.abs(bounds.x+bounds.width))+.9;
-   p.personHalfHeight=Math.max(Math.abs(bounds.y),Math.abs(bounds.y+bounds.height))+.9;
   }
   scenes.forEach(draw);initialized=true;
  }
@@ -76,13 +73,17 @@
     const leaderX=254+7*Math.sin(t*Math.PI*2/7.2),rear=leaderX-11;
     move(p.leader,leaderX,88);
     const y=-10+172*phase;
-    const hit=Math.abs(y-88)<=12+p.personHalfHeight,endX=hit?181-p.personHalfWidth:225;
+    const outlineRadius=Number(p.personOutline.getAttribute('r'));
+    const contactRadius=outlineRadius+.65+.65+.35;
+    const outside=Math.max(0,Math.abs(y-88)-12),hit=outside<=contactRadius;
+    const endX=hit?181-Math.sqrt(Math.max(0,contactRadius**2-outside**2)):225;
     p.person.setAttribute('transform',`translate(181 ${y.toFixed(2)}) rotate(180)`);
     p.personOutline.setAttribute('cy',y.toFixed(2));
     p.personOutline.style.stroke=hit?'#cb8150':p.svg.dataset.inspection==='all'?'#819d8e':'#579680';
     if(p.svg.dataset.inspection==='all'){
      const frontProbe=p.svg.querySelector('.legacy-front-probe');
-     const detectedEnd=hit?Math.min(endX,rear):rear;
+     const vehicleEnd=leaderX-12-.65-.65-.35;
+     const detectedEnd=hit?Math.min(endX,vehicleEnd):vehicleEnd;
      frontProbe.setAttribute('width',(detectedEnd-59).toFixed(2));
      frontProbe.style.stroke=hit?'#cb8150':'#819d8e';
      frontProbe.style.fill=hit?'#cb815026':'#739b8210';
@@ -90,9 +91,8 @@
      return;
     }
     p.sensorRay.setAttribute('d',`M59 76H${endX.toFixed(2)}V100H59Z`);
-    p.sensorLimit.setAttribute('d',`M${endX.toFixed(2)} 76V100`);
     const color=hit?'#cb8150':'#579680';
-    p.sensorRay.style.stroke=color;p.sensorRay.style.fill=hit?'#cb815026':'#57968016';p.sensorLimit.style.stroke=color;
+    p.sensorRay.style.stroke=color;p.sensorRay.style.fill=hit?'#cb815026':'#57968016';
     p.footprint.style.opacity='1';p.contact.style.opacity=hit?'1':'0';
     p.contact.setAttribute('cx',endX.toFixed(2));p.contact.setAttribute('cy',Math.max(76,Math.min(100,y)).toFixed(2));
     // Use the nearest obstruction, keeping the value, endpoint and target in sync.

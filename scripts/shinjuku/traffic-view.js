@@ -88,8 +88,31 @@ function drawDistance(lane,from,to,offset,dashed,car=null,leader=null,gap=null){
  }
  ctx.restore();
 }
+function sensorDisplay(car){
+ const sensor=car.sensor,person=sensor.hit?sim.people.find(p=>p.id===sensor.personId):null;
+ if(!person)return {path:sensor.path,point:sensor.point};
+ const radius=Math.max(person.radius??.55,(3.6+.5)/3.45)+.4,clipped=[sensor.path[0]];
+ for(let i=1;i<sensor.path.length;i++){
+  const a=sensor.path[i-1],b=sensor.path[i],length=Math.hypot(b.x-a.x,b.z-a.z);
+  if(length<1e-6)continue;
+  const ux=(b.x-a.x)/length,uz=(b.z-a.z)/length;
+  const dx=person.x-a.x,dz=person.z-a.z,along=dx*ux+dz*uz,side=-dx*uz+dz*ux;
+  const outside=Math.max(0,Math.abs(side)-sensor.halfWidth);
+  if(outside<=radius&&along+radius>=0){
+   const distance=Math.max(0,along-Math.sqrt(Math.max(0,radius**2-outside**2)));
+   if(distance<=length){
+    const end={x:a.x+ux*distance,z:a.z+uz*distance},lateral=Math.max(-sensor.halfWidth,Math.min(sensor.halfWidth,side));
+    clipped.push(end);
+    return {path:clipped,point:{x:end.x-uz*lateral,z:end.z+ux*lateral}};
+   }
+  }
+  clipped.push(b);
+ }
+ return {path:clipped,point:sensor.point};
+}
 function drawSensor(car){
- const sensor=car.sensor,path=sensor.path;if(sensor.enabled===false||!path?.length||path.length<2)return;
+ const sensor=car.sensor;if(sensor.enabled===false||!sensor.path?.length||sensor.path.length<2)return;
+ const {path,point}=sensorDisplay(car);
  const left=[],right=[];
  path.forEach((p,i)=>{
   const before=path[Math.max(0,i-1)],after=path[Math.min(path.length-1,i+1)],angle=Math.atan2(after.z-before.z,after.x-before.x);
@@ -98,8 +121,7 @@ function drawSensor(car){
  });
  ctx.save();ctx.beginPath();[...left,...right.slice().reverse()].forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();
  ctx.fillStyle=sensor.hit?'#ce8a5626':'#57998116';ctx.fill();ctx.strokeStyle=sensor.hit?'#bc7948':'#579981b3';ctx.lineWidth=sensor.hit?1.2:.8;ctx.stroke();
- const a=left.at(-1),b=right.at(-1);ctx.lineWidth=sensor.hit?1.8:1.1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
- if(sensor.point){const p=project(sensor.point);ctx.beginPath();ctx.arc(p.x,p.y,1.15,0,Math.PI*2);ctx.fillStyle='#c57a41';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=.6;ctx.stroke();}
+ if(point){const p=project(point);ctx.beginPath();ctx.arc(p.x,p.y,1.15,0,Math.PI*2);ctx.fillStyle='#c57a41';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=.6;ctx.stroke();}
  ctx.restore();
 }
 function drawGuidance(car){
