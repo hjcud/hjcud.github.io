@@ -18,7 +18,7 @@
   document.body.append(panel); // Outside the horizontally scrolling, clipped timeline.
 
   let active = null, pointerX = null, explicit = false, restoringFocus = false;
-  let closeTimer = 0, frame = 0;
+  let closeTimer = 0, hoverTimer = 0, frame = 0;
   const cancelClose = () => clearTimeout(closeTimer);
   const focus = element => element.focus({preventScroll: true});
   const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
@@ -27,6 +27,7 @@
     if (!active) return;
     const previous = active;
     cancelClose();
+    clearTimeout(hoverTimer);
     active = null;
     explicit = false;
     previous.setAttribute('aria-expanded', 'false');
@@ -59,19 +60,23 @@
       return false;
     }
 
-    const margin = 10, gap = 6;
+    const margin = 12, gap = 6;
     const above = Math.max(0, start - gap - top - margin);
     const below = Math.max(0, y1 - margin - end - gap);
-    const width = Math.min(312, x1 - x0 - margin * 2);
+    const width = Math.min(x1 - x0 > 760 ? 700 : 440, x1 - x0 - margin * 2);
     panel.style.width = width + 'px';
-    const naturalHeight = surface.scrollHeight + 2;
+    const naturalHeight = content.getBoundingClientRect().height + 2;
     const down = below >= naturalHeight || below >= above;
-    panel.dataset.side = down ? 'below' : 'above';
-    panel.style.setProperty('--preview-room', Math.floor(down ? below : above) + 'px');
+    const centered = x1 - x0 <= 760 && naturalHeight > Math.max(above, below);
+    panel.dataset.side = centered ? 'centered' : down ? 'below' : 'above';
+    const room = Math.floor(centered ? y1 - top - margin * 2 : down ? below : above);
+    panel.style.setProperty('--preview-room', room + 'px');
     const height = panel.getBoundingClientRect().height;
     const center = clamp(pointerX ?? (left + right) / 2, left, right);
     panel.style.left = Math.round(clamp(center - width / 2, x0 + margin, x1 - margin - width)) + 'px';
-    panel.style.top = Math.round(down ? end + gap : start - gap - height) + 'px';
+    panel.style.top = Math.round(centered
+      ? clamp((start + end - height) / 2, top + margin, y1 - margin - height)
+      : down ? end + gap : start - gap - height) + 'px';
     return true;
   }
 
@@ -83,11 +88,27 @@
     const template = document.getElementById('preview-' + trigger.dataset.project);
     if (!(template instanceof HTMLTemplateElement)) return false;
     cancelClose();
+    clearTimeout(hoverTimer);
     if (active !== trigger) {
       if (active) active.setAttribute('aria-expanded', 'false');
       active = trigger;
       explicit = false;
       content.replaceChildren(template.content.cloneNode(true));
+      const image = content.querySelector('.timeline-preview-image');
+      if (image) {
+        const media = document.createElement('div');
+        media.className = 'timeline-preview-media';
+        image.replaceWith(media);
+        media.append(image);
+      }
+      const detail = content.querySelector('.timeline-preview-detail');
+      if (detail) {
+        const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icon.setAttribute('viewBox', '0 0 24 24');
+        icon.setAttribute('aria-hidden', 'true');
+        icon.innerHTML = '<path d="M5 12h14m-6-6 6 6-6 6"/>';
+        detail.append(icon);
+      }
       const name = content.querySelector('h3')?.textContent.trim() || trigger.querySelector('span')?.textContent.trim();
       panel.setAttribute('aria-label', (name || '프로젝트') + ' 미리보기');
       panel.dataset.projectId = trigger.dataset.project;
@@ -125,10 +146,14 @@
     trigger.addEventListener('pointerdown', e => { contact = e.pointerType === 'touch' || e.pointerType === 'pen'; });
     trigger.addEventListener('pointercancel', () => { contact = false; });
     trigger.addEventListener('pointerenter', e => {
-      if (e.pointerType === 'mouse' && !panel.contains(document.activeElement))
-        open(trigger, {x: e.clientX});
+      if (e.pointerType === 'mouse' && !explicit && !panel.contains(document.activeElement)) {
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(() => {
+          if (trigger.matches(':hover')) open(trigger, {x: e.clientX});
+        }, 140);
+      }
     });
-    trigger.addEventListener('pointerleave', leave);
+    trigger.addEventListener('pointerleave', () => { clearTimeout(hoverTimer); leave(); });
     trigger.addEventListener('focus', () => {
       if (!restoringFocus && !contact) open(trigger);
     });

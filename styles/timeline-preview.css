@@ -1,11 +1,11 @@
 .timeline-preview {
   position: fixed;
   z-index: 30;
-  width: min(312px, calc(100vw - 20px));
+  width: min(700px, calc(100vw - 24px));
   color: #23384c;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 7px 28px #1a324526;
+  box-shadow: 0 10px 32px #1a324521;
   isolation: isolate;
 }
 .timeline-preview[hidden] { display: none; }
@@ -21,30 +21,30 @@
   border: 1px solid #cad7e1;
   border-radius: inherit;
 }
+.timeline-preview-content { display: grid; grid-template-columns: 56% 44%; min-height: 280px; }
+.timeline-preview-media { position: relative; min-width: 0; min-height: 280px; overflow: hidden; background: #f2f5f8; border-right: 1px solid #dde5ec; }
 .timeline-preview-image {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: clamp(76px, 16vh, 126px);
+  height: 100%;
   object-fit: contain;
-  background: #edf2f5;
-  border-bottom: 1px solid #dde5ec;
+  background: #f2f5f8;
 }
-.timeline-preview:is([data-project-id="shinjuku"], [data-project-id="shimanami"],
-                    [data-project-id="vr-fire"], [data-project-id="hinasaki"]) .timeline-preview-image {
-  object-fit: cover;
-}
-.timeline-preview-copy { padding: 12px 16px 15px; }
+.timeline-preview-copy { display: flex; flex-direction: column; padding: 18px 20px; }
 .timeline-preview-meta { display: block; color: #596f82; font-size: 11px; line-height: 1.5; }
+.timeline-preview-meta { padding-right: 22px; }
 .timeline-preview-copy h3 {
-  margin: 4px 0 6px;
+  margin: 5px 0 8px;
   color: #19384f;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   line-height: 1.35;
   overflow-wrap: anywhere;
 }
 .timeline-preview-copy p {
-  margin: 0;
+  margin: 0 0 16px;
   font-size: 13px;
   line-height: 1.65;
   color: #445b6d;
@@ -54,18 +54,18 @@
 .timeline-preview-copy a[href] {
   display: inline-flex;
   align-items: center;
-  min-height: 28px;
-  margin-top: 5px;
+  min-height: 32px;
+  margin-top: 10px;
   color: #245e91;
   font-size: 12px;
   font-weight: 650;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration: none;
 }
+.timeline-preview-copy a[href]:hover { text-decoration: underline; text-underline-offset: 3px; }
 .timeline-preview-close {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 8px;
+  right: 8px;
   display: grid;
   place-items: center;
   width: 32px;
@@ -79,24 +79,56 @@
 }
 .timeline-preview-close svg { display: block; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; }
 .timeline-preview-close:hover { background: #edf3f7; }
-.timeline-preview-copy .timeline-preview-detail {
+.timeline-preview-copy a:is(.timeline-preview-detail, .timeline-preview-repo) {
   display: flex;
   align-items: center;
-  min-height: 40px;
-  margin-top: 12px;
-  padding-top: 10px;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 46px;
+  margin: auto -20px -18px;
+  padding: 0 20px;
   border-top: 1px solid #e0e7ed;
-  color: #185da6;
-  font-size: 12px;
+  background: #f7f9fb;
+  color: #245e91;
+  font-size: 13px;
   font-weight: 650;
   text-decoration: none;
+  transition: background-color .18s ease, color .18s ease;
 }
-.timeline-preview-copy .timeline-preview-detail:hover { text-decoration: underline; text-underline-offset: 3px; }
+.timeline-preview-detail svg { flex: 0 0 18px; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.timeline-preview-copy a:is(.timeline-preview-detail, .timeline-preview-repo):hover { color: #174f83; background: #edf3f8; text-decoration: none; }
+.timeline-preview-phones { min-height: 280px; }
+.timeline-preview-phone { position: absolute; bottom: 23px; width: 28%; margin: 0; border: 3px solid #3e5361; border-radius: 13px; background: #f4f7fb; overflow: hidden; box-shadow: 0 5px 12px #23384c1c; transform: translateY(var(--phone-y)) rotate(var(--phone-angle)); animation: timeline-phone-arrive .6s cubic-bezier(.22,.75,.28,1) both; }
+.timeline-preview-phone:nth-child(1) { left: 8%; --phone-y: 7px; --phone-angle: -7deg; animation-delay: 0s; z-index: 1; }
+.timeline-preview-phone:nth-child(2) { left: 36%; --phone-y: -5px; --phone-angle: 0deg; animation-delay: .13s; z-index: 3; }
+.timeline-preview-phone:nth-child(3) { left: 64%; --phone-y: 9px; --phone-angle: 7deg; animation-delay: .26s; z-index: 2; }
+.timeline-preview-phone img { display: block; width: 100%; height: auto; }
+@keyframes timeline-phone-arrive {
+  from { opacity: 0; transform: translate(-100vw, var(--phone-y)) rotate(-14deg); }
+  to { opacity: 1; transform: translate(0, var(--phone-y)) rotate(var(--phone-angle)); }
+}
+.timeline-preview-repo { align-self: stretch; }
 .timeline-preview:focus-visible, .timeline-preview :focus-visible { outline: 2px solid #397bcc; outline-offset: 2px; }
 .timeline-grid button.period { font-family: inherit; font-size: inherit; text-align: inherit; }
 .timeline-grid .period[aria-expanded="true"] > span { color: var(--blue, #1769ff); }
 @media (max-width: 760px), (pointer: coarse) {
   .timeline-preview-close { width: 40px; height: 40px; }
   .timeline-preview-copy a[href] { min-height: 40px; }
+}
+@media (max-width: 760px) {
+  .timeline-preview { width: min(440px, calc(100vw - 24px)); }
+  .timeline-preview-content { display: flex; flex-direction: column; min-height: 0; }
+  .timeline-preview-media { flex: 0 0 auto; min-height: 0; aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid #dde5ec; }
+  .timeline-preview-phones { order: 1; height: clamp(230px, 72vw, 280px); aspect-ratio: auto; }
+  .timeline-preview[data-project-id="baro-sales"] .timeline-preview-copy { order: 0; }
+  .timeline-preview[data-project-id="baro-sales"] .timeline-preview-phones { border-top: 1px solid #dde5ec; border-bottom: 0; }
+  .timeline-preview[data-project-id="baro-sales"] .timeline-preview-phone { width: 28%; max-width: 115px; bottom: 30px; }
+  .timeline-preview[data-project-id="baro-sales"] .timeline-preview-phone:nth-child(1) { left: 9%; }
+  .timeline-preview[data-project-id="baro-sales"] .timeline-preview-phone:nth-child(2) { left: 36%; }
+  .timeline-preview[data-project-id="baro-sales"] .timeline-preview-phone:nth-child(3) { left: 63%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .timeline-preview-phone { animation: none; }
+  .timeline-preview-copy .timeline-preview-detail { transition: none; }
 }
 @media print { .timeline-preview { display: none !important; } }
