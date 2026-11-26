@@ -165,9 +165,10 @@
 .profile-award-program { margin: 0 0 6px; color: #637182; font-size: 13px; line-height: 1.7; word-break: keep-all; }
 .profile-award-copy h3 { display: flex; align-items: baseline; gap: 12px; margin: 0; color: #172633; font-size: 25px; font-weight: 650; line-height: 1.4; letter-spacing: -.6px; }
 .profile-award-rank { color: #9b772d; font-size: 16px; font-weight: 600; letter-spacing: 0; white-space: nowrap; }
-.profile-award-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 8px 0 0; color: #637182; font-size: 12px; line-height: 1.7; }
-.profile-award-meta span { white-space: nowrap; }
-.profile-award-meta span + span { padding-left: 14px; border-left: 1px solid var(--folio-rule); }
+.profile-award-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin: 8px 0 0; color: #637182; font-size: 12px; line-height: 1.7; }
+.profile-award-meta > div { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+.profile-award-meta dt { color: #7b8897; font-size: 11px; font-weight: 400; }
+.profile-award-meta dd { margin: 0; }
 @media (max-width: 760px) {
   .profile-award-copy h3 { font-size: 23px; }
 }
