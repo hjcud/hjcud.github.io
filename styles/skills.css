@@ -25,12 +25,12 @@
 #skills [aria-expanded="true"] .tech-name, #skills .skill-pair[aria-expanded="true"] { font-weight: 500; }
 #skills :is(.tech-badge, .skill-pair):is(:hover, [aria-expanded="true"]) { background: transparent; box-shadow: none; }
 #skills :is(.tech-badge, .skill-pair):focus-visible { outline: 2px solid #7596b0; outline-offset: 3px; }
-.skill-meter { display: flex; align-items: center; gap: 7px; min-width: 0; min-height: 12px; margin-left: 26px; }
+.skill-meter { display: flex; align-items: center; gap: 7px; width: calc(100% - 26px); max-width: 104px; min-width: 0; min-height: 12px; margin-left: 26px; }
 .skill-meter-track { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 2px; flex: 1; height: 3px; min-width: 0; }
 .skill-meter-track i { display: block; height: 3px; border-radius: 1.5px; background: #dce3e9; }
 .skill-meter-track i.is-filled { background: var(--skill-fill); }
 #skills :is([data-skill="ai-skills"], [data-skill="harness"]) { --skill-fill: #7c3c94; }
-.skill-value { width: 25px; color: #8294a2; font-size: 10px; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums; text-align: right; }
+.skill-value { flex: 0 0 25px; width: 25px; color: #8294a2; font-size: 10px; font-weight: 400; line-height: 1; font-variant-numeric: tabular-nums; text-align: right; }
 .skill-support-shelf { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .skill-support-slide > .skill-collection:last-child .skill-support-shelf { grid-template-columns: 1fr; }
 #skills .skill-support-slide .tech-name { white-space: normal; word-break: keep-all; }
@@ -65,7 +65,21 @@
 .skill-detail-ratings strong { margin-left: 5px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .skill-detail-ratings[hidden] { display: none; }
 @media (hover: hover) and (pointer: fine) { #skills button:not([aria-expanded="true"]):hover .skill-toggle { color: #526b7e; animation: skill-plus-elastic 3s linear .35s infinite; } }
-@media (max-width: 1179px) { .skill-primary-slide, .skill-support-slide { grid-template-columns: 1fr; row-gap: 18px; } .skill-support-slide > .skill-collection:first-child { grid-column: auto; } .skill-support-shelf { max-width: 640px; } .skill-carousel-viewport { height: 190px; } .skill-carousel[data-page="1"] #skill-page-next { align-self: center; margin-bottom: 0; } }
+@media (max-width: 1179px) {
+ .skill-primary-slide, .skill-support-slide { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
+ .skill-support-slide > .skill-collection:first-child { grid-column: auto; }
+ .profile-record #skills .skill-slide .skill-collection:nth-child(n) { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; column-gap: 16px; }
+ .profile-record #skills .skill-slide .skill-collection h3 { margin: 0; }
+ #skills .tech-badge { min-height: 52px; gap: 6px; }
+ #skills .tech-name { font-size: 13px; }
+ #skills .skill-support-slide .skill-label { gap: 6px; }
+ .skill-meter { width: 100%; margin-left: 0; }
+ .skill-carousel-viewport { height: 126px; }
+ .skill-carousel[data-page="1"] #skill-page-next { align-self: center; margin-bottom: 0; }
+}
+@media (min-width: 761px) and (max-width: 960px) {
+ .profile-record .overview-section#skills { grid-template-columns: 110px minmax(0, 1fr); column-gap: 20px; }
+}
 @media (max-width: 760px) {
  .profile-record .overview-section#skills { grid-template-columns: minmax(0, 1fr); padding: 20px 0; }
  .profile-record #skills .overview-section-title { margin-bottom: 14px; }
@@ -78,18 +92,19 @@
  #skill-detail-close { min-height: 44px; }
  #skills #skill-projects .skill-experience { font-size: 12px; }
 }
-@media (max-width: 540px) {
- .skill-meter { margin-left: 0; }
+@media (max-width: 620px) {
+ .skill-primary-slide, .skill-support-slide { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; row-gap: 0; }
+ .profile-record #skills .skill-slide .skill-collection:nth-child(n) { display: block; }
+ .profile-record #skills .skill-slide .skill-collection h3 { margin-bottom: 6px; font-size: 11px; }
+ #skills .badge-shelf, .skill-support-shelf { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+ #skills .tech-badge { min-height: 50px; gap: 6px; }
+ .skill-support-slide { padding-left: 32px; column-gap: 12px; }
+ .skill-carousel-viewport { height: 200px; }
  .skill-meter-track { gap: 1px; }
- #skills .badge-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 20px; }
- .skill-support-shelf { grid-template-columns: 1fr; gap: 8px; }
- #skills .skill-support-shelf .skill-pair { min-height: 64px; }
- .skill-carousel-viewport { height: 300px; }
  .skill-pair-label { white-space: normal; word-break: keep-all; }
- #skills .tech-name { font-size: 13px; }
+ .skill-pair-values { white-space: normal; word-break: keep-all; }
  #skills .skill-label { gap: 6px; }
  #skills .tech-badge .tech-mark { width: 16px; height: 16px; }
- .skill-primary-slide { row-gap: 16px; }
 }
-@media (max-width: 360px) { #skills .tech-name { font-size: 12px; } #skills .skill-label { gap: 3px; } #skills .tech-badge .tech-mark { width: 14px; height: 14px; } .skill-meter-track, .skill-meter-track i { height: 2px; } }
+@media (max-width: 360px) { #skills .tech-name { font-size: 12px; } #skills .skill-label { gap: 3px; } #skills .tech-badge .tech-mark { width: 14px; height: 14px; } .skill-meter-track, .skill-meter-track i { height: 2px; } #skills .skill-support-slide .skill-label { gap: 2px; } #skills .skill-toggle { width: 10px; height: 10px; } }
 @media (prefers-reduced-motion: reduce) { .skill-carousel-track, #skill-page-next svg { transition: none; } #skills .skill-toggle { animation: none !important; } }
