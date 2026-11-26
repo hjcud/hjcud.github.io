@@ -66,8 +66,8 @@
 .skill-detail-ratings[hidden] { display: none; }
 @media (hover: hover) and (pointer: fine) { #skills button:not([aria-expanded="true"]):hover .skill-toggle { color: #526b7e; animation: skill-plus-elastic 3s linear .35s infinite; } }
 @media (max-width: 1179px) {
- .profile-record .overview-section#skills { grid-template-columns: minmax(0, 1fr); padding: 20px 0; }
- .profile-record #skills .overview-section-title { margin-bottom: 12px; }
+ .profile-record .overview-section#skills { grid-template-columns: clamp(90px, 10vw, 130px) minmax(0, 1fr); column-gap: clamp(16px, 2vw, 28px); padding: 20px 0; }
+ .profile-record #skills .overview-section-title { margin-bottom: 0; padding-right: 0; }
  .skill-primary-slide { grid-template-columns: repeat(2, minmax(330px, 1fr)); column-gap: clamp(12px, 2vw, 28px); overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
  .skill-support-slide { grid-template-columns: repeat(4, minmax(142px, 1fr)); column-gap: 14px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
  .profile-record #skills .skill-slide .skill-collection:nth-child(n) { display: block; }
