@@ -13,7 +13,6 @@
   panel.innerHTML = '<nav class="timeline-preview-navigation" aria-label="프로젝트 미리보기 이동"><button type="button" class="timeline-preview-previous"><span></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7"/></svg></button><h2 id="timeline-preview-title"></h2><button type="button" class="timeline-preview-next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 5 7 7-7 7"/></svg><span></span></button><button type="button" class="timeline-preview-close" aria-label="미리보기 닫기"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m3 3 10 10M13 3 3 13"/></svg></button></nav><div class="timeline-preview-surface"><div class="timeline-preview-content"></div></div><p class="sr-only" role="status" id="timeline-preview-status"></p>';
   const content = panel.querySelector('.timeline-preview-content');
   const surface = panel.querySelector('.timeline-preview-surface');
-  const navigation = panel.querySelector('.timeline-preview-navigation');
   const title = panel.querySelector('h2');
   const previous = panel.querySelector('.timeline-preview-previous');
   const next = panel.querySelector('.timeline-preview-next');
@@ -30,14 +29,12 @@
     const view = window.visualViewport;
     const width = view?.width ?? document.documentElement.clientWidth;
     const height = view?.height ?? document.documentElement.clientHeight;
-    const room = Math.max(160, height - navigation.offsetHeight - 68);
-    panel.style.setProperty('--preview-room', Math.floor(room) + 'px');
     const media = content.querySelector('.timeline-preview-media');
     if (!media) return;
     const phones = media.classList.contains('timeline-preview-phones');
-    const copyHeight = width <= 760 ? content.querySelector('.timeline-preview-copy').offsetHeight + 20 : 0;
-    const available = room - copyHeight - 24;
-    media.style.setProperty('--preview-media-height', Math.round(Math.max(phones ? 380 : 180, Math.min(phones ? 500 : 420, available))) + 'px');
+    const copyHeight = width <= 760 ? content.querySelector('.timeline-preview-copy').offsetHeight + 12 : 0;
+    const available = content.clientHeight - copyHeight;
+    media.style.setProperty('--preview-media-height', Math.round(Math.max(120, Math.min(480, available))) + 'px');
     if (phones) {
       const key = Math.round(width) + ':' + Math.round(height);
       if (media.dataset.scrollKey !== key) {
