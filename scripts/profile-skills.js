@@ -4,7 +4,7 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const header = $('.header');
 const previews = $$('template[id^="preview-"]');
-const aliases={'web-backend':'java',react:'web-frontend',typescript:'web-frontend',kotlin:'android',compose:'android'};
+const aliases={'web-backend':'java','web-frontend':'react',android:'kotlin'};
 const skillData={
  unity:{name:'Unity',keys:['unity'],copy:'VRChat 월드와 VR 시뮬레이터를 제작하고, Profiler로 차량 계산에 걸리는 시간을 확인하며 최적화하였습니다.'},
  csharp:{name:'C#',keys:['csharp'],copy:'차량 주행과 비행기의 움직임, 위치 동기화와 화재가 번지는 로직을 구현하였습니다.'},
@@ -14,8 +14,10 @@ const skillData={
  git:{name:'Git',keys:['git'],copy:'브랜치에서 작업하고, PR에서 변경 내용을 검토한 뒤 병합하였습니다. 수정할 부분과 병합 순서를 팀 작업 문서에 기록하였습니다.'},
  java:{name:'Java',keys:['java'],copy:'Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 로직을 Java로 개발하였습니다.'},
  spring:{name:'Spring Boot',keys:['spring'],copy:'Spring Boot로 Idea2Strategy의 전략 작성과 백테스트 API, BetterBatter의 백엔드 기능을 개발하였습니다.'},
- 'web-frontend':{name:'React / TypeScript',keys:['react','typescript'],ratings:[['React',20],['TypeScript',20]],copy:'BetterBatter의 실시간 경기 중계와 경기 예측 화면을 개발하고, 사용자 입력에 따라 화면이 동작하도록 구현하였습니다.'},
- android:{name:'Kotlin / Jetpack Compose',keys:['kotlin','compose'],ratings:[['Kotlin',20],['Jetpack Compose',20]],copy:'바로영업 Android 앱에서 고객 정보 화면과 전화가 왔을 때 상담 정보를 보여주는 기능을 개발하였습니다.'}
+ react:{name:'React',keys:['react'],copy:'BetterBatter의 실시간 경기 중계와 경기 예측 화면을 React로 개발하였습니다. 사용자 입력에 따라 화면이 동작하도록 구현하였습니다.'},
+ typescript:{name:'TypeScript',keys:['typescript'],copy:'BetterBatter의 React 화면을 TypeScript로 개발하였습니다. 경기 중계와 경기 예측 화면의 사용자 입력과 상태를 처리하였습니다.'},
+ kotlin:{name:'Kotlin',keys:['kotlin'],copy:'바로영업 Android 앱에서 Kotlin을 사용하여 UI/UX를 수정하였습니다.'},
+ compose:{name:'Jetpack Compose',keys:['compose'],copy:'바로영업 Android 앱의 UI/UX를 Jetpack Compose로 수정하였습니다.'}
 };
 const skillButtons=$$('#skills [data-skill]');
 const skillPanel=$('#skill-projects');
