@@ -66,19 +66,27 @@
 .skill-detail-ratings[hidden] { display: none; }
 @media (hover: hover) and (pointer: fine) { #skills button:not([aria-expanded="true"]):hover .skill-toggle { color: #526b7e; animation: skill-plus-elastic 3s linear .35s infinite; } }
 @media (max-width: 1179px) {
- .skill-primary-slide, .skill-support-slide { grid-template-columns: minmax(0, 1fr); row-gap: 10px; }
- .skill-support-slide > .skill-collection:first-child { grid-column: auto; }
- .profile-record #skills .skill-slide .skill-collection:nth-child(n) { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: center; column-gap: 16px; }
- .profile-record #skills .skill-slide .skill-collection h3 { margin: 0; }
+ .profile-record .overview-section#skills { grid-template-columns: minmax(0, 1fr); padding: 20px 0; }
+ .profile-record #skills .overview-section-title { margin-bottom: 12px; }
+ .skill-primary-slide { grid-template-columns: repeat(2, minmax(330px, 1fr)); column-gap: clamp(12px, 2vw, 28px); overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+ .skill-support-slide { grid-template-columns: repeat(4, minmax(142px, 1fr)); column-gap: 14px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+ .profile-record #skills .skill-slide .skill-collection:nth-child(n) { display: block; }
+ .profile-record #skills .skill-slide .skill-collection h3 { margin: 0 0 6px; }
+ #skills .badge-shelf { column-gap: clamp(6px, .8vw, 14px); }
  #skills .tech-badge { min-height: 52px; gap: 6px; }
  #skills .tech-name { font-size: 13px; }
- #skills .skill-support-slide .skill-label { gap: 6px; }
+ #skills .skill-label { gap: 4px; }
+ #skills .tech-badge .tech-mark { width: 16px; height: 16px; }
+ #skills .skill-toggle { width: 10px; height: 10px; }
  .skill-meter { width: 100%; margin-left: 0; }
- .skill-carousel-viewport { height: 126px; }
+ .skill-carousel-viewport { height: 100px; }
  .skill-carousel[data-page="1"] #skill-page-next { align-self: center; margin-bottom: 0; }
 }
-@media (min-width: 761px) and (max-width: 960px) {
- .profile-record .overview-section#skills { grid-template-columns: 110px minmax(0, 1fr); column-gap: 20px; }
+@media (max-width: 960px) {
+ .skill-primary-slide { grid-template-columns: repeat(2, minmax(300px, 1fr)); }
+ #skills .skill-primary-slide .tech-name { font-size: 12px; }
+ #skills .skill-primary-slide .skill-label { gap: 3px; }
+ #skills .skill-primary-slide .tech-mark { width: 14px; height: 14px; }
 }
 @media (max-width: 760px) {
  .profile-record .overview-section#skills { grid-template-columns: minmax(0, 1fr); padding: 20px 0; }
@@ -93,13 +101,14 @@
  #skills #skill-projects .skill-experience { font-size: 12px; }
 }
 @media (max-width: 620px) {
- .skill-primary-slide, .skill-support-slide { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; row-gap: 0; }
+ .skill-primary-slide { column-gap: 12px; }
+ .skill-support-slide { column-gap: 12px; }
  .profile-record #skills .skill-slide .skill-collection:nth-child(n) { display: block; }
  .profile-record #skills .skill-slide .skill-collection h3 { margin-bottom: 6px; font-size: 11px; }
- #skills .badge-shelf, .skill-support-shelf { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+ .skill-support-shelf { column-gap: 10px; }
  #skills .tech-badge { min-height: 50px; gap: 6px; }
  .skill-support-slide { padding-left: 32px; column-gap: 12px; }
- .skill-carousel-viewport { height: 200px; }
+ .skill-carousel-viewport { height: 100px; }
  .skill-meter-track { gap: 1px; }
  .skill-pair-label { white-space: normal; word-break: keep-all; }
  .skill-pair-values { white-space: normal; word-break: keep-all; }
