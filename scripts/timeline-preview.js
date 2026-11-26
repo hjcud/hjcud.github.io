@@ -60,14 +60,28 @@
       return false;
     }
 
-    const margin = 12, gap = 6;
+    const margin = 16, gap = 6;
     const above = Math.max(0, start - gap - top - margin);
     const below = Math.max(0, y1 - margin - end - gap);
-    const width = Math.min(x1 - x0 > 760 ? 700 : 440, x1 - x0 - margin * 2);
+    const narrow = x1 - x0 <= 760;
+    const width = Math.min(narrow ? 520 : 1040, x1 - x0 - margin * 2);
     panel.style.width = width + 'px';
+    const media = content.querySelector('.timeline-preview-media');
+    if (media) {
+      const phones = media.classList.contains('timeline-preview-phones');
+      const copyHeight = narrow ? content.querySelector('.timeline-preview-copy').getBoundingClientRect().height + 20 : 0;
+      const available = y1 - top - margin * 2 - copyHeight - 24;
+      media.style.setProperty('--preview-media-height', Math.round(Math.max(phones ? 380 : 180, Math.min(phones ? 500 : 420, available))) + 'px');
+      const scrollKey = Math.round(width) + ':' + Math.round(y1 - y0);
+      if (phones && media.dataset.scrollKey !== scrollKey) {
+        media.scrollLeft = Math.max(0, (media.scrollWidth - media.clientWidth) / 2);
+        media.dataset.scrollKey = scrollKey;
+      }
+      if (phones) media.tabIndex = media.scrollWidth > media.clientWidth ? 0 : -1;
+    }
     const naturalHeight = content.getBoundingClientRect().height + 2;
     const down = below >= naturalHeight || below >= above;
-    const centered = x1 - x0 <= 760 && naturalHeight > Math.max(above, below);
+    const centered = naturalHeight > Math.max(above, below);
     panel.dataset.side = centered ? 'centered' : down ? 'below' : 'above';
     const room = Math.floor(centered ? y1 - top - margin * 2 : down ? below : above);
     panel.style.setProperty('--preview-room', room + 'px');
@@ -109,6 +123,7 @@
         icon.innerHTML = '<path d="M5 12h14m-6-6 6 6-6 6"/>';
         detail.append(icon);
       }
+      content.querySelector('.timeline-preview-copy')?.append(close);
       const name = content.querySelector('h3')?.textContent.trim() || trigger.querySelector('span')?.textContent.trim();
       panel.setAttribute('aria-label', (name || '프로젝트') + ' 미리보기');
       panel.dataset.projectId = trigger.dataset.project;
@@ -172,7 +187,7 @@
       if (active !== trigger || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
       if (e.key === 'Tab' || e.key === 'ArrowDown') {
         e.preventDefault();
-        focus(content.querySelector('a[href]') || close);
+        focus(content.querySelector('[tabindex="0"], a[href]') || close);
       }
     });
   }
@@ -181,7 +196,7 @@
   panel.addEventListener('pointerleave', leave);
   panel.addEventListener('keydown', e => {
     if (e.key !== 'Tab' || !active) return;
-    const first = content.querySelector('a[href]') || close;
+    const first = content.querySelector('[tabindex="0"], a[href]') || close;
     if (e.shiftKey && (e.target === first || e.target === panel)) {
       e.preventDefault();
       dismiss(true);

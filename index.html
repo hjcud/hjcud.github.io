@@ -25,9 +25,9 @@
   <script src="scripts/carousel-controls.js" defer></script>
   <link rel="stylesheet" href="styles/project-reading.css?v=project-boundaries">
   <link rel="stylesheet" href="styles/timeline-layout.css?v=continuous-scroll-cues-20261124">
-  <link rel="stylesheet" href="styles/timeline-preview.css?v=larger-unified-previews-20261126">
+  <link rel="stylesheet" href="styles/timeline-preview.css?v=floating-media-20261126">
   <link rel="stylesheet" href="styles/problem-solving.css?v=consistent-case-spacing">
-  <script src="scripts/timeline-preview.js?v=larger-unified-previews-20261126" defer></script>
+  <script src="scripts/timeline-preview.js?v=floating-media-20261126" defer></script>
   <link rel="stylesheet" href="styles/project-entry.css?v=steady-reading-20261124">
   <script src="scripts/project-entry.js?v=steady-reading-20261124" defer></script>
   <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=resource-alignment-20261124">
@@ -215,10 +215,20 @@
 </template>
 
 <template id="preview-baro-sales" data-title="바로영업" data-skills="kotlin compose">
-  <div class="timeline-preview-media timeline-preview-phones" aria-label="바로영업의 고객 추천, AI 상담 요약, 일정 화면">
-    <figure class="timeline-preview-phone"><img src="assets/baro/product-recommendations.webp" alt="오늘 연락할 고객과 추천 이유를 확인하는 바로영업 화면" width="1080" height="2400" decoding="async"></figure>
-    <figure class="timeline-preview-phone"><img src="assets/baro/product-detail.webp" alt="고객의 핵심 정보와 AI가 정리한 상담 내용을 확인하는 화면" width="1080" height="2400" decoding="async"></figure>
-    <figure class="timeline-preview-phone"><img src="assets/baro/product-calendar.webp" alt="월간 캘린더와 고객 약속을 확인하는 바로영업 일정 화면" width="1080" height="2400" decoding="async"></figure>
+  <div class="timeline-preview-media timeline-preview-phones" aria-label="바로영업의 고객 추천, 수신 전화와 요약 카드, 일정 화면">
+    <div class="timeline-preview-phone-fan">
+      <figure class="timeline-preview-phone"><div class="timeline-preview-phone-screen"><img src="assets/baro/product-recommendations.webp" alt="오늘 연락할 고객과 추천 이유를 확인하는 바로영업 화면" width="1080" height="2400" decoding="async"></div></figure>
+      <figure class="timeline-preview-phone">
+        <div class="timeline-preview-phone-screen timeline-preview-call-screen">
+          <div class="timeline-preview-call-status" aria-hidden="true"><span>9:41</span><span>▂▄▆ ▰</span></div>
+          <div class="timeline-preview-call-incoming" aria-hidden="true">수신 전화<strong>010-****-5678</strong></div>
+          <img class="timeline-preview-call-summary" src="assets/baro/product-caller.webp" alt="전화 수신 화면 위에 표시되는 김민수 고객의 최신 상담 요약과 약속 카드" width="995" height="1273" decoding="async">
+          <div class="timeline-preview-call-actions" aria-hidden="true"><span><svg viewBox="0 0 24 24"><path d="m7 3-3 1c-3 6 7 16 13 16l3-3-4-4-3 2c-2-1-4-3-5-5l2-3-3-4Z"/></svg>거절</span><span><svg viewBox="0 0 24 24"><path d="m7 3-3 1c-3 6 7 16 13 16l3-3-4-4-3 2c-2-1-4-3-5-5l2-3-3-4Z"/></svg>받기</span></div>
+          <span class="timeline-preview-call-home" aria-hidden="true"></span>
+        </div>
+      </figure>
+      <figure class="timeline-preview-phone"><div class="timeline-preview-phone-screen"><img src="assets/baro/product-calendar.webp" alt="월간 캘린더와 고객 약속을 확인하는 바로영업 일정 화면" width="1080" height="2400" decoding="async"></div></figure>
+    </div>
   </div>
   <div class="timeline-preview-copy">
     <span class="timeline-preview-meta">SSAFY / 2026.10.12 — 진행 중</span>
