@@ -58,6 +58,15 @@
 .timeline-preview:focus-visible, .timeline-preview :focus-visible { outline: 2px solid #397bcc; outline-offset: 2px; }
 .timeline-grid button.period { font-family: inherit; font-size: inherit; text-align: inherit; }
 .timeline-grid .period[aria-expanded="true"] > span { color: var(--blue, #1769ff); }
+#project-timeline .period > span:first-child > .timeline-preview-toggle { display: none; position: absolute; left: calc(100% + 8px); top: 50%; transform: translateY(-50%); align-items: center; gap: 3px; color: var(--folio-blue); font-size: 11px; font-weight: 400; line-height: 19px; white-space: nowrap; }
+#project-timeline .period[aria-expanded="true"] > span:first-child > .timeline-preview-toggle { display: inline-flex; }
+#project-timeline .period.end-label > span:first-child > .timeline-preview-toggle { left: auto; right: calc(100% + 8px); }
+.timeline-preview-toggle svg { display: block; flex: none; width: 10px; height: 10px; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; }
+@media (max-width: 860px) {
+  #project-timeline .period > span:first-child > .timeline-preview-toggle { left: -14px; right: auto; width: 10px; gap: 0; }
+  .timeline-preview-toggle > span { display: none; }
+  #project-timeline .period[aria-expanded="true"]::before { opacity: 0; }
+}
 @media (max-width: 760px) {
   .timeline-preview { width: min(380px, calc(100vw - 24px)); }
   .timeline-preview-content { display: flex; flex-direction: column; min-height: 0; }

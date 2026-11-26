@@ -17,12 +17,18 @@
   const close = panel.querySelector('.timeline-preview-close');
   document.body.append(panel); // Outside the horizontally scrolling, clipped timeline.
 
-  let active = null, pointerX = null, explicit = false, restoringFocus = false;
+  let active = null, pointerX = null, explicit = false, restoringFocus = false, closedHover = null;
   let closeTimer = 0, frame = 0;
   const cancelClose = () => clearTimeout(closeTimer);
   const focus = element => element.focus({preventScroll: true});
   const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
   const previewImages = new Map();
+  const triggerLabels = new Map();
+
+  function setExpanded(trigger, expanded) {
+    trigger.setAttribute('aria-expanded', String(expanded));
+    trigger.setAttribute('aria-label', triggerLabels.get(trigger) + ', 미리보기 ' + (expanded ? '닫기' : '열기'));
+  }
 
   function preloadImages(trigger, priority = 'low') {
     const template = document.getElementById('preview-' + trigger.dataset.project);
@@ -58,7 +64,7 @@
     cancelClose();
     active = null;
     explicit = false;
-    previous.setAttribute('aria-expanded', 'false');
+    setExpanded(previous, false);
     panel.hidden = true;
     if (restore && !previous.closest('[inert]') && previous.getClientRects().length) {
       restoringFocus = true;
@@ -126,9 +132,10 @@
     const template = document.getElementById('preview-' + trigger.dataset.project);
     if (!(template instanceof HTMLTemplateElement)) return false;
     cancelClose();
+    if (closedHover === trigger) closedHover = null;
     preloadImages(trigger, 'high');
     if (active !== trigger) {
-      if (active) active.setAttribute('aria-expanded', 'false');
+      if (active) setExpanded(active, false);
       active = trigger;
       explicit = false;
       content.replaceChildren(template.content.cloneNode(true));
@@ -154,7 +161,7 @@
     }
     explicit ||= persist;
     pointerX = x;
-    trigger.setAttribute('aria-expanded', 'true');
+    setExpanded(trigger, true);
     panel.hidden = false;
     if (!place()) return false;
     if (takeFocus) focus(panel);
@@ -171,40 +178,65 @@
   }
 
   for (const [id, trigger] of triggers) {
-    if (!(document.getElementById('preview-' + id) instanceof HTMLTemplateElement)) continue;
+    const template = document.getElementById('preview-' + id);
+    if (!(template instanceof HTMLTemplateElement)) continue;
+    const label = trigger.querySelector('span');
+    const name = template.content.querySelector('h3')?.textContent.trim() || label?.textContent.trim() || id;
+    const date = trigger.querySelector('small')?.textContent.trim();
+    triggerLabels.set(trigger, name + (date ? ', ' + date : ''));
     trigger.setAttribute('aria-controls', panel.id);
-    trigger.setAttribute('aria-expanded', 'false');
+    setExpanded(trigger, false);
     trigger.setAttribute('aria-haspopup', 'dialog');
-    // Avoid the browser's second, overlapping tooltip. Keep the accessible title/date.
-    if (trigger.title) {
-      if (!trigger.hasAttribute('aria-label')) trigger.setAttribute('aria-label', trigger.title);
-      trigger.removeAttribute('title');
+    if (trigger.matches('a[href]')) trigger.setAttribute('role', 'button');
+    trigger.removeAttribute('title');
+    if (label) {
+      const hint = document.createElement('span');
+      hint.className = 'timeline-preview-toggle';
+      hint.setAttribute('aria-hidden', 'true');
+      hint.innerHTML = '<svg viewBox="0 0 16 16" focusable="false"><path d="m4 4 8 8M12 4l-8 8"/></svg><span>닫기</span>';
+      label.append(hint);
     }
     let contact = false;
     trigger.addEventListener('pointerdown', e => { contact = e.pointerType === 'touch' || e.pointerType === 'pen'; });
     trigger.addEventListener('pointercancel', () => { contact = false; });
     trigger.addEventListener('pointerenter', e => {
       if (e.pointerType === 'mouse' && !panel.contains(document.activeElement)) {
+        closedHover = null;
         open(trigger, {x: e.clientX});
       }
     });
-    trigger.addEventListener('pointerleave', leave);
+    trigger.addEventListener('pointerleave', () => {
+      if (closedHover === trigger) closedHover = null;
+      leave();
+    });
     trigger.addEventListener('focus', () => {
-      if (!restoringFocus && !contact) open(trigger);
+      if (!restoringFocus && !contact && closedHover !== trigger && active !== trigger) open(trigger);
     });
     trigger.addEventListener('click', e => {
       const touch = e.pointerType === 'touch' || e.pointerType === 'pen' || (e.detail > 0 && contact);
       contact = false;
-      if (trigger.matches('a[href]') && (!touch || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)) {
+      if (trigger.matches('a[href]') && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)) {
         dismiss();
-        return; // Preserve the existing link, modifiers and the main app's anchor navigation.
+        return; // Modified link clicks keep the browser's native navigation.
       }
       e.preventDefault();
       e.stopPropagation(); // The page also delegates hash-link clicks at document level.
-      open(trigger, {takeFocus: touch || e.detail === 0, persist: touch || e.detail === 0});
+      if (active === trigger) {
+        closedHover = trigger;
+        dismiss(panel.contains(document.activeElement));
+      } else {
+        open(trigger, {takeFocus: touch || e.detail === 0, persist: touch || e.detail === 0});
+      }
     });
     trigger.addEventListener('keydown', e => {
-      if (active !== trigger || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      if (e.key === ' ' && trigger.matches('a[href]')) {
+        e.preventDefault();
+        trigger.click();
+        return;
+      }
+      if (e.key === 'ArrowDown' && active !== trigger) open(trigger, {persist: true});
+      if (active !== trigger) return;
       if (e.key === 'Tab' || e.key === 'ArrowDown') {
         e.preventDefault();
         focus(content.querySelector('[tabindex="0"], a[href]') || close);
