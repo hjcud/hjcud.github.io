@@ -77,9 +77,9 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   content: '';
   display: block;
   width: 20px;
-  height: 7px;
-  border-inline: 1px solid #b5c2ce;
-  background: linear-gradient(#b5c2ce, #b5c2ce) center / 100% 2px no-repeat;
+  height: 8px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(135deg, #a7b3be 0 3px, transparent 3px 6px);
 }
 .timeline-key .key-featured::before { height: 8px; border: 0; border-radius: 2px; background: #5b94d5; }
 @media (hover: none), (pointer: coarse) {
@@ -226,9 +226,9 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
 #project-timeline .period:not(.featured)::before {
   top: 22px;
   height: 8px;
-  border-inline: 1px solid var(--mark);
-  border-radius: 0;
-  background: linear-gradient(var(--mark), var(--mark)) center / 100% 2px no-repeat;
+  border: 0;
+  border-radius: 2px;
+  background: repeating-linear-gradient(135deg, #a7b3be 0 3px, transparent 3px 6px);
 }
 #project-timeline .period.ongoing:not(.featured)::before { border-right: 0; right: 4px; }
 #project-timeline .period.ongoing:not(.featured)::after {
@@ -275,12 +275,11 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
     clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 0 100%);
   }
   #project-timeline .period.ongoing:not(.featured)::before {
-    top: 24.5px;
+    top: 22px;
     right: 0;
-    height: 3px;
-    border: 0;
-    background: var(--mark);
-    clip-path: polygon(0 0, calc(100% - 3px) 0, 100% 50%, calc(100% - 3px) 100%, 0 100%);
+    height: 8px;
+    border-radius: 2px 0 0 2px;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 0 100%);
   }
 }
 #project-timeline .timeline-foot:empty { display: none; }
