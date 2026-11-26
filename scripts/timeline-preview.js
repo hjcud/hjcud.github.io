@@ -18,16 +18,44 @@
   document.body.append(panel); // Outside the horizontally scrolling, clipped timeline.
 
   let active = null, pointerX = null, explicit = false, restoringFocus = false;
-  let closeTimer = 0, hoverTimer = 0, frame = 0;
+  let closeTimer = 0, frame = 0;
   const cancelClose = () => clearTimeout(closeTimer);
   const focus = element => element.focus({preventScroll: true});
   const clamp = (value, min, max) => Math.min(Math.max(value, min), Math.max(min, max));
+  const previewImages = new Map();
+
+  function preloadImages(trigger, priority = 'low') {
+    const template = document.getElementById('preview-' + trigger.dataset.project);
+    if (!(template instanceof HTMLTemplateElement)) return;
+    for (const source of template.content.querySelectorAll('img[src]')) {
+      const src = new URL(source.getAttribute('src'), document.baseURI).href;
+      if (previewImages.has(src)) {
+        if (priority === 'high') previewImages.get(src).fetchPriority = priority;
+        continue;
+      }
+      const image = new Image();
+      image.decoding = 'async';
+      image.fetchPriority = priority;
+      previewImages.set(src, image);
+      image.src = src;
+      image.decode().catch(() => {});
+    }
+  }
+
+  if ('IntersectionObserver' in window && matchMedia('(hover: hover) and (pointer: fine)').matches &&
+      !navigator.connection?.saveData) {
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      triggers.forEach(trigger => preloadImages(trigger));
+      observer.disconnect();
+    }, {rootMargin: '400px 0px'});
+    observer.observe(grid);
+  }
 
   function dismiss(restore = false) {
     if (!active) return;
     const previous = active;
     cancelClose();
-    clearTimeout(hoverTimer);
     active = null;
     explicit = false;
     previous.setAttribute('aria-expanded', 'false');
@@ -98,7 +126,7 @@
     const template = document.getElementById('preview-' + trigger.dataset.project);
     if (!(template instanceof HTMLTemplateElement)) return false;
     cancelClose();
-    clearTimeout(hoverTimer);
+    preloadImages(trigger, 'high');
     if (active !== trigger) {
       if (active) active.setAttribute('aria-expanded', 'false');
       active = trigger;
@@ -157,13 +185,10 @@
     trigger.addEventListener('pointercancel', () => { contact = false; });
     trigger.addEventListener('pointerenter', e => {
       if (e.pointerType === 'mouse' && !panel.contains(document.activeElement)) {
-        clearTimeout(hoverTimer);
-        hoverTimer = setTimeout(() => {
-          if (trigger.matches(':hover')) open(trigger, {x: e.clientX});
-        }, 140);
+        open(trigger, {x: e.clientX});
       }
     });
-    trigger.addEventListener('pointerleave', () => { clearTimeout(hoverTimer); leave(); });
+    trigger.addEventListener('pointerleave', leave);
     trigger.addEventListener('focus', () => {
       if (!restoringFocus && !contact) open(trigger);
     });

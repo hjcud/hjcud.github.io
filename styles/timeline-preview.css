@@ -52,9 +52,9 @@
 .timeline-preview-phones { --phone-width: 124px; display: block; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
 .timeline-preview-phones .timeline-preview-phone-fan { height: 300px; min-width: calc(var(--phone-width) * 2.9); }
 .timeline-preview .timeline-preview-propro { --phone-width: 140px; }
-.timeline-preview .timeline-preview-phone { animation-duration: .4s; }
-.timeline-preview .timeline-preview-phone:nth-child(2) { animation-delay: .07s; }
-.timeline-preview .timeline-preview-phone:nth-child(3) { animation-delay: .14s; }
+.timeline-preview .timeline-preview-phone { animation-duration: .28s; }
+.timeline-preview .timeline-preview-phone:nth-child(2) { animation-delay: .04s; }
+.timeline-preview .timeline-preview-phone:nth-child(3) { animation-delay: .08s; }
 .timeline-preview:focus-visible, .timeline-preview :focus-visible { outline: 2px solid #397bcc; outline-offset: 2px; }
 .timeline-grid button.period { font-family: inherit; font-size: inherit; text-align: inherit; }
 .timeline-grid .period[aria-expanded="true"] > span { color: var(--blue, #1769ff); }
