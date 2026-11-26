@@ -92,6 +92,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
    Each label belongs to its line, but can extend beyond a very short period. */
 #project-timeline {
   --timeline-months: 47;
+  --timeline-present: 46.5;
   --lane-title-width: clamp(104px, 12vw, 166px);
   --row-step: 32px;
   --row-pad: 6px;
@@ -209,6 +210,7 @@ html { scroll-padding-top: calc(var(--header) + 14px); }
   border-radius: 2px;
   background: var(--mark);
 }
+#project-timeline .period.ongoing { right: calc((var(--timeline-months) - var(--timeline-present)) / var(--timeline-months) * 100%); width: auto; }
 #project-timeline .period.ongoing::before { right: 5px; border-radius: 2px 0 0 2px; }
 #project-timeline .period.ongoing::after {
   content: "";
