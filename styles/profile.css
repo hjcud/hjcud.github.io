@@ -3,23 +3,24 @@
   --profile-label: clamp(150px, 15vw, 200px);
   --profile-gap: clamp(24px, 3.4vw, 48px);
 }
-#profile.overview-header { display: block; padding: 48px 0; border: 0; }
+#profile.overview-header { display: block; padding: 28px 0; border: 0; }
 #profile .overview-person { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 #profile .overview-identity h1 {
   margin: 0; font-size: clamp(40px, 3.6vw, 52px); line-height: 1.2;
   font-weight: 750; letter-spacing: -.055em;
 }
 #profile .overview-contact {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin: 0;
+  display: flex; flex-direction: row; align-items: center; gap: 20px; margin: 0;
 }
 #profile .overview-contact a {
-  display: inline-flex; align-items: center; gap: 10px;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 36px; white-space: nowrap;
   color: #637182; font-size: 14px; line-height: 1.7;
 }
 #profile .overview-contact a:hover { color: var(--blue); }
 #profile .overview-contact a:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
-#profile .overview-contact svg { flex: none; width: 18px; height: 18px; }
+#profile .overview-contact svg { flex: none; width: 16px; height: 16px; }
 #profile .overview-contact .github-icon { fill: currentColor; stroke: none; }
+#profile .overview-actions { display: flex; align-items: center; gap: 20px; }
 
 .overview.profile-record { padding-bottom: 0; }
 .profile-record > .overview-details {
@@ -188,8 +189,13 @@
   .profile-education-list > li + li, .profile-language-item + .profile-language-item { padding: 22px 0 0; border-left: 0; border-top: 1px solid var(--folio-rule); }
 }
 @media (max-width: 760px) {
-  #profile.overview-header { padding: 32px 0; }
-  #profile .overview-person { align-items: flex-start; flex-direction: column; gap: 18px; }
+  #profile.overview-header { padding: 24px 0; }
+  #profile .overview-person { align-items: flex-start; flex-direction: column; gap: 14px; }
+  #profile .overview-actions { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: center; gap: 4px 16px; width: 100%; }
+  #profile .overview-contact { display: contents; }
+  #profile .overview-contact a:first-child { grid-column: 1 / -1; grid-row: 1; justify-self: start; }
+  #profile .overview-contact a:last-child { grid-column: 1; grid-row: 2; justify-self: start; }
+  #profile #portfolio-pdf { grid-column: 2; grid-row: 2; justify-self: end; }
   #profile .overview-contact a { font-size: 13px; }
   .profile-record .overview-section { grid-template-columns: minmax(0, 1fr); padding: 26px 0; }
   .profile-record .overview-section-title { margin-bottom: 20px; padding: 0; border: 0; }
