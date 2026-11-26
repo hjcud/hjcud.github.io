@@ -25,9 +25,9 @@
   <script src="scripts/carousel-controls.js" defer></script>
   <link rel="stylesheet" href="styles/project-reading.css?v=project-boundaries">
   <link rel="stylesheet" href="styles/timeline-layout.css?v=continuous-scroll-cues-20261124">
-  <link rel="stylesheet" href="styles/timeline-preview.css?v=floating-media-20261126">
+  <link rel="stylesheet" href="styles/timeline-preview.css?v=click-project-browser-20261126">
   <link rel="stylesheet" href="styles/problem-solving.css?v=consistent-case-spacing">
-  <script src="scripts/timeline-preview.js?v=floating-media-20261126" defer></script>
+  <script src="scripts/timeline-preview.js?v=click-project-browser-20261126" defer></script>
   <link rel="stylesheet" href="styles/project-entry.css?v=steady-reading-20261124">
   <script src="scripts/project-entry.js?v=steady-reading-20261124" defer></script>
   <link rel="stylesheet" href="styles/projects/pixel-mat.css?v=resource-alignment-20261124">
@@ -126,7 +126,7 @@
 </div>
 <header class="projects-opening" id="projects" aria-labelledby="projects-title">
   <div class="projects-opening-inner"><h2 id="projects-title">프로젝트 타임라인</h2><span class="projects-years">2023 — 2026</span></div>
-  <div class="timeline-overview-meta"><p class="timeline-instruction case-hand-note"><span class="pointer-tip">프로젝트에 마우스를 올려보세요.</span><span class="touch-tip">프로젝트를 눌러 미리 보세요.</span><svg viewBox="0 0 42 28" aria-hidden="true"><path d="M3 4C15 0 31 5 35 22M28 17l7 6 4-9"/></svg></p><ul class="timeline-key" aria-label="프로젝트 구분"><li class="key-featured">주요 프로젝트</li><li>그 외 프로젝트</li></ul></div>
+  <div class="timeline-overview-meta"><p class="timeline-instruction case-hand-note"><span class="pointer-tip">프로젝트를 눌러 미리 보세요.</span><span class="touch-tip">프로젝트를 눌러 미리 보세요.</span><svg viewBox="0 0 42 28" aria-hidden="true"><path d="M3 4C15 0 31 5 35 22M28 17l7 6 4-9"/></svg></p><ul class="timeline-key" aria-label="프로젝트 구분"><li class="key-featured">주요 프로젝트</li><li>그 외 프로젝트</li></ul></div>
 </header>
 <div class="timeline-stage" id="project-timeline"><aside class="timeline-dock" aria-label="프로젝트 타임라인">
   <div id="timeline-body">
@@ -162,7 +162,13 @@
 </template>
 
 <template id="preview-propro" data-title="ProPro" data-skills="unity csharp">
-  <img class="timeline-preview-image" src="assets/propro/ipa.webp" alt="ProPro에서 발음기호를 선택하고 3D 발음기관을 보는 화면" width="1200" height="720" decoding="async">
+  <div class="timeline-preview-media timeline-preview-phones timeline-preview-propro" aria-label="ProPro의 모음 목록, 3D 발음기관, 자음 목록 화면">
+    <div class="timeline-preview-phone-fan">
+      <figure class="timeline-preview-phone"><div class="timeline-preview-phone-screen"><div class="timeline-preview-propro-screen" style="--propro-crop:-7.142857%"><img src="assets/propro/ipa.webp" alt="ProPro의 영어 모음 발음기호 목록" width="1200" height="720" decoding="async"></div></div></figure>
+      <figure class="timeline-preview-phone"><div class="timeline-preview-phone-screen"><div class="timeline-preview-propro-screen" style="--propro-crop:-235.714286%"><img src="assets/propro/ipa.webp" alt="입과 혀의 위치를 3D로 확인하는 ProPro 발음 학습 화면" width="1200" height="720" decoding="async"></div></div></figure>
+      <figure class="timeline-preview-phone"><div class="timeline-preview-phone-screen"><div class="timeline-preview-propro-screen" style="--propro-crop:-121.428571%"><img src="assets/propro/ipa.webp" alt="ProPro의 영어 자음 발음기호 목록" width="1200" height="720" decoding="async"></div></div></figure>
+    </div>
+  </div>
   <div class="timeline-preview-copy">
     <span class="timeline-preview-meta">대학교 / 2024년 1학기</span>
     <h3>ProPro</h3>
