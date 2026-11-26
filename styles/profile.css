@@ -159,20 +159,15 @@
 }
 
 .profile-award-list { list-style: none; margin: 0; padding: 0; }
-.profile-award-list > li { display: grid; grid-template-columns: minmax(0, 1fr) max-content; align-items: center; gap: 16px 28px; min-width: 0; }
+.profile-award-list > li { min-width: 0; }
 .profile-award-list > li + li { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--folio-rule); }
 .profile-award-copy { min-width: 0; }
 .profile-award-program { margin: 0 0 6px; color: #637182; font-size: 13px; line-height: 1.7; word-break: keep-all; }
 .profile-award-copy h3 { display: flex; align-items: baseline; gap: 12px; margin: 0; color: #172633; font-size: 25px; font-weight: 650; line-height: 1.4; letter-spacing: -.6px; }
 .profile-award-rank { color: #9b772d; font-size: 16px; font-weight: 600; letter-spacing: 0; white-space: nowrap; }
-.profile-award-organizer { margin: 8px 0 0; color: #7b8897; font-size: 12px; line-height: 1.7; }
-.profile-award-project { display: inline-flex; align-items: center; justify-self: end; gap: 8px; min-height: 36px; color: #426b8c; font-size: 13px; line-height: 1.7; white-space: nowrap; }
-.profile-award-project:hover { color: var(--blue); text-decoration: underline; text-underline-offset: 4px; }
-.profile-award-project:focus-visible { outline: 2px solid #397bcc; outline-offset: 4px; }
+.profile-award-project { margin: 8px 0 0; color: #637182; font-size: 13px; line-height: 1.7; }
 @media (max-width: 760px) {
-  .profile-award-list > li { grid-template-columns: minmax(0, 1fr); gap: 10px; }
   .profile-award-copy h3 { font-size: 23px; }
-  .profile-award-project { justify-self: start; font-size: 12px; }
 }
 
 @media (max-width: 1100px) {
