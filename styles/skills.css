@@ -5,9 +5,10 @@
 .skill-carousel-viewport { min-width: 0; overflow: hidden; position: relative; height: 88px; }
 .skill-carousel-track { display: flex; align-items: flex-start; width: 200%; transform: translateX(0); transition: transform .38s cubic-bezier(.22, .68, .2, 1); will-change: transform; }
 .skill-carousel[data-page="1"] .skill-carousel-track { transform: translateX(-50%); }
-.skill-slide { flex: 0 0 50%; min-width: 0; box-sizing: border-box; display: grid; align-items: start; column-gap: 28px; padding: 3px 6px; overflow: hidden; }
+.skill-slide { flex: 0 0 50%; min-width: 0; box-sizing: border-box; display: grid; align-items: start; column-gap: 28px; padding: 3px 6px; overflow: hidden; scrollbar-width: none; }
+.skill-slide::-webkit-scrollbar { display: none; }
 .skill-primary-slide { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.skill-support-slide { grid-template-columns: repeat(6, minmax(128px, 1fr)); column-gap: 14px; padding-left: 40px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+.skill-support-slide { grid-template-columns: repeat(6, minmax(128px, 1fr)); column-gap: 14px; padding-left: 40px; overflow-x: auto; overflow-y: hidden; }
 .skill-support-slide > .skill-collection:first-child { grid-column: span 4; }
 .skill-support-slide > .skill-collection:last-child { grid-column: span 2; }
 .profile-record #skills .skill-slide .skill-collection:nth-child(n) { margin: 0; padding: 0; border: 0; min-width: 0; }
@@ -70,8 +71,8 @@
 @media (max-width: 1179px) {
  .profile-record .overview-section#skills { grid-template-columns: clamp(90px, 10vw, 130px) minmax(0, 1fr); column-gap: clamp(16px, 2vw, 28px); padding: 20px 0; }
  .profile-record #skills .overview-section-title { margin-bottom: 0; padding-right: 0; }
- .skill-primary-slide { grid-template-columns: repeat(2, minmax(330px, 1fr)); column-gap: clamp(12px, 2vw, 28px); overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
- .skill-support-slide { grid-template-columns: repeat(6, minmax(128px, 1fr)); column-gap: 14px; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; }
+ .skill-primary-slide { grid-template-columns: repeat(2, minmax(330px, 1fr)); column-gap: clamp(12px, 2vw, 28px); overflow-x: auto; overflow-y: hidden; }
+ .skill-support-slide { grid-template-columns: repeat(6, minmax(128px, 1fr)); column-gap: 14px; overflow-x: auto; overflow-y: hidden; }
  .profile-record #skills .skill-slide .skill-collection:nth-child(n) { display: block; }
  .profile-record #skills .skill-slide .skill-collection h3 { margin: 0 0 6px; }
  #skills .badge-shelf { column-gap: clamp(6px, .8vw, 14px); }
